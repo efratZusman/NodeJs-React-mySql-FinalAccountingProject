@@ -1,0 +1,72 @@
+/* Register.module.css */
+
+.container {
+    width: 60%;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    color: #000000;
+  }
+  
+  input {
+    width: 80%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  input:focus {
+    border-color: #39CDCD;
+    outline: none;
+  }
+  
+  button {
+    width: 30%;
+    padding: 12px;
+    margin: 8px 0;
+    background-color: #39CDCD;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #98aca6;
+  }
+  
+  a {
+    text-align: center;
+    display: block;
+    margin-top: 15px;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  .step-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .step-container input {
+    padding: 12px;
+  }
+  
+  .step-container button {
+    margin-top: 20px;
+  }
+  

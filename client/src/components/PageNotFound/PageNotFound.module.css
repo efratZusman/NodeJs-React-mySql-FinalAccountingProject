@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    height: 100vh; /* גובה מלא של המסך */
+    text-align: center;
+}
+
+.image {
+    max-width: 70%; /* גודל מקסימלי של התמונה */
+    height: auto; /* שמירה על יחס המידות */
+    /* margin-bottom: 10px; רווח בין התמונה לטקסט */
+}
+
+.text {
+    font-size: 35px;
+    color: #000000; /* צבע טקסט */
+}

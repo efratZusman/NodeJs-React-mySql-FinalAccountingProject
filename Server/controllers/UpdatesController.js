@@ -1,0 +1,53 @@
+const UpdateService = require('../service/UpdateService');
+
+// Get all todos
+exports.getAllUpdates = async (req, res) => {
+    try {
+        const updates = await UpdateService.getAllUpdates();
+        res.status(200).json(updates);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+// Create new todo
+exports.createUpdate = async (req, res) => {
+    try {
+        console.log(req.body);
+        const newUpdate = await UpdateService.createUpdate(req.body);
+        res.status(201).json(newUpdate);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Update todo by ID
+exports.updateUpdateById = async (req, res) => {
+    try {
+        console.log(req.params.id);
+        console.log(req.body);
+        const updated = await TodoService.updateUpdateById(req.params.id, req.body);
+        if (!updated) {
+            return res.status(404).json({ message: 'Update not found' });
+        }
+        res.status(200).json(updated);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Delete todo by ID
+exports.deleteUpdateById = async (req, res) => {
+    try {
+        const deleted = await TodoService.deleteUpdateById(req.params.id);
+        if (!deleted) {
+            return res.status(404).json({ message: 'Update not found' });
+        }
+        res.status(200).json({ message: 'Update deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
