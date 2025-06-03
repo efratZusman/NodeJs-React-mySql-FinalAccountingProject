@@ -5,13 +5,14 @@ const initDb = async () => {
     await connection.query(`CREATE DATABASE IF NOT EXISTS accounting_db`);
     await connection.query(`USE accounting_db`);
     await connection.query(`DROP TABLE IF EXISTS newsletter_comments, newsletters, announcements, info_items, clients, passwords, users`);
-//???????????? הצטרפות לכלל העדכונים
+
     await connection.query(`
       CREATE TABLE users (
         user_id INT AUTO_INCREMENT PRIMARY KEY,
         full_name VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL UNIQUE,
         role ENUM('user', 'admin') DEFAULT 'user',
+        wants_updates BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);

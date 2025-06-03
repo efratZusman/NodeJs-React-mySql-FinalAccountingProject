@@ -10,7 +10,6 @@ exports.getAllUpdates = async (req, res) => {
     }
 };
 
-
 // Create new todo
 exports.createUpdate = async (req, res) => {
     try {
