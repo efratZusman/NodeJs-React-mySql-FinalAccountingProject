@@ -1,12 +1,13 @@
 const mysql = require('mysql2');
+require('dotenv').config({ path: '../.env' }); // Adjust path if needed
 
 // Create a connection to the database
 const connection = mysql.createConnection({
-    host: 'localhost', // Replace with your database host
-    user: "root", // Replace with your database username from environment variables
-    password: 'Efrat12', // Replace with your database password from environment variables
-    database: 'accounting_db', // Replace with your database name
-    port: 3306, // Replace with your database port if different
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+     database: process.env.MYSQL_DATABASE,
+    port: process.env.DATABASE_PORT
 });
 
 // Connect to the database

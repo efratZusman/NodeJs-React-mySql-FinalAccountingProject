@@ -4,7 +4,9 @@ const cookieParser = require('cookie-parser');
 const userRoute = require('./routes/UserRoute');
 const postRoute = require('./routes/PostRoute');
 const commentRoute = require('./routes/CommentRoute');
-const todoRoute = require('./routes/TodoRoute');
+const updateRoute = require('./routes/UpdatesRoute');
+require('dotenv').config({ path: '../.env' }); // Adjust path if needed
+
 // const mysql = require('mysql');
 // const bodyParser = require('body-parser');
 
@@ -19,7 +21,7 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use("/users", userRoute);
-app.use("/todos", todoRoute);
+app.use("/updates", updateRoute);
 app.use("/comments", commentRoute);
 app.use("/posts", postRoute);
 
@@ -36,6 +38,8 @@ app.use("/", (req, res) =>{
 });
 
 // Start the server
-app.listen(3000, () => {
-    console.log(`Server is running on http://localhost:3000`);
+const PORT = process.env.SERVER_PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

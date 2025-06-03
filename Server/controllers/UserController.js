@@ -56,7 +56,7 @@ exports.loginUser = async function loginUser(req, res) {
             sameSite: 'Strict',
             maxAge: 3600000      
         });
-                res.status(201).json({ message: 'Login successful' });//?????האם לשלוח הודעה או אובייקט
+                res.status(200).json({ message: 'Login successful' });//?????האם לשלוח הודעה או אובייקט
     } catch (error) {
         console.log(error, "error");
 
