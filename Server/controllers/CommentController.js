@@ -1,34 +1,9 @@
 const CommentService = require('../service/CommentService');
 
-// Get all comments
-exports.getAllComments = async (req, res) => {
+// Get comment by Newsletter ID
+exports.getCommentByNewsletterId = async (req, res) => {
     try {
-        const comments = await CommentService.getAllComments();
-        res.status(200).json(comments);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-exports.partialUpdateCommentById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const updates = req.body; // הנתונים לעדכון מגיעים מגוף הבקשה
-        const updatedComment = await commentService.partialUpdateCommentById(id, updates);
-        if (!updatedComment) {
-            return res.status(404).json({ message: 'Comment not found' });
-        }
-        res.status(200).json(updatedComment);
-    } catch (error) {
-        console.error('Error patching comment:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-};
-
-// Get comment by Post ID
-exports.getCommentByPostId = async (req, res) => {
-    try {
-        const comment = await CommentService.getCommentByPostId(req.params.id);
+        const comment = await CommentService.getCommentByNewsletterId(req.params.id);
         if (!comment) {
             return res.status(404).json({ message: 'Comment not found' });
         }

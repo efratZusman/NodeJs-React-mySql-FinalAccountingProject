@@ -2,12 +2,12 @@ const db = require('../../DB/connection');
 
 // Create new comment
 exports.createComment = async function createComment(commentData) {
-    const { postId, userId, content } = commentData;
+    const { newsletter_id, user_id, comment } = commentData;
     const query = `
-        INSERT INTO Comments (PostID, UserID, Content)
+        INSERT INTO newsletter_comments (newsletter_id, user_id, comment)
         VALUES (?, ?, ?)
     `;
-    const values = [postId, userId, content];
+    const values = [newsletter_id, user_id, comment];
 
     try {
         const [result] = await db.execute(query, values);
@@ -15,10 +15,10 @@ exports.createComment = async function createComment(commentData) {
 
         // Fetch the newly created comment along with user details
         const fetchQuery = `
-            SELECT Comments.CommentID, Comments.Content, Comments.CreatedAt, Users.UserID, Users.UserName, Users.Email
-            FROM Comments
-            JOIN Users ON Comments.UserID = Users.UserID
-            WHERE Comments.CommentID = ?
+            SELECT newsletter_comments.id, newsletter_comments.comment, newsletter_comments.CreatedAt, users.user_id, users.full_name, users.email
+            FROM newsletter_comments
+            JOIN users ON newsletter_comments.user_id = users.user_id
+            WHERE newsletter_comments.id = ?
         `;
         const [rows] = await db.execute(fetchQuery, [newCommentId]);
         return rows[0];
@@ -28,43 +28,28 @@ exports.createComment = async function createComment(commentData) {
 };
 
 // Get comment by ID
-exports.getCommentsByPostId = async function getCommentsByPostId(postId) {
+exports.getCommentsByNewsletterId = async function getCommentsByPostId(newsletterId) {
     const query = `
-        SELECT Comments.CommentID, Comments.Content, Comments.CreatedAt, Users.UserName, Users.Email
-        FROM Comments
-        JOIN Users ON Comments.UserID = Users.UserID
-        WHERE Comments.PostID = ?
-        ORDER BY Comments.CreatedAt ASC
+        SELECT newsletter_comments.id, newsletter_comments.comment, newsletter_comments.CreatedAt, users.full_name, users.email
+        FROM newsletter_comments
+        JOIN Users ON newsletter_comments.user_id = users.user_id
+        WHERE newsletter_comments.newsletter_id = ?
+        ORDER BY newsletter_comments.CreatedAt ASC
     `;
     try {
-        const [rows] = await db.execute(query, [postId]);
+        const [rows] = await db.execute(query, [newsletterId]);
         return rows;
     } catch (error) {
         throw new Error('Error fetching comments by post ID: ' + error.message);
     }
 };
 
-// Get all comments (optionally by post)
-exports.getAllComments = async function getAllComments() {
-    const query = postId
-        ? 'SELECT * FROM Comments WHERE PostID = ?'
-        : 'SELECT * FROM Comments';
-    const values = postId ? [postId] : [];
-
-    try {
-        const [rows] = await db.execute(query, values);
-        return rows;
-    } catch (error) {
-        throw new Error('Error fetching comments: ' + error.message);
-    }
-};
-
 // Update comment by ID
 exports.updateCommentById = async function updateCommentById(commentId, content) {
     const query = `
-        UPDATE Comments
-        SET Content = ?
-        WHERE CommentID = ?
+        UPDATE newsletter_comments
+        SET comment = ?
+        WHERE id = ?
     `;
     const values = [content, commentId];
 
@@ -74,10 +59,10 @@ exports.updateCommentById = async function updateCommentById(commentId, content)
         if (result.affectedRows > 0) {
             // Fetch the updated comment
             const fetchQuery = `
-                SELECT Comments.CommentID, Comments.Content, Comments.CreatedAt, Users.UserName, Users.Email
-                FROM Comments
-                JOIN Users ON Comments.UserID = Users.UserID
-                WHERE Comments.CommentID = ?
+                SELECT newsletter_comments.id, newsletter_comments.comment, Comments.CreatedAt, users.full_name, users.email
+                FROM newsletter_comments
+                JOIN users ON newsletter_comments.user_id = users.user_id
+                WHERE newsletter_comments.id = ?
             `;
             const [rows] = await db.execute(fetchQuery, [commentId]);
             return rows[0];
@@ -91,7 +76,7 @@ exports.updateCommentById = async function updateCommentById(commentId, content)
 
 // Delete comment by ID
 exports.deleteCommentById = async function deleteCommentById(commentId) {
-    const query = 'DELETE FROM Comments WHERE CommentID = ?';
+    const query = 'DELETE FROM newsletter_comments WHERE id = ?';
     try {
         const [result] = await db.execute(query, [commentId]);
         return result.affectedRows > 0;
@@ -100,51 +85,4 @@ exports.deleteCommentById = async function deleteCommentById(commentId) {
     }
 
     
-};
-// Get comments by PostID
-exports.getCommentsByPostId = async function getCommentsByPostId(postId) {
-    const query = `
-        SELECT Comments.CommentID, Comments.Content, Comments.CreatedAt, Users.UserName
-        FROM Comments
-        JOIN Users ON Comments.UserID = Users.UserID
-        WHERE Comments.PostID = ?
-        ORDER BY Comments.CreatedAt ASC
-    `;
-
-    try {
-        const [rows] = await db.execute(query, [postId]);
-        return rows;
-    } catch (error) {
-        throw new Error('Error fetching comments: ' + error.message);
-    }
-};
-// Get comments by UserID
-exports.getCommentsByUserId = async function getCommentsByUserId(userId) {
-    const query = `
-        SELECT Comments.CommentID, Comments.Content, Comments.CreatedAt, Posts.Title
-        FROM Comments
-        JOIN Posts ON Comments.PostID = Posts.PostID
-        WHERE Comments.UserID = ?
-        ORDER BY Comments.CreatedAt DESC
-    `;
-
-    try {
-        const [rows] = await db.execute(query, [userId]);
-        return rows;
-    } catch (error) {
-        throw new Error('Error fetching comments: ' + error.message);
-    }
-};
-
-exports.partialUpdateCommentById = async (id, updates) => {
-    try {
-        const fields = Object.keys(updates).map((key) => `${key} = ?`).join(', ');
-        const values = Object.values(updates);
-        const query = `UPDATE comments SET ${fields} WHERE id = ?`;
-        const [result] = await connection.execute(query, [...values, id]);
-        return result.affectedRows > 0 ? { id, ...updates } : null;
-    } catch (error) {
-        console.error('Error in partialUpdateCommentById service:', error);
-        throw error;
-    }
 };
