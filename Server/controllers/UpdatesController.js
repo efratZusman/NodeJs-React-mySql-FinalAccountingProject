@@ -26,7 +26,7 @@ exports.updateUpdateById = async (req, res) => {
     try {
         console.log(req.params.id);
         console.log(req.body);
-        const updated = await TodoService.updateUpdateById(req.params.id, req.body);
+        const updated = await UpdateService.updateUpdateById(req.params.id, req.body);
         if (!updated) {
             return res.status(404).json({ message: 'Update not found' });
         }
@@ -39,7 +39,7 @@ exports.updateUpdateById = async (req, res) => {
 // Delete todo by ID
 exports.deleteUpdateById = async (req, res) => {
     try {
-        const deleted = await TodoService.deleteUpdateById(req.params.id);
+        const deleted = await UpdateService.deleteUpdateById(req.params.id);
         if (!deleted) {
             return res.status(404).json({ message: 'Update not found' });
         }

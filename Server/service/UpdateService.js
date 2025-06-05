@@ -1,6 +1,6 @@
 const db = require('../../DB/connection');
 
-// Create a new todo
+// Create a new update
 exports.createUpdate = async function createUpdate(updateData) {
     const { date, title, content } = updateData;
     const query = `
@@ -12,15 +12,15 @@ exports.createUpdate = async function createUpdate(updateData) {
     try {
         const [result] = await db.execute(query, values);
         const insertedUpdateQuery = 'SELECT * FROM updates WHERE id = ?';
-        const [insertedTodo] = await db.execute(insertedUpdateQuery, [result.insertId]);
-        return insertedTodo[0];
+        const [insertedUpdate] = await db.execute(insertedUpdateQuery, [result.insertId]);
+        return insertedUpdate[0];
     } catch (error) {
         throw new Error('Error creating update: ' + error.message);
     }
 };
 
 
-// Get all todos (optionally by user ID)
+// Get all updates (optionally by user ID)
 exports.getAllUpdates = async function getAllUpdates() {
     const query = 'SELECT * FROM updates';
     try {
