@@ -4,7 +4,7 @@ const db = require('../../DB/connection');
 exports.createUpdate = async function createUpdate(updateData) {
     const { date, title, content } = updateData;
     const query = `
-        INSERT INTO Updates (date, title, content) 
+        INSERT INTO updates (date, title, content) 
         VALUES (?, ?, ?)
     `;
     const values = [date, title, content];
