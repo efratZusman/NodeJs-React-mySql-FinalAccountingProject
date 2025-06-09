@@ -1,10 +1,10 @@
- const connection = require('./connection');
+const connection = require('./connection');
 
 const initDb = async () => {
   try {
     await connection.query(`CREATE DATABASE IF NOT EXISTS accounting_db`);
     await connection.query(`USE accounting_db`);
-    await connection.query(`DROP TABLE IF EXISTS newsletter_comments, newsletters, announcements, info_items, clients, passwords, users`);
+    await connection.query(`DROP TABLE IF EXISTS articles_comments, articles, article_contents, newsletters, updates, clients, passwords, users`);
 
     await connection.query(`
       CREATE TABLE users (
@@ -34,13 +34,20 @@ const initDb = async () => {
     `);
 
     await connection.query(`
-      CREATE TABLE info_items (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        description TEXT NOT NULL,
-        link_url VARCHAR(500),
-        link_type ENUM('external', 'file')
+     CREATE TABLE articles (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     title VARCHAR(255) NOT NULL,
+     excerpt TEXT,                  
+     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
+    `);
+
+       await connection.query(`
+     CREATE TABLE article_contents (
+     article_id INT PRIMARY KEY,
+     content LONGTEXT NOT NULL,     
+     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
+     );
     `);
 
     await connection.query(`
@@ -62,13 +69,13 @@ const initDb = async () => {
     `);
 
     await connection.query(`
-      CREATE TABLE newsletter_comments (
+      CREATE TABLE articles_comments (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        newsletter_id INT NOT NULL,
+        article_id INT NOT NULL,
         user_id INT NOT NULL,
         comment TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (newsletter_id) REFERENCES newsletters(id),
+        FOREIGN KEY (article_id) REFERENCES articles(id),
         FOREIGN KEY (user_id) REFERENCES users(user_id)
       );
     `);

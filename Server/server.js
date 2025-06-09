@@ -2,10 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const userRoute = require('./routes/UserRoute');
-const postRoute = require('./routes/PostRoute');
+const clientRoute = require('./routes/ClientRoute');
+const informationRoute = require('./routes/InformationRoutes');
 const commentRoute = require('./routes/CommentRoute');
 const updateRoute = require('./routes/UpdatesRoute');
-require('dotenv').config({ path: '../.env' }); // Adjust path if needed
+require('dotenv').config({ path: '../.env' }); 
 
 // const mysql = require('mysql');
 // const bodyParser = require('body-parser');
@@ -20,11 +21,11 @@ app.use(cors({
 // Middleware
 app.use(cookieParser());
 app.use(express.json());
-app.use("/users", userRoute);
-app.use("/updates", updateRoute);
-app.use("/comments", commentRoute);
-app.use("/posts", postRoute);
-
+app.use("/api/users", userRoute);
+app.use("/api/updates", updateRoute);
+app.use("/api/comments", commentRoute);
+app.use("/api/clients", clientRoute);
+app.use("/api/information", informationRoute);
 
 
 

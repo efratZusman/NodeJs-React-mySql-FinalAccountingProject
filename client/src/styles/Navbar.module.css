@@ -1,0 +1,48 @@
+.navbar {
+  position:fixed;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 16px; /* 1rem */
+  background-color: #b5b5b5;
+  color: white;
+  width: 100%;
+  z-index: 10;
+}
+
+.userName {
+  margin-left: 16px; /* 1rem */
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.links {
+  display: flex;
+  gap: 16px; /* 1rem */
+}
+
+.link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px; /* 1rem */
+  transition: color 0.3s;
+}
+
+.link:hover {
+  color: #ddd; /* צבע בהיר יותר במצב ריחוף */
+}
+
+.logoutButton {
+  margin-right: 16px; /* 1rem */
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px; /* 0.5rem 1rem */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logoutButton:hover {
+  background-color: #cc0000; /* צבע כהה יותר במצב ריחוף */
+}

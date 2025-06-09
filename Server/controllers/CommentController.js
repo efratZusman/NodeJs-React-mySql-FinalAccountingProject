@@ -1,9 +1,9 @@
 const CommentService = require('../service/CommentService');
 
 // Get comment by Newsletter ID
-exports.getCommentByNewsletterId = async (req, res) => {
+exports.getCommentByArticleId = async (req, res) => {
     try {
-        const comment = await CommentService.getCommentByNewsletterId(req.params.id);
+        const comment = await CommentService.getCommentByArticleId(req.params.id);
         if (!comment) {
             return res.status(404).json({ message: 'Comment not found' });
         }

@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './PageNotFound.module.css';
-import NotFoundImage from '../../img/404.gif'
+import styles from '../styles/PageNotFound.module.css';
+import NotFoundImage from '../img/404.gif'
 function PageNotFound() {
     return (
         <div className={styles.container}>

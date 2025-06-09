@@ -2,12 +2,12 @@ const db = require('../../DB/connection');
 
 // Create new comment
 exports.createComment = async function createComment(commentData) {
-    const { newsletter_id, user_id, comment } = commentData;
+    const { article_id, user_id, comment } = commentData;
     const query = `
-        INSERT INTO newsletter_comments (newsletter_id, user_id, comment)
+        INSERT INTO articles_comments (article_id, user_id, comment)
         VALUES (?, ?, ?)
     `;
-    const values = [newsletter_id, user_id, comment];
+    const values = [article_id, user_id, comment];
 
     try {
         const [result] = await db.execute(query, values);
@@ -15,10 +15,10 @@ exports.createComment = async function createComment(commentData) {
 
         // Fetch the newly created comment along with user details
         const fetchQuery = `
-            SELECT newsletter_comments.id, newsletter_comments.comment, newsletter_comments.CreatedAt, users.user_id, users.full_name, users.email
-            FROM newsletter_comments
-            JOIN users ON newsletter_comments.user_id = users.user_id
-            WHERE newsletter_comments.id = ?
+            SELECT articles_comments.id, articles_comments.comment, articles_comments.CreatedAt, users.user_id, users.full_name, users.email
+            FROM articles_comments
+            JOIN users ON articles_comments.user_id = users.user_id
+            WHERE articles_comments.id = ?
         `;
         const [rows] = await db.execute(fetchQuery, [newCommentId]);
         return rows[0];
@@ -28,16 +28,16 @@ exports.createComment = async function createComment(commentData) {
 };
 
 // Get comment by ID
-exports.getCommentsByNewsletterId = async function getCommentsByPostId(newsletterId) {
+exports.getCommentByArticleId = async function getCommentByArticleId(articleId) {
     const query = `
-        SELECT newsletter_comments.id, newsletter_comments.comment, newsletter_comments.CreatedAt, users.full_name, users.email
-        FROM newsletter_comments
-        JOIN Users ON newsletter_comments.user_id = users.user_id
-        WHERE newsletter_comments.newsletter_id = ?
-        ORDER BY newsletter_comments.CreatedAt ASC
+        SELECT articles_comments.id, articles_comments.comment, articles_comments.CreatedAt, users.full_name, users.email
+        FROM articles_comments
+        JOIN Users ON articles_comments.user_id = users.user_id
+        WHERE articles_comments.article_id = ?
+        ORDER BY articles_comments.CreatedAt ASC
     `;
     try {
-        const [rows] = await db.execute(query, [newsletterId]);
+        const [rows] = await db.execute(query, [articleId]);
         return rows;
     } catch (error) {
         throw new Error('Error fetching comments by post ID: ' + error.message);
@@ -47,7 +47,7 @@ exports.getCommentsByNewsletterId = async function getCommentsByPostId(newslette
 // Update comment by ID
 exports.updateCommentById = async function updateCommentById(commentId, content) {
     const query = `
-        UPDATE newsletter_comments
+        UPDATE articles_comments
         SET comment = ?
         WHERE id = ?
     `;
@@ -59,10 +59,10 @@ exports.updateCommentById = async function updateCommentById(commentId, content)
         if (result.affectedRows > 0) {
             // Fetch the updated comment
             const fetchQuery = `
-                SELECT newsletter_comments.id, newsletter_comments.comment, Comments.CreatedAt, users.full_name, users.email
-                FROM newsletter_comments
-                JOIN users ON newsletter_comments.user_id = users.user_id
-                WHERE newsletter_comments.id = ?
+                SELECT articles_comments.id, articles_comments.comment, Comments.CreatedAt, users.full_name, users.email
+                FROM articles_comments
+                JOIN users ON articles_comments.user_id = users.user_id
+                WHERE articles_comments.id = ?
             `;
             const [rows] = await db.execute(fetchQuery, [commentId]);
             return rows[0];
@@ -76,7 +76,7 @@ exports.updateCommentById = async function updateCommentById(commentId, content)
 
 // Delete comment by ID
 exports.deleteCommentById = async function deleteCommentById(commentId) {
-    const query = 'DELETE FROM newsletter_comments WHERE id = ?';
+    const query = 'DELETE FROM articles_comments WHERE id = ?';
     try {
         const [result] = await db.execute(query, [commentId]);
         return result.affectedRows > 0;

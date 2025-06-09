@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useUserContext } from '../UserContext';
+import { useUserContext } from './UserContext';
 import ApiService from '../ApiSevice';
-import styles from './Login.module.css';
+import styles from '../styles/Login.module.css';
 
 function Login() {
     const [exist, setExist] = useState(true);

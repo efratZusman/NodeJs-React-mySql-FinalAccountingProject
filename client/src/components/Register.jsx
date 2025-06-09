@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useUserContext } from '../UserContext';
-import styles from './Register.module.css';
+import { useUserContext } from './UserContext';
+import styles from '../styles/Register.module.css';
 import ApiService from '../ApiSevice';
 
 function Register() {

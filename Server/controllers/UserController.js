@@ -13,14 +13,14 @@ exports.registerUser = async function registerUser(req, res) {
         }
         const saltRounds = 10;
         const passwordHash = await bcrypt.hash(userData.password, saltRounds);
-        const newUser = await UserService.createUser({
+        const newUserId = await UserService.createUser({
             full_name: userData.full_name,
             email: userData.email,
             password_hash: passwordHash
         });
-        console.log(newUser, "new");
+        console.log(newUserId, "new");
         
-        res.cookie('user_id', newUser, {
+        res.cookie('user_id', newUserId, {
             httpOnly: true,
             secure: false,
             sameSite: 'Strict',
@@ -63,6 +63,43 @@ exports.loginUser = async function loginUser(req, res) {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.getCurrentUser = async function getCurrentUser(req, res) {
+    
+    try {
+         const userId = req.cookies.user_id;
+console.log('userId from cookies:', userId);
+
+        if (!userId) {
+            return res.status(200).json(null);
+        }
+        const user = await UserService.getUserById(userId);
+        if (!user) {
+            return res.status(200).json(null);
+        }
+
+        res.status(200).json({
+            full_name: user.full_name,
+            email: user.email,
+            role: user.role,
+            wants_updates: user.wants_updates
+        });
+
+    } catch (error) {
+        console.error('Error in getCurrentUser:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+exports.logoutUser = function logoutUser(req, res) {
+    res.clearCookie('user_id', {
+        httpOnly: true,
+        sameSite: 'Strict',
+        secure: false 
+    });
+    res.status(200).json({ message: 'Logout successful' });
+};
+
 
 // // Get all users
 // exports.getAllUsers = async function getAllUsers(req, res) {
