@@ -1,92 +1,89 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useUserContext } from './UserContext';
-import ApiService from '../ApiSevice';
-import styles from '../styles/Login.module.css';
+import ApiService from '../ApiService';
+import styles from '../styles/Home.module.css';
+import Navbar from "./Navbar";
+import {  useNavigate } from "react-router-dom";
+import React from 'react';
 
-function Login() {
-    const [exist, setExist] = useState(true);
-    const [website, setWebsite] = useState('');
-    const { userData, setUserData } = useUserContext();
-    const { username } = userData;
-    const navigate = useNavigate();
+function Login({ onSuccess }) {
+     const navigate = useNavigate(); // <-- initialize navigate
+
+    const [error, setError] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { setUserData } = useUserContext();
     const apiService = new ApiService();
+const { fetchUser } = useUserContext();
 
-    // const checkIfUserExists = async () => {
-    //     try {
-    //         const data = await apiService.fetch(`http://localhost:3000/users/${userData.username}`);
-    //     //     if (data.length > 0) {
-    //     //         const user = data[0];
-    //     //         console.log(user);
-    //     //         if (user.passwordHash === website) {
-    //     //             addUserToLocalStorage(user.id);
-    //     //             setUserData({ ...userData, id: user.id });
-    //     //             setWebsite('');
-    //     //             navigate(`/user/${user.username}/home`);
-    //     //             return true;
-    //     //         }
-    //     //         return false;
-    //     //     }
-    //     //     return false;
-    //     // } catch (error) {
-    //     //     console.error('Error checking if user exists:', error);
-    //     //     return false;
-    //     // }
-    // };
-
-    const checkIfUserExists = async () => {
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
     try {
-        const user = await apiService.fetch(`http://localhost:3000/users/${userData.username}`);
-        if (user && user.PasswordHash === website) {
-            addUserToLocalStorage(user.UserID);
-            setUserData({ ...userData, id: user.UserID });
-            setWebsite('');
-            navigate(`/user/${user.id}/home`);
-            return true;
+        const response = await apiService.post('/users/login', { email, password });
+        if (response.message === 'Login successful') {
+            if (onSuccess) onSuccess();
         }
-        return false;
+        else {
+            setError('Login failed');
+        }
     } catch (error) {
-        console.error('Error checking if user exists:', error);
-        return false;
+        setError('Invalid email or password');
     }
 };
-
-    const addUserToLocalStorage = (id) => {
-        let currentUser = { username: username, id: id };
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    };
-
-    const handleAddUser = async () => {
-        let foundUser = await checkIfUserExists();
-        if (!foundUser) {
-            setExist(false);
-            resetForm();
-        }
-    };
-
-    const resetForm = () => {
-        setUserData({ username: '', id: '' });
-    };
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     setError('');
+        
+    //     try {
+    //         const response = await apiService.post('/users/login', {
+    //             email,
+    //             password
+    //         });
+            
+    //         if (response.message === 'Login successful') {
+    //             // const userResponse = await apiService.get('http://localhost:3000/api/users/current');
+    //             // setUserData({
+    //             //     email: userResponse.email,
+    //             //     full_name: userResponse.full_name,
+    //             //     role: userResponse.role
+    //             // });
+                
+    //         }
+    //     } catch (error) {
+    //         console.error('Login error:', error);
+    //         setError('Invalid email or password');
+    //     }
+    // };
 
     return (
-        <div className={styles.container}>
-            <h2>Login</h2>
+        <>
+            <Navbar />
+            <div className={styles.container}>
+                <div className={styles.content}>
+                    <h1 className={styles.title}>Login</h1>
+                    <p className={styles.description}>Please enter your email and password to login.</p>
+                </div>
+            </div>
+        <form onSubmit={handleSubmit} className={styles.authForm}>
             <input
-                type="text"
-                placeholder="Enter Your Username"
-                value={username}
-                onChange={(e) => { setUserData({ ...userData, username: e.target.value }) }}
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
             />
             <input
                 type="password"
-                placeholder="Enter Your Password"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
             />
-            <button onClick={() => handleAddUser()}>Submit</button>
-            {!exist && <div className={styles.error}>User does not exist</div>}
-            <Link to="/register">Go to Sign Up</Link>
-        </div>
+            <button type="submit">Login</button>
+            {error && <div className={styles.error}>{error}</div>}
+        </form>
+        </>
     );
 }
 

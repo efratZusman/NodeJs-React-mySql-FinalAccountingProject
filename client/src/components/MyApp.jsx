@@ -4,14 +4,17 @@ import Login from './Login';
 import Register from './Register';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
+import { useNavigate } from "react-router-dom";
 
 function MyApp() {
+          const navigate = useNavigate(); // <-- initialize navigate
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login onSuccess={() => navigate('/home')}/>} />
+      <Route path="/register" element={<Register onSuccess={() => navigate('/home')}/>} />
       {/* <Route path={`/user/:id/home`} element={<Home/>} />
           <Route path={`/user/${id}/todos`} element={<Todos />} />
           <Route path={`/user/${id}/posts`} element={<Posts />} />

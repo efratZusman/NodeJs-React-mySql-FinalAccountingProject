@@ -23,7 +23,7 @@
 // export default UserContext;
 
 import { createContext, useState, useContext, useEffect } from 'react';
-import ApiService from '../ApiSevice';
+import ApiService from '../ApiService';
 
 const UserContext = createContext();
 const apiService = new ApiService();
