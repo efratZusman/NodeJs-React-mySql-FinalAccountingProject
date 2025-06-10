@@ -16,19 +16,21 @@ exports.registerUser = async function registerUser(req, res) {
         const newUserId = await UserService.createUser({
             full_name: userData.full_name,
             email: userData.email,
-            password_hash: passwordHash
+            password_hash: passwordHash,
+            wants_updates: userData.wants_updates // may be undefined or boolean
+
         });
         console.log(newUserId, "new");
-        
+
         res.cookie('user_id', newUserId, {
             httpOnly: true,
             secure: false,
             sameSite: 'Strict',
-            maxAge: 3600000      
+            maxAge: 3600000
         });
         console.log('Cookies from request:', req.cookies);
 
-                res.status(201).json({ message: 'Register successful' });//?????האם לשלוח הודעה או אובייקט
+        res.status(201).json({ message: 'Register successful' });//?????האם לשלוח הודעה או אובייקט
     } catch (error) {
         console.log(error, "error");
 
@@ -50,13 +52,13 @@ exports.loginUser = async function loginUser(req, res) {
         if (!isPasswordMatch) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
-          res.cookie('user_id', existingUser.user_id, {
+        res.cookie('user_id', existingUser.user_id, {
             httpOnly: true,
             secure: false,
             sameSite: 'Strict',
-            maxAge: 3600000      
+            maxAge: 3600000
         });
-                res.status(200).json({ message: 'Login successful' });//?????האם לשלוח הודעה או אובייקט
+        res.status(200).json({ message: 'Login successful' });//?????האם לשלוח הודעה או אובייקט
     } catch (error) {
         console.log(error, "error");
 
@@ -65,10 +67,10 @@ exports.loginUser = async function loginUser(req, res) {
 };
 
 exports.getCurrentUser = async function getCurrentUser(req, res) {
-    
+
     try {
-         const userId = req.cookies.user_id;
-console.log('userId from cookies:', userId);
+        const userId = req.cookies.user_id;
+        console.log('userId from cookies:', userId);
 
         if (!userId) {
             return res.status(200).json(null);
@@ -95,7 +97,7 @@ exports.logoutUser = function logoutUser(req, res) {
     res.clearCookie('user_id', {
         httpOnly: true,
         sameSite: 'Strict',
-        secure: false 
+        secure: false
     });
     res.status(200).json({ message: 'Logout successful' });
 };

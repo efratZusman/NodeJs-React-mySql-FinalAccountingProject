@@ -2,13 +2,17 @@ const db = require('../../DB/connection');
 
 // Create a new user with password (using transaction)
 exports.createUser = async function createUser(userData) {
-    const { full_name, email, password_hash } = userData;
-    const userQuery = 'INSERT INTO users (full_name, email) VALUES (?, ?)';
+    const { full_name, email, password_hash, wants_updates } = userData;
+
+    const userQuery = 'INSERT INTO users (full_name, email, wants_updates) VALUES (?, ?, ?)';
+    const userParams = [full_name, email, wants_updates];
+
     const passwordQuery = 'INSERT INTO passwords (user_id, password_hash) VALUES (?, ?)';
-     try {
-        const [userResult] = await db.execute(userQuery, [full_name, email]);
+
+    try {
+        const [userResult] = await db.execute(userQuery, userParams);
         const userId = userResult.insertId;
-        await db.execute(passwordQuery,  [userId, password_hash]);
+        await db.execute(passwordQuery, [userId, password_hash]);
         return userId;
     } catch (error) {
         throw new Error('Error creating user: ' + error.message);

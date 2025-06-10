@@ -34,30 +34,44 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isInitialized, setIsInitialized] = useState(false);
 
+     const fetchUser = async () => {
+        try {
+            const data = await apiService.get('/users/me');
+            setUser(data || null);
+        } catch (err) {
+            setUser(null);
+        } finally {
+            setIsInitialized(true);
+        }
+    };
+
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const data = await apiService.get('/users/me');
-                console.log(`Fetching user data: ${data}`);
-                
-                if (data)
-                    setUser(data);
-                else {
-                    setUser(null);
-                }
-            } catch (err) {
-                console.error('Error fetching user:', err);
-                setUser(null);
-            } finally {
-                setIsInitialized(true);
-            }
-        };
         fetchUser();
     }, []);
+    // useEffect(() => {
+    //     const fetchUser = async () => {
+    //         try {
+    //             const data = await apiService.get('/users/me');
+    //             console.log(`Fetching user data: ${data}`);
+                
+    //             if (data)
+    //                 setUser(data);
+    //             else {
+    //                 setUser(null);
+    //             }
+    //         } catch (err) {
+    //             console.error('Error fetching user:', err);
+    //             setUser(null);
+    //         } finally {
+    //             setIsInitialized(true);
+    //         }
+    //     };
+    //     fetchUser();
+    // }, []);
 
-    const login = (userData) => {
-        setUser(userData);
-    };
+    // const login = () => {
+    //     // setUser(userData);
+    // };
 
     const logout = async () => {
         try {
@@ -73,7 +87,7 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ login, logout, user, isInitialized }}>
+        <UserContext.Provider value={{ fetchUser, logout, user, isInitialized }}>
             {children}
         </UserContext.Provider>
     );

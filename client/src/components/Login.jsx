@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useUserContext } from './UserContext';
+import {  useUserContext } from './UserContext';
 import ApiService from '../ApiService';
 import styles from '../styles/Home.module.css';
 import Navbar from "./Navbar";
-import {  useNavigate } from "react-router-dom";
 import React from 'react';
 
 function Login({ onSuccess }) {
-     const navigate = useNavigate(); // <-- initialize navigate
+    // const { fetchUser } = useUserContext();
+
 
     const [error, setError] = useState('');
     const [email, setEmail] = useState('');
@@ -22,6 +22,7 @@ const handleSubmit = async (e) => {
     try {
         const response = await apiService.post('/users/login', { email, password });
         if (response.message === 'Login successful') {
+                await fetchUser();
             if (onSuccess) onSuccess();
         }
         else {

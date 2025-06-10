@@ -9,6 +9,8 @@ function Navbar() {
     const navigate = useNavigate(); // <-- initialize navigate
 
     if (!isInitialized) {
+        console.log("User data is not initialized yet.");
+        
         return null;
     }
     console.log(`User: ${user ? user.full_name : 'No user logged in'}`);

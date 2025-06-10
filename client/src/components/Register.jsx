@@ -5,21 +5,22 @@ import styles from '../styles/Home.module.css';
 import Navbar from "./Navbar";
 
 function Register({ onSuccess }) {
-
+    const { fetchUser } = useUserContext();
     const [error, setError] = useState('');
     const [formData, setFormData] = useState({
         full_name: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        wants_updates: false // <-- added
     });
     const apiService = new ApiService();
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: value
+            [name]: type === "checkbox" ? checked : value
         }));
     };
 
@@ -37,23 +38,25 @@ function Register({ onSuccess }) {
             setError('Password must be at least 6 characters');
             return;
         }
+        console.log('Form data before sending:', formData);
 
         try {
             const response = await apiService.post('/users/register', {
                 full_name: formData.full_name,
                 email: formData.email,
-                password: formData.password
+                password: formData.password,
+                wants_updates: formData.wants_updates // <-- send to server
             });
 
             if (response.message === 'Register successful') {
+                await fetchUser();
+
                 if (onSuccess) onSuccess();
             } else {
                 setError('Registration failed');
             }
         } catch (error) {
             console.log('Registration error:', error);
-            // Handle error response
-            
             setError(error.response?.data?.error || 'Registration failed. Please try again.');
         }
     };
@@ -101,6 +104,16 @@ function Register({ onSuccess }) {
                     onChange={handleChange}
                     required
                 />
+                <label style={{ display: "flex", alignItems: "center", margin: "8px 0" }}>
+                    <input
+                        type="checkbox"
+                        name="wants_updates"
+                        checked={formData.wants_updates}
+                        onChange={handleChange}
+                        style={{ marginRight: "3px" }}
+                    />
+                    I want to receive updates (optional)
+                </label>
                 <button type="submit">Create Account</button>
                 {error && <div className={styles.error}>{error}</div>}
             </form>
