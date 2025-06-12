@@ -3,8 +3,11 @@ import { useUserContext } from './UserContext';
 import ApiService from '../ApiService';
 import styles from '../styles/Home.module.css';
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
 function Register({ onSuccess }) {
+    const navigate = useNavigate(); // <-- initialize navigate
+
     const { fetchUser } = useUserContext();
     const [error, setError] = useState('');
     const [formData, setFormData] = useState({
@@ -50,8 +53,7 @@ function Register({ onSuccess }) {
 
             if (response.message === 'Register successful') {
                 await fetchUser();
-
-                if (onSuccess) onSuccess();
+                navigate('/home')
             } else {
                 setError('Registration failed');
             }

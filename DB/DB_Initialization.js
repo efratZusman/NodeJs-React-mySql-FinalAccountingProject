@@ -42,7 +42,7 @@ const initDb = async () => {
       );
     `);
 
-       await connection.query(`
+    await connection.query(`
      CREATE TABLE article_contents (
      article_id INT PRIMARY KEY,
      content LONGTEXT NOT NULL,     
@@ -79,6 +79,14 @@ const initDb = async () => {
         FOREIGN KEY (user_id) REFERENCES users(user_id)
       );
     `);
+   
+    await connection.query(`
+      CREATE TABLE sessions (
+      session_id VARCHAR(128) PRIMARY KEY,
+      user_id INT NOT NULL,
+      expires_at DATETIME NOT NULL
+    );
+  `);
 
     console.log("Database initialized successfully.");
   } catch (err) {

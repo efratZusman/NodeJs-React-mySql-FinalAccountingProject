@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 
 exports.registerUser = async function registerUser(req, res) {
     try {
-
         const userData = req.body;
         console.log(userData, "userData");
 
@@ -17,34 +16,28 @@ exports.registerUser = async function registerUser(req, res) {
             full_name: userData.full_name,
             email: userData.email,
             password_hash: passwordHash,
-            wants_updates: userData.wants_updates // may be undefined or boolean
-
+            wants_updates: userData.wants_updates
         });
         console.log(newUserId, "new");
 
-        res.cookie('user_id', newUserId, {
+        const sessionId = await UserService.createSession(newUserId);
+        res.cookie('session_id', sessionId, {
             httpOnly: true,
-            secure: false,
+            secure: false, // after production i should change it to true
             sameSite: 'Strict',
             maxAge: 3600000
         });
-        console.log('Cookies from request:', req.cookies);
 
-        res.status(201).json({ message: 'Register successful' });//?????האם לשלוח הודעה או אובייקט
+        res.status(201).json({ message: 'Register successful' });
     } catch (error) {
-        console.log(error, "error");
-
         res.status(500).json({ error: error.message });
     }
 };
+
 exports.loginUser = async function loginUser(req, res) {
     try {
         const userData = req.body;
-        console.log(userData, "userData");
-
         const existingUser = await UserService.getUserDetails(userData.email);
-        console.log(existingUser, "existingUser");
-
         if (!existingUser) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
@@ -52,26 +45,26 @@ exports.loginUser = async function loginUser(req, res) {
         if (!isPasswordMatch) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
-        res.cookie('user_id', existingUser.user_id, {
+        const sessionId = await UserService.createSession(existingUser.user_id);
+        res.cookie('session_id', sessionId, {
             httpOnly: true,
-            secure: false,
+            secure: false, //  
             sameSite: 'Strict',
             maxAge: 3600000
         });
-        res.status(200).json({ message: 'Login successful' });//?????האם לשלוח הודעה או אובייקט
+        res.status(200).json({ message: 'Login successful' });
     } catch (error) {
-        console.log(error, "error");
-
         res.status(500).json({ error: error.message });
     }
 };
 
 exports.getCurrentUser = async function getCurrentUser(req, res) {
-
     try {
-        const userId = req.cookies.user_id;
-        console.log('userId from cookies:', userId);
-
+        const sessionId = req.cookies.session_id;
+        if (!sessionId) {
+            return res.status(200).json(null);
+        }
+        const userId = await UserService.getUserIdBySession(sessionId);
         if (!userId) {
             return res.status(200).json(null);
         }
@@ -79,22 +72,23 @@ exports.getCurrentUser = async function getCurrentUser(req, res) {
         if (!user) {
             return res.status(200).json(null);
         }
-
         res.status(200).json({
             full_name: user.full_name,
             email: user.email,
             role: user.role,
             wants_updates: user.wants_updates
         });
-
     } catch (error) {
-        console.error('Error in getCurrentUser:', error);
         res.status(500).json({ error: 'Server error' });
     }
 };
 
-exports.logoutUser = function logoutUser(req, res) {
-    res.clearCookie('user_id', {
+exports.logoutUser = async function logoutUser(req, res) {
+    const sessionId = req.cookies.session_id;
+    if (sessionId) {
+        await UserService.deleteSession(sessionId);
+    }
+    res.clearCookie('session_id', {
         httpOnly: true,
         sameSite: 'Strict',
         secure: false

@@ -1,4 +1,5 @@
 const db = require('../../DB/connection');
+const { v4: uuidv4 } = require('uuid');
 
 // Create a new user with password (using transaction)
 exports.createUser = async function createUser(userData) {
@@ -76,6 +77,29 @@ exports.getUserById = async function getUserById(user_id) {
     } catch (error) {
         throw new Error('Error fetching user: ' + error.message);
     }
+};
+
+// Create session
+exports.createSession = async function createSession(userId) {
+    const sessionId = uuidv4();
+    const expiresAt = new Date(Date.now() + 1000 * 60 * 60); // שעה קדימה
+    await db.execute(
+        'INSERT INTO sessions (session_id, user_id, expires_at) VALUES (?, ?, ?)',
+        [sessionId, userId, expiresAt]
+    );
+    return sessionId;
+};
+
+exports.deleteSession = async function deleteSession(sessionId) {
+    await db.execute('DELETE FROM sessions WHERE session_id = ?', [sessionId]);
+};
+
+exports.getUserIdBySession = async function getUserIdBySession(sessionId) {
+    const [rows] = await db.execute(
+        'SELECT user_id FROM sessions WHERE session_id = ? AND expires_at > NOW()',
+        [sessionId]
+    );
+    return rows[0]?.user_id || null;
 };
 
 // Get all users
