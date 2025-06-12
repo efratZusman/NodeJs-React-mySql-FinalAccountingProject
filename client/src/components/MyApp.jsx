@@ -4,6 +4,7 @@ import Login from './Login';
 import Register from './Register';
 import Home from './Home';
 import PageNotFound from './PageNotFound';
+import Updates from './Updates';
 
 function MyApp() {
 
@@ -13,6 +14,7 @@ function MyApp() {
       <Route path="/home" element={<Home />} />
       <Route path="/login" element={<Login  />} />
       <Route path="/register" element={<Register />} />
+         <Route path="/updates" element={<Updates />} />
       {/* <Route path={`/user/:id/home`} element={<Home/>} />
           <Route path={`/user/${id}/todos`} element={<Todos />} />
           <Route path={`/user/${id}/posts`} element={<Posts />} />
