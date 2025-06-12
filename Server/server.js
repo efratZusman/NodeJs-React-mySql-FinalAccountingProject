@@ -6,6 +6,7 @@ const clientRoute = require('./routes/ClientRoute');
 const informationRoute = require('./routes/InformationRoutes');
 const commentRoute = require('./routes/CommentRoute');
 const updateRoute = require('./routes/UpdatesRoute');
+const path = require('path');
 require('dotenv').config({ path: '../.env' }); 
 
 // const mysql = require('mysql');
@@ -27,7 +28,8 @@ app.use("/api/comments", commentRoute);
 app.use("/api/clients", clientRoute);
 app.use("/api/information", informationRoute);
 
-
+// Serve images statically
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use("/", (req, res) =>{
     try {

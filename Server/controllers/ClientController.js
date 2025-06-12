@@ -1,28 +1,50 @@
-const UpdateService = require('../service/ClientService');
+const ClientService = require('../service/ClientService');
+const path = require('path');
 
-// Get all todos
+// Get all clients
 exports.getAllClients = async (req, res) => {
     try {
-        const clients = await ClientService.getAllNewsletters();
-        res.status(200).json(clients);
+        const clients = await ClientService.getAllClients();
+        // Add full URL to logo_url for each client
+        const clientsWithFullUrl = clients.map(client => ({
+            ...client,
+            logo_url: client.logo_url ? `${process.env.BASE_URL || 'http://localhost:3000'}${client.logo_url}` : null
+        }));
+        res.status(200).json(clientsWithFullUrl);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-// Create new todo
-exports.createClient = async (req, res) => {
+// Create new client
+exports.createClient = async function createClient(req, res) {
     try {
-        console.log(req.body);
-        const newClient = await ClientService.createClient(req.body);
-        res.status(201).json(newClient);
+        const { client_name } = req.body;
+        let logo_url = null;
+        if (req.file) {
+            // Save relative path for frontend use
+            const relativePath = '/images/' + req.file.filename;
+            logo_url = `${process.env.BASE_URL || 'http://localhost:3000'}${relativePath}`;
+        }
+        const client = await ClientService.createClient({ 
+            client_name, 
+            logo_url: logo_url ? logo_url.replace(/^https?:\/\/[^/]+/, '') : null 
+        });
+        res.status(201).json({
+            ...client,
+            logo_url: logo_url || null
+        });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Error in createClient:', error);
+        res.status(500).json({ 
+            error: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
     }
 };
 
-// Delete todo by ID
-exports.deleteClientById = async (req, res) => {
+// Delete client by ID
+exports.deleteClient = async (req, res) => {
     try {
         const deleted = await ClientService.deleteClientById(req.params.id);
         if (!deleted) {
@@ -33,5 +55,3 @@ exports.deleteClientById = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
-

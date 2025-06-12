@@ -1,5 +1,6 @@
 class ApiService {
     baseUrl = 'http://localhost:3000/api';
+    
     async checkResponseStatus(response) {
         if (!response.ok) {
             throw new Error(`HTTP Error! Status: ${response.status}`);
@@ -17,6 +18,7 @@ class ApiService {
         });
         return await this.checkResponseStatus(response);
     }
+    
     async put(url, newData) {
         const response = await fetch(this.baseUrl + url, {
             method: 'PUT',
@@ -36,13 +38,22 @@ class ApiService {
         return await this.checkResponseStatus(response);
     }
 
+    async uploadFile(url, formData) {
+        const response = await fetch(this.baseUrl + url, {
+            method: 'POST',
+            credentials: 'include',
+            // Don't set Content-Type header, let the browser set it with the correct boundary
+            body: formData,
+        });
+        return await this.checkResponseStatus(response);
+    }
+
     async delete(url) {
         const response = await fetch(this.baseUrl + url, {
             method: 'DELETE',
         });
-        await this.checkResponseStatus(response);
+        return await this.checkResponseStatus(response);
     }
-
-
 }
+
 export default ApiService;
