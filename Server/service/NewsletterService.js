@@ -2,6 +2,7 @@ const db = require('../../DB/connection');
 
 exports.createNewsletter = async function createNewsletter(newsletterData) {
   const { date, title, filePath } = newsletterData; // content זה כאן נתיב הקובץ או טקסט רגיל
+console.log('Creating newsletter with data:', newsletterData);
 
   const query = `
     INSERT INTO newsletters (date, title, filePath)

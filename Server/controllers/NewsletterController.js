@@ -7,11 +7,16 @@ const path = require('path');
 exports.getAllNewsletters = async (req, res) => {
   try {
     const newsletters = await NewsletterService.getAllNewsletters();
-    res.status(200).json(newsletters);
+    const newslettersWithFullUrl = newsletters.map(newsletter => ({
+      ...newsletter,
+      filePath: newsletter.filePath ? `${process.env.BASE_URL || 'http://localhost:3000'}${newsletter.filePath}` : null
+    }));
+    res.status(200).json(newslettersWithFullUrl);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Create newsletter (normal JSON body with content string or path)
 exports.createNewsletter = async (req, res) => {
@@ -22,6 +27,8 @@ exports.createNewsletter = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 // Update newsletter by ID
 exports.updateNewsletterById = async (req, res) => {
@@ -63,9 +70,12 @@ exports.uploadNewsletterFromHtml = async (req, res) => {
       // במידה ואין כותרת או תאריך, מחזירים שגיאה
       return res.status(400).json({ message: 'Title and date are required' });
     }
+let relativePath = null; // נתיב יחסי לקובץ
+    if (req.file) {
 
-   const relativePath = path.relative(path.join(__dirname, '../uploads'), req.file.path).replace(/\\/g, '/');
-
+       relativePath = path.relative(path.join(__dirname, '../uploads'), req.file.path).replace(/\\/g, '/');
+      relativePath = '/uploads/' + relativePath; // שומרים יחסית בלבד בDB
+    }
 
     // שומרים את הנתיב של הקובץ בשדה content במסד הנתונים
     const newNewsletter = await NewsletterService.createNewsletter({
@@ -73,10 +83,16 @@ exports.uploadNewsletterFromHtml = async (req, res) => {
       date,
       filePath: relativePath,
     });
-
-    res.status(201).json(newNewsletter);
+    res.status(201).json({
+      ...newNewsletter,
+      filePath: filePath ? `${process.env.BASE_URL || 'http://localhost:3000'}${filePath}` : null
+    });
+    // res.status(201).json(newNewsletter);
   } catch (error) {
     console.error('Error uploading newsletter HTML:', error);
     res.status(500).json({ error: error.message });
   }
 };
+
+
+

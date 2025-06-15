@@ -113,7 +113,7 @@ const Newsletters = () => {
                             </div>
                             {expandedId === nl.id && nl.filePath && (
                                 <iframe
-                                    src={`/uploads/${nl.filePath}`}
+                                    src={`${nl.filePath}`}
                                     title={nl.title}
                                     className={styles.iframe}
                                     style={{ width: '100%', height: '400px', border: 'none' }}

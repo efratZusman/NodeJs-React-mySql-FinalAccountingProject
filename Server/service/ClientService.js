@@ -4,6 +4,8 @@ const path = require('path');
 
 exports.createClient = async function createClient({ client_name, logo_url }) {
     try {
+        console.log('Creating client with name:', client_name, 'and logo_url:', logo_url);
+        
         const query = 'INSERT INTO clients (client_name, logo_url) VALUES (?, ?)';
         const [result] = await db.execute(query, [client_name, logo_url]);
         const [rows] = await db.execute('SELECT * FROM clients WHERE id = ?', [result.insertId]);

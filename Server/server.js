@@ -9,7 +9,7 @@ const updateRoute = require('./routes/UpdatesRoute');
 const contactRoute = require('./routes/ContactRoute');
 const newslettersRoute = require('./routes/NewsletterRoute');
 const path = require('path');
-require('./Jobs');
+require('./jobs');
 require('dotenv').config({ path: '../.env' }); 
 
 // const mysql = require('mysql');

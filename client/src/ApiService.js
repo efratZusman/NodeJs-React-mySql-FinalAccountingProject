@@ -2,10 +2,19 @@ class ApiService {
     baseUrl = 'http://localhost:3000/api';
     
     async checkResponseStatus(response) {
-        if (!response.ok) {
-            throw new Error(`HTTP Error! Status: ${response.status}`);
+        let data;
+        try {
+            data = await response.json();
+        } catch {
+            data = {};
         }
-        return await response.json();
+        if (!response.ok) {
+            // נזרוק את הודעת השגיאה מהשרת אם קיימת
+            const error = new Error(data.error || `HTTP Error! Status: ${response.status}`);
+            error.data = data;
+            throw error;
+        }
+        return data;
     }
 
     async get(url) {
