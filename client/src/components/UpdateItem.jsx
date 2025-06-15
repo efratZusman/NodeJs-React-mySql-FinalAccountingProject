@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styles from '../styles/UpdateItem.module.css';
 import ApiService from '../ApiService';
 
-
 const apiService = new ApiService();
 
 const toDateInputValue = (dateStr) => {
@@ -11,39 +10,38 @@ const toDateInputValue = (dateStr) => {
     return local.toISOString().split('T')[0];
 };
 
-const UpdateItem = ({ update, isAdmin, onDelete, onSaveEdit, user, isSubscribedToUpdate }) => {
-    const [isEditing, setIsEditing] = useState(false);
+const UpdateItem = ({
+    update = {},
+    isAdmin,
+    onDelete,
+    onSaveEdit,
+    user,
+    isSubscribedToUpdate,
+    isNew = false,
+    onCancelNew,
+}) => {
+    const [isEditing, setIsEditing] = useState(isNew);
     const [isSubscribed, setIsSubscribed] = useState(isSubscribedToUpdate);
     const [editData, setEditData] = useState({
-        date: toDateInputValue(update.date),
-        title: update.title,
-        content: update.content,
+        date: toDateInputValue(update.date || new Date()),
+        title: update.title || '',
+        content: update.content || '',
     });
 
-    console.log(isSubscribed?.id);
-
     const handleSave = () => {
-        // editData.date= editData.date || update.date;
-        onSaveEdit(update.id, editData);
-        setIsEditing(false);
+        onSaveEdit(update.id, editData, isNew);
+        if (!isNew) setIsEditing(false);
     };
 
     const handleSubscribeSpecific = async () => {
         try {
             if (isSubscribed) {
-                // מחיקה של המנוי לפי ה-ID של המנוי
                 await apiService.delete(`/updates/unsubscribe/${isSubscribed.id}`);
                 setIsSubscribed(null);
             } else {
-                // הוספה של מנוי חדש לפי update_id
                 const data = await apiService.post('/updates/subscribe', { update_id: update.id });
                 setIsSubscribed(data);
-
             }
-
-            // // רענון המידע – או עדכוני סטייט מהקומפוננטה האב
-            // window.location.reload();
-
         } catch (error) {
             console.error('Error toggling subscription:', error.message);
         }
@@ -112,7 +110,7 @@ const UpdateItem = ({ update, isAdmin, onDelete, onSaveEdit, user, isSubscribedT
                         </button>
                         <button
                             className={styles.button}
-                            onClick={() => setIsEditing(false)}
+                            onClick={() => isNew ? onCancelNew() : setIsEditing(false)}
                         >
                             בטל
                         </button>

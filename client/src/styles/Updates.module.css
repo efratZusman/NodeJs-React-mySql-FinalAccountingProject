@@ -30,6 +30,17 @@
   margin-right: auto;
 }
 
+.addButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+
 .subscribeButton:hover {
   background-color: #135ba1;
 }

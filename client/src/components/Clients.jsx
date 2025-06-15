@@ -25,7 +25,7 @@ function Clients() {
         try {
             const data = await apiService.get("/clients");
             setClients(data);
-        } catch (err) {
+        } catch {
             setError("Failed to load clients");
         } finally {
             setLoading(false);
@@ -36,15 +36,12 @@ function Clients() {
         if (!window.confirm("Are you sure you want to delete this client?")) return;
         try {
             const response = await apiService.delete(`/clients/${id}`);
-            console.log("Delete response:", response);
-            
-            if(response.message === "Client deleted successfully") {
-            setClients(clients.filter((c) => c.id !== id));
-            }
-            else {
+            if (response.message === "Client deleted successfully") {
+                setClients(clients.filter(c => c.id !== id));
+            } else {
                 throw new Error("Failed to delete client");
             }
-        } catch (err) {
+        } catch {
             alert("Failed to delete client");
         }
     };
@@ -59,24 +56,21 @@ function Clients() {
             setError("Client name is required");
             return;
         }
-        
         const formData = new FormData();
         formData.append("client_name", newClient.client_name);
         if (logoFile) {
             formData.append("logo", logoFile);
         }
-        
         try {
             const added = await apiService.uploadFile("/clients", formData);
             setClients([...clients, added]);
             setNewClient({ client_name: "" });
             setLogoFile(null);
             if (fileInputRef.current) {
-                fileInputRef.current.value = '';  // Reset file input
+                fileInputRef.current.value = "";
             }
             setError("");
         } catch (err) {
-            console.error("Error adding client:", err);
             setError(err.message || "Failed to add client. Please try again.");
         }
     };
@@ -94,7 +88,7 @@ function Clients() {
                     <p className={styles.error}>{error}</p>
                 ) : (
                     <div className={styles.clientsList}>
-                        {clients.map((client) => (
+                        {clients.map(client => (
                             <div key={client.id} className={styles.clientCard}>
                                 <div className={styles.clientInfo}>
                                     <span className={styles.clientName}>{client.client_name}</span>
@@ -103,10 +97,7 @@ function Clients() {
                                             src={client.logo_url}
                                             alt={client.client_name}
                                             className={styles.clientLogo}
-                                            onError={(e) => {
-                                                // If image fails to load, hide the broken image
-                                                e.target.style.display = 'none';
-                                            }}
+                                            onError={(e) => (e.target.style.display = "none")}
                                         />
                                     )}
                                 </div>
@@ -130,9 +121,7 @@ function Clients() {
                             type="text"
                             placeholder="Client Name"
                             value={newClient.client_name}
-                            onChange={(e) =>
-                                setNewClient({ ...newClient, client_name: e.target.value })
-                            }
+                            onChange={e => setNewClient({ client_name: e.target.value })}
                             required
                         />
                         <input

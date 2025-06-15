@@ -18,12 +18,23 @@ class ApiService {
         });
         return await this.checkResponseStatus(response);
     }
-    
+
     async put(url, newData) {
         const response = await fetch(this.baseUrl + url, {
             method: 'PUT',
+              credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newData),
+        });
+        return await this.checkResponseStatus(response);
+    }
+
+    async patch(url, partialData) {
+        const response = await fetch(this.baseUrl + url, {
+  credentials: 'include',
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(partialData),
         });
         return await this.checkResponseStatus(response);
     }

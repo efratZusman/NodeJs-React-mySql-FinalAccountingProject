@@ -96,73 +96,20 @@ exports.logoutUser = async function logoutUser(req, res) {
     res.status(200).json({ message: 'Logout successful' });
 };
 
+exports.updateWantsUpdates = async function updateWantsUpdates(req, res) {
+    try {
+        const userId = req.userId; // מגיע מהמידלוור getUserFromSession
 
-// // Get all users
-// exports.getAllUsers = async function getAllUsers(req, res) {
-//     try {
-//         const users = await UserService.getAllUsers();
-//         res.status(200).json(users);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
+        const { wants_updates } = req.body;
 
-// // Get user by username
-// exports.getUserByUsername = async function getUserByUsername(req, res) {
-//     try {
-//         const username = req.params.username;
-//         const user = await UserService.getUserByUsername(username);
-//         if (!user) {
-//             return res.status(404).json({ message: 'User not found' });
-//         }
-//         res.status(200).json(user);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
+        if (typeof wants_updates !== 'boolean') {
+            return res.status(400).json({ error: 'Invalid wants_updates value. Must be boolean.' });
+        }
 
-// exports.partialUpdateUserByUsername = async (req, res) => {
-//     try {
-//         const { username } = req.params;
-//         const updates = req.body; // הנתונים לעדכון מגיעים מגוף הבקשה
-//         const updatedUser = await userService.partialUpdateUserByUsername(username, updates);
-//         if (!updatedUser) {
-//             return res.status(404).json({ message: 'User not found' });
-//         }
-//         res.status(200).json(updatedUser);
-//     } catch (error) {
-//         console.error('Error patching user:', error);
-//         res.status(500).json({ message: 'Internal server error' });
-//     }
-// };
-// // Create a new user
+        await UserService.updateWantsUpdates(userId, wants_updates);
+        res.status(200).json({ message: 'Preference updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error: ' + error.message });
+    }
+};
 
-
-// // Update an existing user by username
-// exports.updateUserByUsername = async function updateUserByUsername(req, res) {
-//     try {
-//         const username = req.params.username;
-//         const userData = req.body;
-//         const updated = await UserService.updateUserByUsername(username, userData);
-//         if (!updated) {
-//             return res.status(404).json({ message: 'User not found' });
-//         }
-//         res.status(200).json({ message: 'User updated successfully' });
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
-
-// // Delete a user by username
-// exports.deleteUserByUsername = async function deleteUserByUsername(req, res) {
-//     try {
-//         const username = req.params.username;
-//         const deleted = await UserService.deleteUserByUsername(username);
-//         if (!deleted) {
-//             return res.status(404).json({ message: 'User not found' });
-//         }
-//         res.status(200).json({ message: 'User deleted successfully' });
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };

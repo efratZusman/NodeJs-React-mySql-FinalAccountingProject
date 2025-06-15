@@ -5,7 +5,6 @@ const path = require('path');
 exports.getAllClients = async (req, res) => {
     try {
         const clients = await ClientService.getAllClients();
-        // Add full URL to logo_url for each client
         const clientsWithFullUrl = clients.map(client => ({
             ...client,
             logo_url: client.logo_url ? `${process.env.BASE_URL || 'http://localhost:3000'}${client.logo_url}` : null
@@ -17,29 +16,24 @@ exports.getAllClients = async (req, res) => {
 };
 
 // Create new client
-exports.createClient = async function createClient(req, res) {
+exports.createClient = async (req, res) => {
     try {
         const { client_name } = req.body;
         let logo_url = null;
         if (req.file) {
-            // Save relative path for frontend use
             const relativePath = '/images/' + req.file.filename;
-            logo_url = `${process.env.BASE_URL || 'http://localhost:3000'}${relativePath}`;
+            logo_url = relativePath; // שומרים יחסית בלבד בDB
         }
-        const client = await ClientService.createClient({ 
-            client_name, 
-            logo_url: logo_url ? logo_url.replace(/^https?:\/\/[^/]+/, '') : null 
+        const client = await ClientService.createClient({
+            client_name,
+            logo_url
         });
         res.status(201).json({
             ...client,
-            logo_url: logo_url || null
+            logo_url: logo_url ? `${process.env.BASE_URL || 'http://localhost:3000'}${logo_url}` : null
         });
     } catch (error) {
-        console.error('Error in createClient:', error);
-        res.status(500).json({ 
-            error: error.message,
-            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
-        });
+        res.status(500).json({ error: error.message });
     }
 };
 
