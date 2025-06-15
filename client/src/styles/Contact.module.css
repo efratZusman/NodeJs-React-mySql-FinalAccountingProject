@@ -55,3 +55,73 @@ button:hover {
   margin-top: 8px;
   font-weight: bold;
 }
+
+.options {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.option {
+  font-size: 1.1rem;
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.option:hover {
+  color: #125ea2;
+  text-decoration: underline;
+}
+
+.divider {
+  margin: 18px 0;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+.contactCard {
+  background: linear-gradient(135deg, #1976d2 70%, #42a5f5 100%);
+  color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px #0002;
+  padding: 32px 24px;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+  font-size: 1.1rem;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  position: relative;
+}
+
+.contactCard:hover, .contactCard:focus {
+  transform: translateY(-6px) scale(1.04);
+  box-shadow: 0 8px 32px #1976d299;
+  background: linear-gradient(135deg, #1565c0 70%, #64b5f6 100%);
+  text-decoration: none;
+}
+
+.contactIcon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 2px 4px #0003);
+}
+
+.contactLabel {
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 1.15rem;
+}
+
+.contactValue {
+  font-size: 1rem;
+  opacity: 0.9;
+  word-break: break-all;
+}

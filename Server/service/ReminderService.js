@@ -1,5 +1,5 @@
 const db = require('../../DB/connection');
-
+const emailService = require('./EmailService');
 // שליפת כל העדכונים שמתוכננים למחר
 exports.getTomorrowUpdates = async function getTomorrowUpdates() {
     const query = `
@@ -50,16 +50,14 @@ exports.sendReminder = async function sendReminder(user, update) {
         const subject = `📅 תזכורת לעדכון מחר: ${update.title}`;
         const description = `שלום ${user.full_name},\n\nתזכורת לעדכון שמתוכנן למחר:\n\n${update.title}\n${update.date}\n\n${update.content}`;
         const startTime = new Date(update.date);
-        const endTime = new Date(startTime.getTime() + 30 * 60000); // תוספת 30 דקות
-        const location = update.location || 'Zoom / מיקום לא צויין';
+       // const endTime = new Date(startTime.getTime() + 30 * 60000); // תוספת 30 דקות
+      //  const location = update.location || 'Zoom / מיקום לא צויין';
 
         await emailService.sendCalendarInvite(
             user.email,
             subject,
             description,
-            startTime,
-            endTime,
-            location
+            startTime
         );
 
         console.log(`📬 נשלחה תזכורת ל-${user.full_name} (${user.email})`);
