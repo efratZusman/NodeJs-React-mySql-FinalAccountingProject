@@ -6,6 +6,7 @@ import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Updates from './Updates';
 import Clients from './Clients';
+import Newsletters from './Newsletters';
 import Contact from './Contact';
 
 function MyApp() {
@@ -19,7 +20,7 @@ function MyApp() {
       <Route path="/updates" element={<Updates />} />
       <Route path="/clients" element={<Clients />} />
       <Route path="/contact" element={<Contact />} />
-
+  <Route path="/newsletters" element={<Newsletters />} />
       {/* <Route path={`/user/:id/home`} element={<Home/>} />
           <Route path={`/user/${id}/todos`} element={<Todos />} />
           <Route path={`/user/${id}/posts`} element={<Posts />} />
