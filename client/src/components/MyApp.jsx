@@ -6,6 +6,7 @@ import Home from './Home';
 import PageNotFound from './PageNotFound';
 import Updates from './Updates';
 import Clients from './Clients';
+import Contact from './Contact';
 
 function MyApp() {
 
@@ -17,6 +18,7 @@ function MyApp() {
       <Route path="/register" element={<Register />} />
       <Route path="/updates" element={<Updates />} />
       <Route path="/clients" element={<Clients />} />
+      <Route path="/contact" element={<Contact />} />
 
       {/* <Route path={`/user/:id/home`} element={<Home/>} />
           <Route path={`/user/${id}/todos`} element={<Todos />} />
