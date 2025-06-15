@@ -45,16 +45,26 @@ exports.getGlobalSubscribers = async function getGlobalSubscribers() {
     }
 };
 
-// שליחת תזכורת למשתמש עבור עדכון
 exports.sendReminder = async function sendReminder(user, update) {
     try {
-        // כאן תשלבי שליחת מייל או וואטסאפ אמיתית
-        console.log(`📬 שולחת תזכורת ל-${user.full_name} (${user.email})`);
-        console.log(`🗓️ ${update.date} - ${update.title}`);
-        console.log(update.content);
-        // דוגמה: await emailService.send(user.email, update.title, update.content);
+        const subject = `📅 תזכורת לעדכון מחר: ${update.title}`;
+        const description = `שלום ${user.full_name},\n\nתזכורת לעדכון שמתוכנן למחר:\n\n${update.title}\n${update.date}\n\n${update.content}`;
+        const startTime = new Date(update.date);
+        const endTime = new Date(startTime.getTime() + 30 * 60000); // תוספת 30 דקות
+        const location = update.location || 'Zoom / מיקום לא צויין';
+
+        await emailService.sendCalendarInvite(
+            user.email,
+            subject,
+            description,
+            startTime,
+            endTime,
+            location
+        );
+
+        console.log(`📬 נשלחה תזכורת ל-${user.full_name} (${user.email})`);
     } catch (error) {
-        console.error('Error sending reminder:', error.message);
-        throw new Error('Reminder sending failed');
+        console.error(`❌ שגיאה בשליחת תזכורת ל-${user.full_name}:`, error.message);
     }
 };
+
