@@ -1,29 +1,39 @@
 .navbar {
-  position:fixed;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 32px;
-  height: 60px;
-  background: #223a5e;
+  padding: 0 5%;
+  height: 70px;
+  background: linear-gradient(135deg, #1a3a8f 0%, #4a6da7 100%);
   color: #fff;
   width: 100%;
-  z-index: 10;
-  box-shadow: 0 2px 8px #223a5e22;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .logo {
-  height: 44px;
-  margin-right: 18px;
+  height: 50px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
-  background: #fff;
-  padding: 2px 6px;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
 }
 
 .userName {
-  margin-left: 16px; /* 1rem */
-  font-size: 1.2rem;
-  font-weight: bold;
+  margin: 0 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .navLinks {
@@ -45,60 +55,88 @@
 
 .links {
   display: flex;
-  gap: 16px; /* 1rem */
+  gap: 25px;
+  margin: 0 auto;
 }
 
 .link {
-  color: white;
+  color: rgba(255, 255, 255, 0.9);
   text-decoration: none;
-  font-size: 16px; /* 1rem */
-  transition: color 0.3s;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
 }
 
 .link:hover {
-  color: #ddd; /* צבע בהיר יותר במצב ריחוף */
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.link:hover::after {
+  width: 60%;
 }
 
 .logoutButton {
-  margin-right: 16px; /* 1rem */
-  background-color: #ff4d4d;
+  background: rgba(255, 255, 255, 0.1);
   color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px; /* 0.5rem 1rem */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
 .logoutButton:hover {
-  background-color: #cc0000; /* צבע כהה יותר במצב ריחוף */
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .authToggleGroup {
-  display: inline-flex;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-right: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
-  background: #e0e0e0;
+  display: flex;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 4px;
+  backdrop-filter: blur(5px);
 }
 
 .authToggleBtn {
   background: none;
   border: none;
-  color: #333;
-  padding: 8px 18px;
-  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 6px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  transition : background 0.2s, color 0.2s;
+  border-radius: 20px;
+  transition: all 0.3s ease;
 }
 
-.authToggleBtn:not(:last-child) {
-  border-right: 1px solid #ccc;
+.authToggleBtn.active {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a3a8f;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.authToggleBtn.active, .authToggleBtn:hover {
-  background: #fff;
-  color: #1976d2;
-  font-weight: bold;
+.authToggleBtn:not(.active):hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
 }
