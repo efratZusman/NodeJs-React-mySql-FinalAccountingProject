@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from './UserContext';
 import styles from '../styles/Navbar.module.css'; // ייבוא קובץ ה-CSS מודול
+import logo from '../assets/images/logo.png'; // adjust path as needed
 
 function Navbar() {
     const { user, isInitialized, logout } = useUserContext();
@@ -23,6 +24,9 @@ function Navbar() {
     };
     return (
         <nav className={styles.navbar}>
+            <Link to="/home">
+                <img src={logo} alt="Logo" className={styles.logo} />
+            </Link>
             {user && <div className={styles.userName}>{user.full_name}</div>}
             <div className={styles.links}>
                 <Link to={`/home`} className={styles.link}>Home</Link>
