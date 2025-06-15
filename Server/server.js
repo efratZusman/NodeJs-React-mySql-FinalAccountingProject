@@ -1,4 +1,3 @@
-require('./jobs');
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -8,7 +7,9 @@ const informationRoute = require('./routes/InformationRoutes');
 const commentRoute = require('./routes/CommentRoute');
 const updateRoute = require('./routes/UpdatesRoute');
 const contactRoute = require('./routes/ContactRoute');
+const newslettersRoute = require('./routes/NewsletterRoute');
 const path = require('path');
+require('./Jobs');
 require('dotenv').config({ path: '../.env' }); 
 
 // const mysql = require('mysql');
@@ -30,8 +31,10 @@ app.use("/api/comments", commentRoute);
 app.use("/api/clients", clientRoute);
 app.use("/api/information", informationRoute);
 app.use('/api/contact', contactRoute);
+app.use('/api/newsletters', newslettersRoute);
 
 // Serve images statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use("/", (req, res) =>{

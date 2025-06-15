@@ -60,13 +60,17 @@ const initDb = async () => {
     `);
 
     await connection.query(`
-      CREATE TABLE newsletters (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        date DATE NOT NULL,
-        title VARCHAR(255) NOT NULL,
-        content TEXT NOT NULL
-      );
+
+CREATE TABLE newsletters (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  date DATE NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  filePath VARCHAR(512) NOT NULL
+);
+
     `);
+
+    
 
     await connection.query(`
       CREATE TABLE articles_comments (
