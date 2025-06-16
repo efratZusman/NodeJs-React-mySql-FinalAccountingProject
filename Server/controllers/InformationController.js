@@ -1,5 +1,7 @@
-
-
+const mammoth = require('mammoth');
+const pdfParse = require('pdf-parse');
+const fs = require('fs');
+const path = require('path');
 const informationService = require('../service/InformationService');
 
 exports.getAllinformation = async (req, res) => {
@@ -42,7 +44,6 @@ exports.updateInformationById = async (req, res) => {
     }
 };
 
-
 exports.deleteInformationById = async (req, res) => {
     try {
         const deleted = await informationService.deleteInformationById(req.params.id);
@@ -51,6 +52,35 @@ exports.deleteInformationById = async (req, res) => {
         }
         res.status(200).json({ message: 'Information deleted successfully' });
     } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.uploadInformationFile = async (req, res) => {
+    try {
+        if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+
+        let content = '';
+        const ext = path.extname(req.file.originalname).toLowerCase();
+
+        if (ext === '.doc' || ext === '.docx') {
+            const result = await mammoth.convertToHtml({ path: req.file.path });
+            content = result.value;
+        } else if (ext === '.pdf') {
+            const dataBuffer = fs.readFileSync(req.file.path);
+            const data = await pdfParse(dataBuffer);
+            content = `<pre>${data.text}</pre>`;
+        } else {
+            return res.status(400).json({ error: "Unsupported file type" });
+        }
+
+        // קבלת הכותרת מהקליינט (אם לא נשלחה, השתמש בשם הקובץ)
+        const title = req.body.title && req.body.title.trim() !== "" ? req.body.title : req.file.originalname;
+
+        const newArticle = await informationService.createInformation({ title, content });
+        res.status(201).json(newArticle);
+    } catch (error) {
+        console.log("Error uploading information file:", error);
         res.status(500).json({ error: error.message });
     }
 };

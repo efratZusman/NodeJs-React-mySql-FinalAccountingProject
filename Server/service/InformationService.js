@@ -1,11 +1,14 @@
-
-
 const db = require('../../DB/connection');
 
 exports.createInformation = async function createInformation(infoData) {
     const { title, content } = infoData;
-    
-    const excerpt = content.split(/<\/p>/).slice(0, 3).join('</p>') + '</p>';
+
+    // יצירת תקציר (excerpt) - שלושת הפסקאות הראשונות
+    let excerpt = '';
+    if (content) {
+        excerpt = content.split(/<\/p>/).slice(0, 3).join('</p>');
+        if (!excerpt.endsWith('</p>')) excerpt += '</p>';
+    }
 
     try {
         // שמירת התקציר והכותרת בטבלת articles
@@ -30,7 +33,6 @@ exports.createInformation = async function createInformation(infoData) {
         throw new Error('Error creating info: ' + error.message);
     }
 };
-
 
 exports.getAllinformation = async function getAllinformation() {
     const query = 'SELECT * FROM articles ORDER BY created_at DESC';

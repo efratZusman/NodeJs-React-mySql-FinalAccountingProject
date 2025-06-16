@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useUserContext } from './UserContext';
 import ApiService from '../ApiService';
 import ReactQuill from 'react-quill';
@@ -30,13 +30,19 @@ const formats = [
     'link', 'image'
 ];
 
-const InformationList = () => {
+function InformationList() {
     const { user } = useUserContext();
     const [articles, setArticles] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
     const [editingId, setEditingId] = useState(null);
     const [formData, setFormData] = useState({ title: '', content: '' });
     const [addingNew, setAddingNew] = useState(false);
+    const [showAddOptions, setShowAddOptions] = useState(false);
+    const [showEditor, setShowEditor] = useState(false);
+    const [showFileUpload, setShowFileUpload] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const [uploadTitle, setUploadTitle] = useState("");
+    const fileInputRef = useRef();
 
     useEffect(() => {
         loadArticles();
@@ -112,6 +118,7 @@ const InformationList = () => {
         setEditingId(null);
         setAddingNew(false);
         setExpandedId(null);
+        setShowEditor(false);
     };
 
     const handleEdit = (article) => {
@@ -120,19 +127,95 @@ const InformationList = () => {
         setExpandedId(article.id);
     };
 
+    const handleAddNewClick = () => {
+        setShowAddOptions(true);
+        setShowEditor(false);
+        setShowFileUpload(false);
+    };
+
+    const handleOpenEditor = () => {
+        setShowEditor(true);
+        setShowFileUpload(false);
+    };
+
+    const handleOpenFileUpload = () => {
+        setShowFileUpload(true);
+        setShowEditor(false);
+    };
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (!uploadTitle) {
+            alert("יש להזין כותרת למאמר");
+            return;
+        }
+        setUploading(true);
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("title", uploadTitle); // הוספת הכותרת
+
+            const response = await apiService.uploadFile("/information/upload-file", formData);
+            setArticles([response, ...articles]);
+            setShowAddOptions(false);
+            setShowFileUpload(false);
+            setUploadTitle(""); // איפוס הכותרת
+        } catch (err) {
+            alert("שגיאה בהעלאת קובץ");
+        } finally {
+            setUploading(false);
+        }
+    };
+
     return (
         <>
             <Navbar />
             <div className={styles.container}>
                 <h2 className={styles.title}>מידע מקצועי</h2>
 
-                {user?.role === 'admin' && !addingNew && !editingId && (
-                    <button className={styles.addButton} onClick={() => setAddingNew(true)}>
+                {user?.role === 'admin' && !showAddOptions && (
+                    <button className={styles.addButton} onClick={handleAddNewClick}>
                         + הוסף מידע חדש
                     </button>
                 )}
 
-                {(addingNew || editingId) && (
+                {showAddOptions && (
+                    <div style={{ display: "flex", gap: "16px", margin: "16px 0" }}>
+                        <button className={styles.addButton} onClick={handleOpenFileUpload}>
+                            העלאת קובץ מוכן
+                        </button>
+                        <button className={styles.addButton} onClick={handleOpenEditor}>
+                            פתיחת עריכת טקסט
+                        </button>
+                        <button className={styles.cancelButton} onClick={() => setShowAddOptions(false)}>
+                            ביטול
+                        </button>
+                    </div>
+                )}
+
+                {showFileUpload && (
+                    <div style={{ margin: "16px 0" }}>
+                        <input
+                            type="text"
+                            placeholder="כותרת למאמר"
+                            value={uploadTitle}
+                            onChange={e => setUploadTitle(e.target.value)}
+                            className={styles.input}
+                            style={{ marginBottom: 8 }}
+                        />
+                        <input
+                            type="file"
+                            accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+                            ref={fileInputRef}
+                            onChange={handleFileChange}
+                            disabled={uploading}
+                        />
+                        {uploading && <span>מעלה קובץ...</span>}
+                    </div>
+                )}
+
+                {(showEditor || editingId) && (
                     <div className={styles.editor}>
                         <input
                             type="text"

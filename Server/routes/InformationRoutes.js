@@ -1,12 +1,13 @@
 const express = require('express');
-const infoController = require('../controllers/InformationController');
-
 const router = express.Router();
+const { uploadArticleFile } = require('../middleware/MulterConfig');
+const informationController = require('../controllers/InformationController');
 
-router.get('/', infoController.getAllinformation);
-router.post('/', infoController.createInformation);
- router.get('/:id', infoController.getInformationById);
-router.put('/:id', infoController.updateInformationById);
-router.delete('/:id', infoController.deleteInformationById);
+router.post('/upload-file', uploadArticleFile.single('file'), informationController.uploadInformationFile);
+router.get('/', informationController.getAllinformation);
+router.post('/', informationController.createInformation);
+router.get('/:id', informationController.getInformationById);
+router.put('/:id', informationController.updateInformationById);
+router.delete('/:id', informationController.deleteInformationById);
 
 module.exports = router;

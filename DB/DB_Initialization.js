@@ -75,6 +75,7 @@ CREATE TABLE newsletters (
         user_id INT NOT NULL,
         comment TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        status ENUM('pending', 'confirmed') DEFAULT 'pending' NOT NULL
         FOREIGN KEY (article_id) REFERENCES articles(id),
         FOREIGN KEY (user_id) REFERENCES users(user_id)
       );

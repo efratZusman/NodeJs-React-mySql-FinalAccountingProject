@@ -4,6 +4,7 @@ import ApiService from "../ApiService";
 import formStyles from "../styles/Form.module.css";
 import Navbar from "./Navbar";
 import logo from '../assets/images/logo.png';
+import ContactForm from "./ContactForm";
 
 const apiService = new ApiService();
 
@@ -16,6 +17,7 @@ function Contact() {
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
+    const [phone, setPhone] = useState(""); // חדש
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -34,7 +36,7 @@ function Contact() {
         setError("");
         setLoading(true);
         try {
-            await apiService.post("/contact", { full_name: fullName, email, message });
+            await apiService.post("/contact", { full_name: fullName, email, phone, message });
             setSuccess("Your message was sent successfully!");
             setMessage("");
         } catch (err) {
@@ -143,37 +145,10 @@ function Contact() {
                         >
                             ← Back to contact options
                         </button>
-                        <form onSubmit={handleSubmit} className={formStyles.form}>
-                            <input
-                                className={formStyles.input}
-                                type="text"
-                                placeholder="Full Name"
-                                value={fullName}
-                                onChange={(e) => setFullName(e.target.value)}
-                                required
-                            />
-                            <input
-                                className={formStyles.input}
-                                type="email"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                            <textarea
-                                className={formStyles.input}
-                                placeholder="Your message"
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                required
-                            />
-                            <button className={formStyles.button} type="submit" disabled={loading}>
-                                {loading ? "Sending..." : "Send"}
-                            </button>
-                            {loading && <div className={formStyles.success}>Sending your message...</div>}
-                            {success && <div className={formStyles.success}>{success}</div>}
-                            {error && <div className={formStyles.error}>{error}</div>}
-                        </form>
+                        <ContactForm
+                            initialFullName={fullName}
+                            initialEmail={email}
+                        />
                     </div>
                 )}
             </div>

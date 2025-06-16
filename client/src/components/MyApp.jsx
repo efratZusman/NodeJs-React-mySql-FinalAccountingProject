@@ -9,6 +9,7 @@ import Clients from './Clients';
 import Newsletters from './Newsletters';
 import Contact from './Contact';
 import InformationList from './InformationList';
+import About from './About';
 
 function MyApp() {
 
@@ -23,6 +24,8 @@ function MyApp() {
       <Route path="/contact" element={<Contact />} />
   <Route path="/newsletters" element={<Newsletters />} />
     <Route path="/articles" element={<InformationList />} />
+          <Route path="/about" element={<About />} /> {/* הוספת ראוט לאודות */}
+
       {/* <Route path={`/user/:id/home`} element={<Home/>} />
           <Route path={`/user/${id}/todos`} element={<Todos />} />
           <Route path={`/user/${id}/posts`} element={<Posts />} />

@@ -1,6 +1,6 @@
 const express = require('express');
 const newsletterController = require('../controllers/NewsletterController');
-const upload = require('../middleware/MulterConfig');
+const { uploadNewsletterHtml } = require('../middleware/MulterConfig');
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ router.delete('/:id', newsletterController.deleteNewsletterById);
 // העלאת קובץ HTML של ניוזלטר
 router.post(
   '/upload-html',
-  upload.single('file'), // שימוש במולטר
+  uploadNewsletterHtml.single('file'),
   newsletterController.uploadNewsletterFromHtml
 );
 
