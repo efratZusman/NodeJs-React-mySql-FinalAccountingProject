@@ -1,4 +1,6 @@
 const db = require('../../DB/connection');
+const fs = require('fs');
+const path = require('path');
 
 exports.createNewsletter = async function createNewsletter(newsletterData) {
   const { date, title, filePath } = newsletterData; // content זה כאן נתיב הקובץ או טקסט רגיל
@@ -51,11 +53,29 @@ exports.updateNewsletterById = async function updateNewsletterById(newsletterId,
 };
 
 exports.deleteNewsletterById = async function deleteNewsletterById(newsletterId) {
-  const query = 'DELETE FROM newsletters WHERE id = ?';
-  try {
-    const [result] = await db.execute(query, [newsletterId]);
-    return result.affectedRows > 0;
-  } catch (error) {
-    throw new Error('Error deleting newsletter: ' + error.message);
-  }
+    try {
+        // שליפת הניוזלטר כדי לדעת מה הנתיב של הקובץ
+        const [rows] = await db.execute('SELECT * FROM newsletters WHERE id = ?', [newsletterId]);
+        const newsletter = rows[0];
+        if (!newsletter) return false;
+
+        // מחיקת הקובץ הפיזי אם יש filePath
+        if (newsletter.filePath) {
+            // filePath נשמר כנתיב יחסי שמתחיל ב-/uploads/...
+            // נבנה נתיב מלא
+            const filePath = path.join(__dirname, '..', newsletter.filePath);
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+                console.log("Newsletter file deleted:", filePath);
+            } else {
+                console.warn("Newsletter file not found:", filePath);
+            }
+        }
+
+        // מחיקת הרשומה מה-DB
+        const [result] = await db.execute('DELETE FROM newsletters WHERE id = ?', [newsletterId]);
+            return result.affectedRows > 0;
+    } catch (error) {
+        throw new Error('Error deleting newsletter: ' + error.message);
+    }
 };
