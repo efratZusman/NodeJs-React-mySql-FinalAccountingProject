@@ -3,6 +3,7 @@ import ApiService from '../ApiService';
 import { useUserContext } from './UserContext';
 import Navbar from './Navbar';
 import styles from '../styles/Newsletters.module.css';
+import { validateTitle, validateDate, validateFileType } from '../utils/validation';
 
 const apiService = new ApiService();
 
@@ -27,10 +28,16 @@ const Newsletters = () => {
         fetchNewsletters();
     }, []);
 
+    const allowedNewsletterTypes = ['text/html'];
+
     // העלאת קובץ HTML בלבד להוספת ניוזלטר
     const handleUploadHtml = async () => {
-        if (!htmlFile || !title || !date) {
-            alert('נא לבחור קובץ HTML ולמלא כותרת ותאריך');
+        if (!htmlFile || !validateTitle(title) || !validateDate(date)) {
+            alert('נא לבחור קובץ HTML ולמלא כותרת ותאריך תקינים');
+            return;
+        }
+        if (!validateFileType(htmlFile, allowedNewsletterTypes)) {
+            alert('רק קובץ HTML מותר');
             return;
         }
 
@@ -131,7 +138,7 @@ const Newsletters = () => {
                             )}
                         </div>
                     ))
-                )}
+               ) }
             </div>
         </>
     );

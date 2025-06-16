@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ApiService from "../ApiService";
 import formStyles from "../styles/Form.module.css";
+import { validateEmail, validatePhone, validateNotEmpty } from '../utils/validation';
 
 const apiService = new ApiService();
 
@@ -18,6 +19,28 @@ function ContactForm({ initialFullName = "", initialEmail = "", initialPhone = "
         setSuccess("");
         setError("");
         setLoading(true);
+
+        if (!validateNotEmpty(fullName)) {
+            setError("יש להזין שם מלא");
+            setLoading(false);
+            return;
+        }
+        if (!validateEmail(email)) {
+            setError("אימייל לא תקין");
+            setLoading(false);
+            return;
+        }
+        if (!validatePhone(phone)) {
+            setError("מספר טלפון לא תקין (10 ספרות, מתחיל ב-05)");
+            setLoading(false);
+            return;
+        }
+        if (!validateNotEmpty(message)) {
+            setError("יש להזין הודעה");
+            setLoading(false);
+            return;
+        }
+
         try {
             await apiService.post("/contact", { full_name: fullName, email, phone, message });
             setSuccess("Your message was sent successfully!");

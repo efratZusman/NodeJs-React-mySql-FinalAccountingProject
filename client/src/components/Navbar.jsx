@@ -11,11 +11,11 @@ function Navbar() {
 
     if (!isInitialized) {
         console.log("User data is not initialized yet.");
-        
+
         return null;
     }
     console.log(`User: ${user ? user.full_name : 'No user logged in'}`);
-        console.log(`UserObj: ${user ? user : 'No user logged in'}`);
+    console.log(`UserObj: ${user ? user : 'No user logged in'}`);
 
     const handleAuthClick = () => {
         if (showLogin) {
@@ -29,7 +29,6 @@ function Navbar() {
             <Link to="/home">
                 <img src={logo} alt="Logo" className={styles.logo} />
             </Link>
-            {user && <div className={styles.userName}>{user.full_name}</div>}
             <div className={styles.links}>
                 <Link to={`/home`} className={styles.link}>Home</Link>
                 <Link to={`/about`} className={styles.link}>About</Link>
@@ -39,8 +38,11 @@ function Navbar() {
                 <Link to={`/updates`} className={styles.link}>Updates</Link>
                 <Link to={`/contact`} className={styles.link}>Contact</Link>
             </div>
-            {user ? (
+            {user ? (<>
+                <div className={styles.userName}>{user.full_name}</div>
+
                 <button onClick={logout} className={styles.logoutButton}>Log Out</button>
+            </>
             ) : (
                 <>
                     <div className={styles.authToggleGroup}>
@@ -67,6 +69,7 @@ function Navbar() {
                     >
                         {showLogin ? "Log In" : "Register"}
                     </button>
+
                 </>
             )}
         </nav>

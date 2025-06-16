@@ -5,8 +5,13 @@ import formStyles from '../styles/Form.module.css';
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import logo from '../assets/images/logo.png';
+import {
+    validateEmail,
+    validatePassword,
+    validateNotEmpty
+} from '../utils/validation';
 
-function Register({ onSuccess }) {
+function Register() {
     const navigate = useNavigate();
     const { fetchUser } = useUserContext();
     const [error, setError] = useState('');
@@ -31,8 +36,20 @@ function Register({ onSuccess }) {
         e.preventDefault();
         setError('');
 
+        if (!validateNotEmpty(formData.full_name)) {
+            setError('יש להזין שם מלא');
+            return;
+        }
+        if (!validateEmail(formData.email)) {
+            setError('אימייל לא תקין');
+            return;
+        }
+        if (!validatePassword(formData.password)) {
+            setError('סיסמה לא תקינה (8-20 תווים, אותיות גדולות/קטנות, מספר, סימן)');
+            return;
+        }
         if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match');
+            setError('הסיסמאות לא תואמות');
             return;
         }
 

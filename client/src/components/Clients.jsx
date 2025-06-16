@@ -3,6 +3,7 @@ import { useUserContext } from "./UserContext";
 import ApiService from "../ApiService";
 import Navbar from "./Navbar";
 import styles from "../styles/Clients.module.css";
+import { validateNotEmpty } from '../utils/validation';
 
 const apiService = new ApiService();
 
@@ -52,7 +53,7 @@ function Clients() {
 
     const handleAddClient = async (e) => {
         e.preventDefault();
-        if (!newClient.client_name) {
+        if (!validateNotEmpty(newClient.client_name)) {
             setError("Client name is required");
             return;
         }

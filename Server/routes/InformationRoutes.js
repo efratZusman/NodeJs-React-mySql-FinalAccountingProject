@@ -15,7 +15,7 @@ router.delete('/comments/:comment_id',getUserFromSession, commentController.dele
 
 router.post('/upload-file', [...adminOnly,uploadArticleFile.single('file'), informationController.uploadInformationFile]);
 router.get('/', informationController.getAllinformation);
-// router.post('/', informationController.createInformation);
+ router.post('/', informationController.createInformation);
 router.get('/:id', informationController.getInformationById);
 router.put('/:id', [...adminOnly,informationController.updateInformationById]);
 router.delete('/:id', [...adminOnly,informationController.deleteInformationById]);

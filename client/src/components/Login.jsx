@@ -5,6 +5,7 @@ import formStyles from '../styles/Form.module.css';
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import logo from '../assets/images/logo.png';
+import { validateEmail, validateNotEmpty } from '../utils/validation';
 
 function Login({ onSuccess }) {
     const navigate = useNavigate();
@@ -17,6 +18,14 @@ function Login({ onSuccess }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        if (!validateEmail(email)) {
+            setError('אימייל לא תקין');
+            return;
+        }
+        if (!validateNotEmpty(password)) {
+            setError('יש להזין סיסמה');
+            return;
+        }
         try {
             const response = await apiService.post('/users/login', { email, password });
             if (response.message === 'Login successful') {

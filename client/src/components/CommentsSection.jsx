@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../styles/CommentsSection.module.css';
 import { useUserContext } from './UserContext';
 import ApiService from '../ApiService';
+import { validateNotEmpty } from '../utils/validation';
 
 const apiService = new ApiService();
 
@@ -27,7 +28,7 @@ const CommentsSection = ({ articleId }) => {
     };
 
     const handleAddComment = async () => {
-        if (!newComment.trim()) return;
+        if (!validateNotEmpty(newComment)) return;
         try {
             const response = await apiService.post(`/information/comments`, {
                 comment: newComment,

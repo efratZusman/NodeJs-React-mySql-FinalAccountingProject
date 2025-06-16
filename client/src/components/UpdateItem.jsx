@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../styles/UpdateItem.module.css';
 import ApiService from '../ApiService';
+import { validateTitle, validateNotEmpty, validateDate } from '../utils/validation';
 
 const apiService = new ApiService();
 
@@ -29,6 +30,14 @@ const UpdateItem = ({
     });
 
     const handleSave = () => {
+        if (
+            !validateDate(editData.date) ||
+            !validateTitle(editData.title) ||
+            !validateNotEmpty(editData.content)
+        ) {
+            alert('יש למלא תאריך, כותרת ותוכן תקינים');
+            return;
+        }
         onSaveEdit(update.id, editData, isNew);
         if (!isNew) setIsEditing(false);
     };
