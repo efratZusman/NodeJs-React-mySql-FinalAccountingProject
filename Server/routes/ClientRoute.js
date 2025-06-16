@@ -1,8 +1,8 @@
 const express = require('express');
 const { uploadClientImage } = require('../middleware/MulterConfig');
 const clientController = require('../controllers/ClientController');
-const { getUserFromSession } = require('../middleware/getUserFromSession');
-const { isAdmin } = require('../middleware/isAdmin');
+const getUserFromSession = require('../middleware/getUserFromSession');
+const  isAdmin  = require('../middleware/isAdmin');
 
 const adminOnly = [getUserFromSession, isAdmin];
 

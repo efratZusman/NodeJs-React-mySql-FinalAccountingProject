@@ -1,8 +1,8 @@
 const express = require('express');
 const newsletterController = require('../controllers/NewsletterController');
 const { uploadNewsletterHtml } = require('../middleware/MulterConfig');
-const { getUserFromSession } = require('../middleware/getUserFromSession');
-const { isAdmin } = require('../middleware/isAdmin');
+const  getUserFromSession  = require('../middleware/getUserFromSession');
+const isAdmin  = require('../middleware/isAdmin');
 
 const adminOnly = [getUserFromSession, isAdmin];
 

@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { uploadArticleFile } = require('../middleware/MulterConfig');
 const informationController = require('../controllers/InformationController');
-const { getUserFromSession } = require('../middleware/getUserFromSession');
-const { isAdmin } = require('../middleware/isAdmin');
+const  getUserFromSession  = require('../middleware/getUserFromSession');
+const  isAdmin  = require('../middleware/isAdmin');
 
 const adminOnly = [getUserFromSession, isAdmin];
 

@@ -30,7 +30,10 @@ const Updates = () => {
         setLoading(true);
         try {
             const data = await apiService.get('/updates/subsriptions');
+            console.log('Loaded update subscriptions:', data);
+            
             setUpdateSubscriptions(data);
+
         } catch (error) {
             console.error('Failed to load update subscriptions', error);
         } finally {
@@ -105,7 +108,7 @@ const Updates = () => {
                 {addingNew && (
                     <UpdateItem
                         isAdmin={true}
-                        user={user}
+                        user={user? user : null}
                         isNew={true}
                         onSaveEdit={handleSaveEdit}
                         onCancelNew={handleCancelNew}
@@ -123,7 +126,7 @@ const Updates = () => {
                             update={update}
                             isAdmin={user?.role === 'admin'}
                             user={user}
-                            isSubscribedToUpdate={updateSubscriptions.find(u => u.update_id === update.id)}
+                            isSubscribedToUpdate={updateSubscriptions?updateSubscriptions.find(u => u.update_id === update.id): null}
                             onDelete={handleDelete}
                             onSaveEdit={handleSaveEdit}
                         />

@@ -1,7 +1,7 @@
 const express = require('express');
 const getUserFromSession = require('../middleware/getUserFromSession');
 const updatesController = require('../controllers/UpdatesController');
-const { isAdmin } = require('../middleware/isAdmin');
+const  isAdmin = require('../middleware/isAdmin');
 
 const adminOnly = [getUserFromSession, isAdmin];
 

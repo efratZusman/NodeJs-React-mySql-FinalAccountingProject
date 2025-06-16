@@ -7,7 +7,7 @@ async function getUserFromSession(req, res, next) {
     const sessionId = req.cookies?.session_id;
 
     if (!sessionId) {
-      return res.status(200).json([]);
+      return res.status(200).json(null);
     }
 
     // 2. לחלץ את userId מה-session
