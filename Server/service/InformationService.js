@@ -3,30 +3,34 @@
 const db = require('../../DB/connection');
 
 exports.createInformation = async function createInformation(infoData) {
-    const { title, excerpt, content } = infoData;
-
-    const insertArticleQuery = `
-        INSERT INTO articles (title, excerpt) 
-        VALUES (?, ?)
-    `;
-    const articleValues = [title, excerpt];
+    const { title, content } = infoData;
+    
+    const excerpt = content.split(/<\/p>/).slice(0, 3).join('</p>') + '</p>';
 
     try {
-        const [result] = await db.execute(insertArticleQuery, articleValues);
+        // שמירת התקציר והכותרת בטבלת articles
+        const insertArticleQuery = `
+            INSERT INTO articles (title, excerpt) 
+            VALUES (?, ?)
+        `;
+        const [result] = await db.execute(insertArticleQuery, [title, excerpt]);
         const articleId = result.insertId;
 
+        // שמירת כל התוכן בטבלת article_contents
         const insertContentQuery = `
             INSERT INTO article_contents (article_id, content)
             VALUES (?, ?)
         `;
         await db.execute(insertContentQuery, [articleId, content]);
 
+        // שליפת הרשומה שנשמרה
         const [insertedInfo] = await db.execute('SELECT * FROM articles WHERE id = ?', [articleId]);
         return insertedInfo[0];
     } catch (error) {
         throw new Error('Error creating info: ' + error.message);
     }
 };
+
 
 exports.getAllinformation = async function getAllinformation() {
     const query = 'SELECT * FROM articles ORDER BY created_at DESC';
@@ -84,18 +88,14 @@ exports.updateInformationById = async function updateInformationById(infoId, inf
 
 exports.deleteInformationById = async function deleteInformationById(infoId) {
     const deleteQueryArticle = 'DELETE FROM articles WHERE id = ?';
-    const deleteQueryArticleContent = 'DELETE FROM article_contents WHERE id = ?';
 
     try {
-        const [result] = await db.execute(deleteQuery, [infoId]);
-        if( result.affectedRows > 0)
-        {
-            await db.execute(deleteQueryArticleContent, [infoId]);
-            return true;
-        }
-        return false;
+        const [result] = await db.execute(deleteQueryArticle, [infoId]);
+        return result.affectedRows > 0;
     } catch (error) {
         throw new Error('Error deleting info: ' + error.message);
     }
 };
+
+
 

@@ -1,0 +1,61 @@
+.container {
+    padding: 2rem;
+}
+.title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+.addButton, .saveButton, .cancelButton {
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.excerpt {
+  white-space: pre-wrap;
+  overflow: hidden;
+  max-height: 6em;
+}
+
+/* .excerpt, .fullContent {
+  white-space: pre-wrap; 
+  direction: rtl;
+  text-align: right;
+  font-family: inherit;
+} */
+
+.cancelButton {
+    background: #dc3545;
+}
+.list {
+    list-style: none;
+    padding: 0;
+}
+.item {
+    border-bottom: 1px solid #ccc;
+    padding: 1rem 0;
+}
+.header {
+    cursor: pointer;
+}
+.content {
+    padding: 1rem;
+    background: #f9f9f9;
+}
+.adminControls button {
+    margin-left: 10px;
+}
+.editor {
+    margin-bottom: 2rem;
+}
+.input, .textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+.quill {
+    margin-bottom: 1rem;
+}

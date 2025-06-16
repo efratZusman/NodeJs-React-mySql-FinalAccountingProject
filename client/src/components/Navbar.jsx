@@ -15,6 +15,7 @@ function Navbar() {
         return null;
     }
     console.log(`User: ${user ? user.full_name : 'No user logged in'}`);
+    
     const handleAuthClick = () => {
         if (showLogin) {
             navigate('/login');
