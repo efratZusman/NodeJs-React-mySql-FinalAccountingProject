@@ -16,7 +16,7 @@ exports.getCommentByArticleId = async (req, res) => {
 // Create new comment
 exports.createComment = async (req, res) => {
     try {
-        const newComment = await CommentService.createComment(req.body);
+        const newComment = await CommentService.createComment(req.body,req.userId);
         res.status(201).json(newComment);
     } catch (error) {
         res.status(500).json({ error: error.message });

@@ -1,0 +1,203 @@
+/* styles/CommentsSection.module.css */
+.commentsContainer {
+  background-color: #f9f9f9;
+  padding: 16px;
+  margin-top: 16px;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  direction: rtl;
+}
+
+.addCommentBox {
+  margin-bottom: 12px;
+}
+
+.textarea {
+  width: 100%;
+  height: 80px;
+  padding: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+}
+
+.addButton {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background-color: #45a049;
+}
+
+.commentList {
+  list-style: none;
+  padding: 0;
+}
+
+.commentItem {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.commentText {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.deleteButton {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.deleteButton:hover {
+  background-color: #c62828;
+}
+
+.notice {
+  color: #888;
+  font-style: italic;
+}
+/* styles/CommentsSection.module.css */
+.commentsContainer {
+  background-color: #f9f9f9;
+  padding: 16px;
+  margin-top: 16px;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  direction: rtl;
+}
+
+.addCommentBox {
+  margin-bottom: 12px;
+}
+
+.textarea {
+  width: 100%;
+  height: 80px;
+  padding: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+}
+
+.addButton {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background-color: #45a049;
+}
+
+.commentList {
+  list-style: none;
+  padding: 0;
+}
+
+.commentItem {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.commentText {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.deleteButton {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.deleteButton:hover {
+  background-color: #c62828;
+}
+
+.notice {
+  color: #888;
+  font-style: italic;
+}
+
+.expandedSection {
+  background: #fefefe;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+.commentToggleContainer {
+  margin-top: 12px;
+  text-align: right;
+}
+
+.commentToggle {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.commentToggle:hover {
+  background-color: #125a9c;
+}

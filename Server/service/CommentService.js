@@ -1,13 +1,13 @@
 const db = require('../../DB/connection');
 
 // Create new comment
-exports.createComment = async function createComment(commentData) {
-    const { article_id, user_id, comment } = commentData;
+exports.createComment = async function createComment(commentData,userId) {
+    const { article_id, comment } = commentData;
     const query = `
         INSERT INTO articles_comments (article_id, user_id, comment)
         VALUES (?, ?, ?)
     `;
-    const values = [article_id, user_id, comment];
+    const values = [article_id, userId, comment];
 
     try {
         const [result] = await db.execute(query, values);
@@ -15,7 +15,7 @@ exports.createComment = async function createComment(commentData) {
 
         // Fetch the newly created comment along with user details
         const fetchQuery = `
-            SELECT articles_comments.id, articles_comments.comment, articles_comments.CreatedAt, users.user_id, users.full_name, users.email
+            SELECT articles_comments.id, articles_comments.comment, articles_comments.created_at, users.user_id, users.full_name, users.email
             FROM articles_comments
             JOIN users ON articles_comments.user_id = users.user_id
             WHERE articles_comments.id = ?
@@ -23,6 +23,8 @@ exports.createComment = async function createComment(commentData) {
         const [rows] = await db.execute(fetchQuery, [newCommentId]);
         return rows[0];
     } catch (error) {
+        console.log(error.message,'error');
+        
         throw new Error('Error creating comment: ' + error.message);
     }
 };

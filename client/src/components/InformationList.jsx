@@ -3,6 +3,7 @@ import { useUserContext } from './UserContext';
 import ApiService from '../ApiService';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import CommentsSection from './CommentsSection';
 import styles from '../styles/Information.module.css';
 import Navbar from './Navbar';
 
@@ -31,6 +32,7 @@ const formats = [
 ];
 
 function InformationList() {
+    const [showCommentsFor, setShowCommentsFor] = useState(null);
     const { user } = useUserContext();
     const [articles, setArticles] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
@@ -244,17 +246,36 @@ function InformationList() {
                         <li key={article.id} className={styles.item}>
                             <div className={styles.header} onClick={() => handleExpand(article.id)}>
                                 <h3>{article.title}</h3>
-                                {expandedId !== article.id && (
-                                    <div
-                                        className={styles.excerpt}
-                                        dangerouslySetInnerHTML={{ __html: article.excerpt }}
-                                    />
+
+
+                                {expandedId === article.id && (
+                                    <>
+                                        <div
+                                            className={styles.content}
+                                            onClick={() => handleExpand(article.id)}
+                                            dangerouslySetInnerHTML={{ __html: article.content }}
+                                        />
+
+                                        <button
+                                            className={styles.commentToggle}
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // מונע סגירה של המאמר
+                                                setShowCommentsFor(article.id === showCommentsFor ? null : article.id);
+                                            }}
+                                        >
+                                            {showCommentsFor === article.id ? 'הסתר תגובות' : 'הצג תגובות'}
+                                        </button>
+
+                                        {showCommentsFor === article.id && (
+                                            <div onClick={(e) => e.stopPropagation()}>
+                                                <CommentsSection articleId={article.id} />
+                                            </div>
+                                        )}
+                                    </>
+
+
                                 )}
                             </div>
-
-                            {expandedId === article.id && (
-                                <div className={styles.content} dangerouslySetInnerHTML={{ __html: article.content }} />
-                            )}
 
                             {user?.role === 'admin' && (
                                 <div className={styles.adminControls}>
