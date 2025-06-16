@@ -70,6 +70,7 @@ class ApiService {
 
     async delete(url) {
         const response = await fetch(this.baseUrl + url, {
+            credentials: 'include',
             method: 'DELETE',
         });
         return await this.checkResponseStatus(response);

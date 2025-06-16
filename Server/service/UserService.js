@@ -94,12 +94,20 @@ exports.deleteSession = async function deleteSession(sessionId) {
     await db.execute('DELETE FROM sessions WHERE session_id = ?', [sessionId]);
 };
 
-exports.getUserIdBySession = async function getUserIdBySession(sessionId) {
+exports.getUserDetailsBySession = async function getUserDetailsBySession(sessionId) {
     const [rows] = await db.execute(
         'SELECT user_id FROM sessions WHERE session_id = ? AND expires_at > NOW()',
         [sessionId]
     );
-    return rows[0]?.user_id || null;
+
+    if (rows[0]?.user_id) {
+        const [role] = await db.execute(
+            'SELECT role FROM users WHERE user_id = ?',
+            [rows[0].user_id]
+        );
+        return { userId: rows[0].user_id, role: role[0].role ||null}
+    }
+    return null;
 };
 
 exports.updateWantsUpdates = async function updateWantsUpdates(userId, wantsUpdates) {

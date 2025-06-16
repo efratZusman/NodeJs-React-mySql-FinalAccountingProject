@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.post('/register', validateRegister, userController.registerUser); // הוסף את המידלוור כאן
 router.post('/login', userController.loginUser);
-router.post('/logout', userController.logoutUser); // אם יש
-router.get('/me', userController.getCurrentUser);  // כאן!
+router.post('/logout', userController.logoutUser); 
+router.get('/me', getUserFromSession,userController.getCurrentUser);  
 router.patch('/subscribe-updates', getUserFromSession, userController.updateWantsUpdates);
 
 

@@ -72,7 +72,7 @@ exports.getUpdatesSubscriptionByUser = async (req, res) => {
 
 exports.deleteUpdateSubscription = async (req, res) => {
     try {
-        const deleted = await UpdateService.deleteUpdateSubscription(req.params.id);
+        const deleted = await UpdateService.deleteUpdateSubscription(req.params.id,req.userId);
         if (!deleted) {
             return res.status(404).json({ message: 'UpdateSubscription not found' });
         }

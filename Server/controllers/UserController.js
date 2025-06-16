@@ -60,15 +60,7 @@ exports.loginUser = async function loginUser(req, res) {
 
 exports.getCurrentUser = async function getCurrentUser(req, res) {
     try {
-        const sessionId = req.cookies.session_id;
-        if (!sessionId) {
-            return res.status(200).json(null);
-        }
-        const userId = await UserService.getUserIdBySession(sessionId);
-        if (!userId) {
-            return res.status(200).json(null);
-        }
-        const user = await UserService.getUserById(userId);
+        const user = await UserService.getUserById(req.userId);
         if (!user) {
             return res.status(200).json(null);
         }

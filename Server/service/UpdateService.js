@@ -97,10 +97,10 @@ exports.deleteUpdateById = async function deleteUpdateById(updateId) {
     }
 };
 
-exports.deleteUpdateSubscription = async function deleteUpdateSubscription(updateSubId) {
-    const query = 'DELETE FROM update_subscriptions WHERE id = ?';
+exports.deleteUpdateSubscription = async function deleteUpdateSubscription(updateSubId,userId) {
+    const query = 'DELETE FROM update_subscriptions WHERE id = ? and user_id = ?';
     try {
-        const [result] = await db.execute(query, [updateSubId]);
+        const [result] = await db.execute(query, [updateSubId,userId]);
         return result.affectedRows > 0;
     } catch (error) {
         throw new Error('Error deleting update subsciption: ' + error.message);
