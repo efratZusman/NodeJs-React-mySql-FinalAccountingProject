@@ -12,6 +12,9 @@ const CommentsSection = ({ articleId }) => {
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(true);
 
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editedComment, setEditedComment] = useState('');
+
     useEffect(() => {
         loadComments();
     }, [articleId]);
@@ -28,17 +31,25 @@ const CommentsSection = ({ articleId }) => {
     };
 
     const handleAddComment = async () => {
-        if (!validateNotEmpty(newComment)) return;
+        if (!validateNotEmpty(newComment)) return alert('אנא כתוב תגובה לפני שליחה.');
         try {
             const response = await apiService.post(`/information/comments`, {
                 comment: newComment,
-                article_id:articleId,
+                article_id: articleId,
             });
-            setComments([response, ...comments]);
+
+            // השלמת נתונים כדי לאפשר תצוגה מיידית כולל כפתורים
+            const enrichedResponse = {
+                ...response,
+                user_id: user.user_id,
+                username: user.username,
+                created_at: new Date().toISOString(),
+            };
+
+            setComments([enrichedResponse, ...comments]);
             setNewComment('');
         } catch (err) {
-            console.log(err,'err');
-            
+            console.log(err, 'err');
             alert('שגיאה בשליחת תגובה');
         }
     };
@@ -50,6 +61,32 @@ const CommentsSection = ({ articleId }) => {
             setComments(comments.filter(c => c.id !== commentId));
         } catch (err) {
             alert('שגיאה במחיקת תגובה');
+        }
+    };
+
+    const handleUpdateComment = async (commentId) => {
+        if (!validateNotEmpty(editedComment)) return alert('התגובה לא יכולה להיות ריקה.');
+        try {
+            const updated = await apiService.put(`/information/comments/${commentId}`, {
+                comment: editedComment,
+            });
+
+            setComments(comments.map(c => {
+                if (c.id === commentId) {
+                    return {
+                        ...updated,
+                        created_at: updated.created_at ? updated.created_at : c.created_at,
+                        username: c.username,
+                        user_id: c.user_id,
+                    };
+                }
+                return c;
+            }));
+
+            setEditingCommentId(null);
+            setEditedComment('');
+        } catch (err) {
+            alert('שגיאה בעדכון תגובה');
         }
     };
 
@@ -77,23 +114,55 @@ const CommentsSection = ({ articleId }) => {
                 <p>אין תגובות עדיין.</p>
             ) : (
                 <ul className={styles.commentList}>
-                    {comments.map((comment) => (
-                        <li key={comment.id} className={styles.commentItem}>
-                            <div className={styles.commentHeader}>
-                                <span className={styles.username}>{comment.username}</span>
-                                <span className={styles.date}>{new Date(comment.created_at).toLocaleString()}</span>
-                            </div>
-                            <p className={styles.commentText}>{comment.comment}</p>
-                            {user?.user_id === comment.user_id && (
-                                <button
-                                    className={styles.deleteButton}
-                                    onClick={() => handleDeleteComment(comment.id)}
-                                >
-                                    מחק
-                                </button>
-                            )}
-                        </li>
-                    ))}
+                    {comments.map((comment) => {
+                        const canModify = user && (user.email === comment.email || user.role=='admin');
+                        const isEditing = editingCommentId === comment.id;
+
+                        return (
+                            <li key={comment.id} className={styles.commentItem}>
+                                <div className={styles.commentHeader}>
+                                    <span className={styles.username}>{comment.username}</span>
+                                    <span className={styles.date}>
+                                        {comment.created_at ? new Date(comment.created_at).toLocaleString() : ''}
+                                    </span>
+                                </div>
+
+                                {isEditing ? (
+                                    <>
+                                        <textarea
+                                            className={styles.textarea}
+                                            value={editedComment}
+                                            onChange={(e) => setEditedComment(e.target.value)}
+                                        />
+                                        <button onClick={() => handleUpdateComment(comment.id)}>שמור</button>
+                                        <button onClick={() => setEditingCommentId(null)}>בטל</button>
+                                    </>
+                                ) : (
+                                    <p className={styles.commentText}>{comment.comment}</p>
+                                )}
+
+                                {canModify && !isEditing && (
+                                    <>
+                                        <button
+                                            className={styles.deleteButton}
+                                            onClick={() => handleDeleteComment(comment.id)}
+                                        >
+                                            מחק
+                                        </button>
+                                        <button
+                                            className={styles.editButton}
+                                            onClick={() => {
+                                                setEditingCommentId(comment.id);
+                                                setEditedComment(comment.comment);
+                                            }}
+                                        >
+                                            עדכן
+                                        </button>
+                                    </>
+                                )}
+                            </li>
+                        );
+                    })}
                 </ul>
             )}
         </div>

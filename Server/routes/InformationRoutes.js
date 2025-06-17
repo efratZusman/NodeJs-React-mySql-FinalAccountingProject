@@ -10,7 +10,7 @@ const adminOnly = [getUserFromSession, isAdmin];
 
 router.post('/comments', getUserFromSession,commentController.createComment);
 router.get('/:article_id/comments',commentController.getCommentByArticleId);
-router.put('/:id/comments', getUserFromSession,commentController.updateCommentById);
+router.put('/comments/:comment_id', getUserFromSession,commentController.updateCommentById);
 router.delete('/comments/:comment_id',getUserFromSession, commentController.deleteCommentById);
 
 router.post('/upload-file', [...adminOnly,uploadArticleFile.single('file'), informationController.uploadInformationFile]);

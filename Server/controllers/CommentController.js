@@ -3,7 +3,7 @@ const CommentService = require('../service/CommentService');
 // Get comment by Newsletter ID
 exports.getCommentByArticleId = async (req, res) => {
     try {
-        const comment = await CommentService.getCommentByArticleId(req.params.id);
+        const comment = await CommentService.getCommentByArticleId(req.params.article_id);
         if (!comment) {
             return res.status(404).json({ message: 'Comment not found' });
         }
@@ -26,7 +26,7 @@ exports.createComment = async (req, res) => {
 // Update comment by ID
 exports.updateCommentById = async (req, res) => {
     try {
-        const updated = await CommentService.updateCommentById(req.params.id, req.body.content);
+        const updated = await CommentService.updateCommentById(req.params.comment_id, req.body.comment);
         if (!updated) {
             return res.status(404).json({ message: 'Comment not found' });
         }
@@ -39,7 +39,7 @@ exports.updateCommentById = async (req, res) => {
 // Delete comment by ID
 exports.deleteCommentById = async (req, res) => {
     try {
-        const deleted = await CommentService.deleteCommentById(req.params.id);
+        const deleted = await CommentService.deleteCommentById(req.params.comment_id);
         if (!deleted) {
             return res.status(404).json({ message: 'Comment not found' });
         }
