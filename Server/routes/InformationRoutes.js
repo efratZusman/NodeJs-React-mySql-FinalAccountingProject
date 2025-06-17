@@ -9,9 +9,10 @@ const commentController = require('../controllers/CommentController');
 const adminOnly = [getUserFromSession, isAdmin];
 
 router.post('/comments', getUserFromSession,commentController.createComment);
-router.get('/:article_id/comments/users/confirmed',commentController.getConfirmedCommentByArticleId);
 router.get('/comments/admin/pending', [...adminOnly,commentController.getPendingCommentByArticleId]);
+router.get('/:article_id/comments/users/confirmed',commentController.getConfirmedCommentByArticleId);
 router.put('/comments/:comment_id', getUserFromSession,commentController.updateCommentById);
+router.patch('/comments/:comment_id', getUserFromSession,commentController.updatePartialCommentById);
 router.delete('/comments/:comment_id',getUserFromSession, commentController.deleteCommentById);
 
 router.post('/upload-file', [...adminOnly,uploadArticleFile.single('file'), informationController.uploadInformationFile]);

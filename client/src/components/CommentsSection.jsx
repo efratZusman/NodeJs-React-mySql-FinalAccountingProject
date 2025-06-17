@@ -26,6 +26,8 @@ const CommentsSection = ({ articleId }) => {
             const data = await apiService.get(`/information/${articleId}/comments/users/confirmed`);
             setComments(data);
         } catch (err) {
+            console.log(err,'err');
+            
             console.error('שגיאה בטעינת תגובות', err);
         } finally {
             setLoading(false);
@@ -108,20 +110,6 @@ const CommentsSection = ({ articleId }) => {
                 </div>
             ) : (
                 <p className={styles.notice}>יש להתחבר כדי להגיב.</p>
-            )}
-
-            {user?.role === 'admin' && (
-                <button
-                    className={styles.manageButton}
-                    onClick={() => setShowManage(true)}
-                    style={{ marginBottom: 12 }}
-                >
-                    ניהול תגובות
-                </button>
-            )}
-
-            {showManage && user?.role === 'admin' && (
-                <PendingCommentsManager articleId={articleId} onClose={() => setShowManage(false)} />
             )}
 
             {loading ? (

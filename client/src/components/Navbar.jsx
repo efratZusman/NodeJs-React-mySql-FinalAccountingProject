@@ -6,7 +6,7 @@ import logo from '../assets/images/logo.png'; // adjust path as needed
 
 function Navbar() {
     const { user, isInitialized, logout } = useUserContext();
-    const [showLogin, setShowLogin] = useState(true);
+    // const [showLogin, setShowLogin] = useState(true);
     const navigate = useNavigate(); // <-- initialize navigate
 
     if (!isInitialized) {
@@ -18,11 +18,11 @@ function Navbar() {
     console.log(`UserObj: ${user ? user : 'No user logged in'}`);
 
     const handleAuthClick = () => {
-        if (showLogin) {
+        // if (showLogin) {
             navigate('/login');
-        } else {
-            navigate('/register');
-        }
+        // } else {
+        //     navigate('/register');
+        // }
     };
     return (
         <nav className={styles.navbar}>
@@ -45,7 +45,7 @@ function Navbar() {
             </>
             ) : (
                 <>
-                    <div className={styles.authToggleGroup}>
+                    {/* <div className={styles.authToggleGroup}>
                         <button
                             className={`${styles.authToggleBtn} ${showLogin ? styles.active : ''}`}
                             onClick={() => setShowLogin(true)}
@@ -60,14 +60,14 @@ function Navbar() {
                         >
                             Register
                         </button>
-                    </div>
+                    </div> */}
                     <button
                         onClick={handleAuthClick}
                         className={styles.logoutButton}
                         style={{ marginLeft: "10px" }}
                         onMouseDown={e => e.preventDefault()}
                     >
-                        {showLogin ? "Log In" : "Register"}
+                        Log In
                     </button>
 
                 </>

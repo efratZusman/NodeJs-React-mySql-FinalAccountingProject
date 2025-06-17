@@ -4,6 +4,7 @@ const CommentService = require('../service/CommentService');
 exports.getConfirmedCommentByArticleId = async (req, res) => {
     try {
         const comment = await CommentService.getConfirmedCommentByArticleId(req.params.article_id);
+          console.log(comment,'comment');
         if (!comment) {
             return res.status(404).json({ message: 'Comment not found' });
         }
@@ -48,6 +49,25 @@ exports.updateCommentById = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.updatePartialCommentById = async (req, res) => {
+    try {
+        const { comment_id } = req.params;
+        const updateData = req.body;
+
+        const updatedComment = await CommentService.updatePartialCommentById(comment_id, updateData);
+
+        if (!updatedComment) {
+            return res.status(404).json({ message: 'Comment not found' });
+        }
+
+        res.status(200).json(updatedComment);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 
 // Delete comment by ID
 exports.deleteCommentById = async (req, res) => {

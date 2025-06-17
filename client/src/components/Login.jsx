@@ -3,11 +3,12 @@ import { useUserContext } from './UserContext';
 import ApiService from '../ApiService';
 import formStyles from '../styles/Form.module.css';
 import Navbar from "./Navbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import logo from '../assets/images/logo.png';
 import { validateEmail, validateNotEmpty } from '../utils/validation';
+import Register from './Register'; // ייבוא כפי שביקשת
 
-function Login({ onSuccess }) {
+function Login() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [email, setEmail] = useState('');
@@ -30,9 +31,8 @@ function Login({ onSuccess }) {
             const response = await apiService.post('/users/login', { email, password });
             if (response.message === 'Login successful') {
                 await fetchUser();
-                navigate('/home')
-            }
-            else {
+                navigate('/home');
+            } else {
                 setError('Login failed');
             }
         } catch (error) {
@@ -67,6 +67,12 @@ function Login({ onSuccess }) {
                     <button className={formStyles.button} type="submit">Login</button>
                     {error && <div className={formStyles.error}>{error}</div>}
                 </form>
+
+                {/* קישור לעמוד הרשמה */}
+                <div className={formStyles.switchAuth}>
+                    אין לך חשבון?{' '}
+                    <Link to="/register" className={formStyles.link}>להרשמה</Link>
+                </div>
             </div>
         </>
     );

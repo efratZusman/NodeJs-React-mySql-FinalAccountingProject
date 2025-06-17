@@ -6,7 +6,7 @@ import styles from '../styles/CommentsSection.module.css';
 
 const apiService = new ApiService();
 
-function PendingCommentsManager({ articleId, onClose }) {
+function PendingCommentsManager({ onClose }) {
     const { user } = useUserContext();
     const [pendingComments, setPendingComments] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,16 +15,12 @@ function PendingCommentsManager({ articleId, onClose }) {
 
     useEffect(() => {
         loadPending();
-    }, [articleId]);
+    }, []);
 
     const loadPending = async () => {
         setLoading(true);
         try {
-            // אם יש articleId נטען תגובות רק למאמר הזה, אחרת נטען את כל הממתינות
-            const url = articleId
-                ? `/information/${articleId}/comments/admin/pending`
-                : `/information/comments/admin/pending`;
-            const data = await apiService.get(url);
+            const data = await apiService.get('/information/comments/admin/pending'); // נקרא לראוט הכללי
             setPendingComments(data);
         } catch (err) {
             alert('שגיאה בטעינת תגובות ממתינות');
@@ -35,7 +31,7 @@ function PendingCommentsManager({ articleId, onClose }) {
 
     const handleApprove = async (commentId) => {
         try {
-            await apiService.put(`/information/comments/${commentId}`, { status: 'confirmed' });
+            await apiService.patch(`/information/comments/${commentId}`, { status: 'confirmed' });
             setPendingComments(pendingComments.filter(c => c.id !== commentId));
         } catch {
             alert('שגיאה באישור תגובה');
@@ -60,7 +56,7 @@ function PendingCommentsManager({ articleId, onClose }) {
     const handleSaveEdit = async (commentId) => {
         if (!validateNotEmpty(editedComment)) return alert('התגובה לא יכולה להיות ריקה.');
         try {
-            await apiService.put(`/information/comments/${commentId}`, { comment: editedComment });
+            await apiService.patch(`/information/comments/${commentId}`, { comment: editedComment });
             setPendingComments(pendingComments.map(c =>
                 c.id === commentId ? { ...c, comment: editedComment } : c
             ));

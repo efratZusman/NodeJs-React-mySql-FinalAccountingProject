@@ -3,7 +3,7 @@ import { useUserContext } from './UserContext';
 import ApiService from '../ApiService';
 import formStyles from '../styles/Form.module.css';
 import Navbar from "./Navbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";  // הוספתי את Link
 import logo from '../assets/images/logo.png';
 import {
     validateEmail,
@@ -63,7 +63,7 @@ function Register() {
 
             if (response.message === 'Register successful') {
                 await fetchUser();
-                navigate('/home')
+                navigate('/home');
             } else {
                 setError('Registration failed');
             }
@@ -128,6 +128,12 @@ function Register() {
                     <button className={formStyles.button} type="submit">Create Account</button>
                     {error && <div className={formStyles.error}>{error}</div>}
                 </form>
+
+                {/* קישור חזרה להתחברות */}
+                <div className={formStyles.switchAuth} style={{ marginTop: 16, textAlign: 'center' }}>
+                    כבר יש לך חשבון?{' '}
+                    <Link to="/login" className={formStyles.link}>להתחברות</Link>
+                </div>
             </div>
         </>
     );

@@ -39,9 +39,8 @@ function InformationList() {
     const [expandedId, setExpandedId] = useState(null);
     const [editingId, setEditingId] = useState(null);
     const [formData, setFormData] = useState({ title: '', content: '' });
-    const [addingNew, setAddingNew] = useState(false);
-    const [showAddOptions, setShowAddOptions] = useState(false);
     const [showEditor, setShowEditor] = useState(false);
+    const [showAddOptions, setShowAddOptions] = useState(false);
     const [showFileUpload, setShowFileUpload] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [uploadTitle, setUploadTitle] = useState("");
@@ -71,6 +70,12 @@ function InformationList() {
             return;
         }
 
+        const article = articles.find((a) => a.id === id);
+        if (article?.content) {
+            setExpandedId(id);
+            return;
+        }
+
         try {
             const data = await apiService.get(`/information/${id}`);
             setArticles((prev) =>
@@ -95,7 +100,7 @@ function InformationList() {
     const handleSave = async () => {
         const { title, content } = formData;
 
-        if (!title || !content) {
+        if (!title.trim() || !content.trim()) {
             alert('יש למלא כותרת ותוכן');
             return;
         }
@@ -124,31 +129,23 @@ function InformationList() {
     const resetForm = () => {
         setFormData({ title: '', content: '' });
         setEditingId(null);
-        setAddingNew(false);
-        setExpandedId(null);
         setShowEditor(false);
+        setShowAddOptions(false);
+        setShowFileUpload(false);
+        setUploadTitle('');
+        if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
     const handleEdit = (article) => {
         setFormData({ title: article.title, content: article.content || '' });
         setEditingId(article.id);
         setExpandedId(article.id);
+        setShowEditor(true);
     };
 
     const handleAddNewClick = () => {
-        setShowAddOptions(true);
-        setShowEditor(false);
-        setShowFileUpload(false);
-    };
-
-    const handleOpenEditor = () => {
-        setShowEditor(true);
-        setShowFileUpload(false);
-    };
-
-    const handleOpenFileUpload = () => {
-        setShowFileUpload(true);
-        setShowEditor(false);
+        setShowEditor(true); // פותח את המודל
+        setShowAddOptions(true); // מראה את האפשרויות בתוך המודל
     };
 
     const handleFileChange = async (e) => {
@@ -166,9 +163,7 @@ function InformationList() {
 
             const response = await apiService.uploadFile("/information/upload-file", formData);
             setArticles([response, ...articles]);
-            setShowAddOptions(false);
-            setShowFileUpload(false);
-            setUploadTitle("");
+            resetForm();
         } catch (err) {
             alert("שגיאה בהעלאת קובץ");
         } finally {
@@ -182,7 +177,6 @@ function InformationList() {
             <div className={styles.container}>
                 <h2 className={styles.title}>מידע מקצועי</h2>
 
-                {/* כפתור ניהול תגובות גלובלי למנהל */}
                 {user?.role === 'admin' && (
                     <button
                         className={styles.manageButton}
@@ -193,7 +187,6 @@ function InformationList() {
                     </button>
                 )}
 
-                {/* מודאל ניהול תגובות */}
                 {showManage && user?.role === 'admin' && (
                     <PendingCommentsManager onClose={() => setShowManage(false)} />
                 )}
@@ -206,72 +199,84 @@ function InformationList() {
                     </div>
                 )}
 
-                {showAddOptions && (
-                    <div style={{ display: "flex", gap: "16px", margin: "16px 0" }}>
-                        <button className={styles.addButton} onClick={handleOpenFileUpload}>
-                            העלאת קובץ מוכן
-                        </button>
-                        <button className={styles.addButton} onClick={handleOpenEditor}>
-                            פתיחת עריכת טקסט
-                        </button>
-                        <button
-                            className={styles.cancelButton}
-                            onClick={() => {
-                                setShowAddOptions(false);
-                                setShowFileUpload(false); // הוספת שורה זו
-                                setShowEditor(false);
-                                setUploadTitle('');
-                            }}
-                        >
-                            ביטול
-                        </button>
-
-                    </div>
-                )}
-
-                {showFileUpload && (
-                    <div style={{ margin: "16px 0" }}>
-                        <input
-                            type="text"
-                            placeholder="כותרת למאמר"
-                            value={uploadTitle}
-                            onChange={e => setUploadTitle(e.target.value)}
-                            className={styles.input}
-                            style={{ marginBottom: 8 }}
-                        />
-                        <input
-                            type="file"
-                            accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
-                            ref={fileInputRef}
-                            onChange={handleFileChange}
-                            disabled={uploading}
-                        />
-                        {uploading && <span>מעלה קובץ...</span>}
-                    </div>
-                )}
-
                 {(showEditor || editingId) && (
                     <div className={styles.modalOverlay}>
                         <div className={styles.modalContent}>
-                            <input
-                                type="text"
-                                placeholder="כותרת"
-                                value={formData.title}
-                                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                className={styles.input}
-                            />
-                            <ReactQuill
-                                theme="snow"
-                                value={formData.content}
-                                onChange={(content) => setFormData({ ...formData, content })}
-                                modules={modules}
-                                formats={formats}
-                                className={styles.quill}
-                            />
-                            <div style={{ marginTop: '1rem', textAlign: 'left' }}>
-                                <button className={styles.saveButton} onClick={handleSave}>שמור</button>
-                                <button className={styles.cancelButton} onClick={resetForm}>ביטול</button>
-                            </div>
+                            {showAddOptions && !editingId && (
+                                <>
+                                    <h3 style={{ marginBottom: '1rem' }}>בחר דרך הוספה</h3>
+                                    <div className={styles.modalOptions}>
+                                        <button
+                                            className={styles.addButton}
+                                            onClick={() => {
+                                                setShowFileUpload(true);
+                                                setShowAddOptions(false);
+                                            }}
+                                        >
+                                            העלאת קובץ מוכן
+                                        </button>
+                                        <button
+                                            className={styles.addButton}
+                                            onClick={() => {
+                                                setShowFileUpload(false);
+                                                setShowAddOptions(false);
+                                            }}
+                                        >
+                                            פתיחת עורך טקסט
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* עורך טקסט */}
+                            {!showAddOptions && !showFileUpload && (
+                                <>
+                                    <input
+                                        type="text"
+                                        placeholder="כותרת"
+                                        value={formData.title}
+                                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                        className={styles.input}
+                                    />
+                                    <ReactQuill
+                                        theme="snow"
+                                        value={formData.content}
+                                        onChange={(content) => setFormData({ ...formData, content })}
+                                        modules={modules}
+                                        formats={formats}
+                                        className={styles.quill}
+                                    />
+                                </>
+                            )}
+
+                            {/* העלאת קובץ */}
+                            {!showAddOptions && showFileUpload && (
+                                <>
+                                    <input
+                                        type="text"
+                                        placeholder="כותרת למאמר"
+                                        value={uploadTitle}
+                                        onChange={e => setUploadTitle(e.target.value)}
+                                        className={styles.input}
+                                    />
+                                    <input
+                                        type="file"
+                                        accept=".doc,.docx,.pdf"
+                                        ref={fileInputRef}
+                                        onChange={handleFileChange}
+                                        disabled={uploading}
+                                    />
+                                    {uploading && <span className={styles.uploadingText}>מעלה קובץ...</span>}
+                                </>
+                            )}
+
+                            {/* כפתורי שמירה וביטול */}
+                            {!showAddOptions && (
+                                <div className={styles.modalButtons}>
+                                    <button className={styles.saveButton} onClick={handleSave}>שמור</button>
+                                    <button className={styles.cancelButton} onClick={resetForm}>ביטול</button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}

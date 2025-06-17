@@ -42,6 +42,13 @@ const UpdateItem = ({
         if (!isNew) setIsEditing(false);
     };
 
+    const getTomorrow = () => {
+        const tomorrow = new Date();
+        tomorrow.setHours(0, 0, 0, 0);
+        tomorrow.setDate(tomorrow.getDate());
+        return tomorrow;
+    };
+
     const handleSubscribeSpecific = async () => {
         try {
             if (isSubscribed) {
@@ -66,7 +73,7 @@ const UpdateItem = ({
                     </small>
                     <p className={styles.content}>{update.content}</p>
 
-                    {user && !user.wants_updates && !isAdmin && (
+                    {user && !user.wants_updates && !isAdmin && new Date(update.date) >= getTomorrow() && (
                         <button
                             className={styles.buttonGroup}
                             onClick={handleSubscribeSpecific}
@@ -74,6 +81,7 @@ const UpdateItem = ({
                             {isSubscribed ? 'ביטול הרשמה' : 'הרשמה לעדכון'}
                         </button>
                     )}
+
 
                     {isAdmin && (
                         <div className={styles.buttonGroup}>
