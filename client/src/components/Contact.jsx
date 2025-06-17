@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useUserContext } from "./UserContext";
 import ApiService from "../ApiService";
 import formStyles from "../styles/Form.module.css";
+import styles from "../styles/Contact.module.css";
 import Navbar from "./Navbar";
 import logo from '../assets/images/logo.png';
 import ContactForm from "./ContactForm";
@@ -17,7 +18,7 @@ function Contact() {
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
-    const [phone, setPhone] = useState(""); // חדש
+    const [phone, setPhone] = useState("");
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -50,97 +51,41 @@ function Contact() {
         <>
             <Navbar />
             <div className={formStyles.formContainer}>
-                <img src={logo} alt="Logo" style={{ height: 60, marginBottom: 16 }} />
+                <img src={logo} alt="Logo" className={styles.contactLogo} />
                 <div className={formStyles.formTitle}>Contact Us</div>
                 {!showForm ? (
-                    <div style={{ display: "flex", gap: "24px", justifyContent: "center", marginBottom: "32px" }}>
+                    <div className={styles.contactOptions}>
                         <a
                             href={`https://wa.me/${WHATSAPP_NUMBER}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{
-                                background: "linear-gradient(135deg, #223a5e 70%, #b0b4b9 100%)",
-                                color: "#fff",
-                                borderRadius: "18px",
-                                boxShadow: "0 4px 16px #223a5e22",
-                                padding: "32px 24px",
-                                minWidth: "160px",
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                cursor: "pointer",
-                                fontSize: "1.1rem",
-                                border: "none",
-                                outline: "none",
-                                textDecoration: "none",
-                                position: "relative"
-                            }}
+                            className={styles.contactButton}
                         >
-                            <span style={{ fontSize: "2.5rem", marginBottom: "12px" }}>💬</span>
-                            <span style={{ fontWeight: "bold", marginBottom: "4px", fontSize: "1.15rem" }}>WhatsApp</span>
-                            <span style={{ fontSize: "1rem", opacity: 0.9 }}>{PHONE_NUMBER}</span>
+                            <span className={styles.contactIcon}>💬</span>
+                            <span className={styles.contactTitle}>WhatsApp</span>
+                            <span className={styles.contactValue}>{PHONE_NUMBER}</span>
                         </a>
                         <a
                             href={`tel:${PHONE_NUMBER}`}
-                            style={{
-                                background: "linear-gradient(135deg, #223a5e 70%, #b0b4b9 100%)",
-                                color: "#fff",
-                                borderRadius: "18px",
-                                boxShadow: "0 4px 16px #223a5e22",
-                                padding: "32px 24px",
-                                minWidth: "160px",
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                cursor: "pointer",
-                                fontSize: "1.1rem",
-                                border: "none",
-                                outline: "none",
-                                textDecoration: "none",
-                                position: "relative"
-                            }}
+                            className={styles.contactButton}
                         >
-                            <span style={{ fontSize: "2.5rem", marginBottom: "12px" }}>📞</span>
-                            <span style={{ fontWeight: "bold", marginBottom: "4px", fontSize: "1.15rem" }}>Phone</span>
-                            <span style={{ fontSize: "1rem", opacity: 0.9 }}>{PHONE_NUMBER}</span>
+                            <span className={styles.contactIcon}>📞</span>
+                            <span className={styles.contactTitle}>Phone</span>
+                            <span className={styles.contactValue}>{PHONE_NUMBER}</span>
                         </a>
                         <button
-                            style={{
-                                background: "linear-gradient(135deg, #274472 70%, #b0b4b9 100%)",
-                                color: "#fff",
-                                borderRadius: "18px",
-                                boxShadow: "0 4px 16px #223a5e22",
-                                padding: "32px 24px",
-                                minWidth: "160px",
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                cursor: "pointer",
-                                fontSize: "1.1rem",
-                                border: "none",
-                                outline: "none",
-                                textDecoration: "none",
-                                position: "relative"
-                            }}
+                            className={`${styles.contactButton} ${styles.emailButton}`}
                             onClick={() => setShowForm(true)}
                         >
-                            <span style={{ fontSize: "2.5rem", marginBottom: "12px" }}>✉️</span>
-                            <span style={{ fontWeight: "bold", marginBottom: "4px", fontSize: "1.15rem" }}>Email</span>
-                            <span style={{ fontSize: "1rem", opacity: 0.9 }}>{ADMIN_EMAIL}</span>
+                            <span className={styles.contactIcon}>✉️</span>
+                            <span className={styles.contactTitle}>Email</span>
+                            <span className={styles.contactValue}>{ADMIN_EMAIL}</span>
                         </button>
                     </div>
                 ) : (
                     <div>
                         <button
-                            style={{
-                                background: "none",
-                                border: "none",
-                                padding: 0,
-                                cursor: "pointer",
-                                marginBottom: "10px",
-                                color: "#223a5e",
-                                fontWeight: "bold"
-                            }}
+                            className={styles.backButton}
                             onClick={() => setShowForm(false)}
                         >
                             ← Back to contact options
@@ -148,7 +93,13 @@ function Contact() {
                         <ContactForm
                             initialFullName={fullName}
                             initialEmail={email}
+                            initialPhone={phone}
+                            initialMessage={message}
+                            onSubmit={handleSubmit}
+                            loading={loading}
                         />
+                        {error && <div className="error">{error}</div>}
+                        {success && <div className="success">{success}</div>}
                     </div>
                 )}
             </div>

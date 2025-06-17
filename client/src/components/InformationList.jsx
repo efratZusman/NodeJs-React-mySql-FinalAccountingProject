@@ -181,7 +181,6 @@ function InformationList() {
                     <button
                         className={styles.manageButton}
                         onClick={() => setShowManage(true)}
-                        style={{ marginBottom: 16 }}
                     >
                         ניהול תגובות
                     </button>
@@ -192,7 +191,7 @@ function InformationList() {
                 )}
 
                 {user?.role === 'admin' && (
-                    <div style={{ display: 'flex', gap: '10px' }}>
+                    <div className={styles.buttonsContainer}>
                         <button className={styles.addButton} onClick={handleAddNewClick}>
                             + הוסף מידע חדש
                         </button>
@@ -204,7 +203,7 @@ function InformationList() {
                         <div className={styles.modalContent}>
                             {showAddOptions && !editingId && (
                                 <>
-                                    <h3 style={{ marginBottom: '1rem' }}>בחר דרך הוספה</h3>
+                                    <h3 className={styles.modalTitle}>בחר דרך הוספה</h3>
                                     <div className={styles.modalOptions}>
                                         <button
                                             className={styles.addButton}

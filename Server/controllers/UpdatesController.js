@@ -1,6 +1,5 @@
 const UpdateService = require('../service/UpdateService');
 
-// Get all todos
 exports.getAllUpdates = async (req, res) => {
     try {
         const updates = await UpdateService.getAllUpdates();
@@ -10,7 +9,6 @@ exports.getAllUpdates = async (req, res) => {
     }
 };
 
-// Create new todo
 exports.createUpdate = async (req, res) => {
     try {
         console.log(req.body);

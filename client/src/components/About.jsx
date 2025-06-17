@@ -1,22 +1,15 @@
 import React from "react";
 import Navbar from "./Navbar";
 import ContactForm from "./ContactForm";
+import styles from "../styles/About.module.css";
 
 function About() {
   return (
     <>
       <Navbar />
-      <div style={{
-        maxWidth: 650,
-        margin: "48px auto",
-        padding: "32px 28px",
-        background: "#f6fafd",
-        borderRadius: 14,
-        boxShadow: "0 4px 24px #223a5e22",
-        direction: "rtl"
-      }}>
-        <h1 style={{ color: "#223a5e", fontWeight: "bold", fontSize: "2rem", marginBottom: 18 }}>אודות רו"ח נעמה זוסמן</h1>
-        <p style={{ color: "#274472", fontSize: "1.1rem", lineHeight: 1.7 }}>
+      <div className={styles.container}>
+        <h1 className={styles.title}>אודות רו"ח נעמה זוסמן</h1>
+        <p className={styles.description}>
           נעמה זוסמן, רואת חשבון מוסמכת ובעלת ניסיון של למעלה מ-15 שנה בתחום החשבונאות, המיסוי והייעוץ הפיננסי.
           נעמה מלווה עסקים, עמותות ויחידים במגוון תחומים, תוך דגש על יחס אישי, מקצועיות ושקיפות מלאה.
           <br /><br />
@@ -27,8 +20,8 @@ function About() {
           כל לקוח זוכה לליווי אישי, מקצועי ודיסקרטי, מתוך מחויבות אמיתית להצלחתו.
         </p>
       </div>
-      <div style={{ marginTop: 40 }}>
-        <h2 style={{ color: "#223a5e", fontWeight: "bold", fontSize: "1.2rem" }}>לקביעת פגישה:</h2>
+      <div className={styles.appointmentContainer}>
+        <h2 className={styles.appointmentTitle}>לקביעת פגישה:</h2>
         <ContactForm initialMessage="קביעת פגישה - " />
       </div>
     </>

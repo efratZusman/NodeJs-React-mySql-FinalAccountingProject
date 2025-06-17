@@ -381,3 +381,16 @@
 .link:hover {
   color: #0056b3;
 }
+
+/* Logo styles */
+.logo {
+    height: 80px;
+    margin: 32px auto;
+    display: block;
+}
+
+/* Contact container */
+.contactContainer {
+    margin-top: 40px;
+    width: 100%;
+}

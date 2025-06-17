@@ -1,0 +1,153 @@
+/* InformationList.module.css */
+
+/* Container styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  direction: rtl;
+}
+
+.title {
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Button styles */
+.manageButton {
+  background-color: #4a6fa5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.manageButton:hover {
+  background-color: #3a5a80;
+}
+
+.addButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 5px;
+}
+
+.addButton:hover {
+  background-color: #45a049;
+}
+
+/* Modal styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalTitle {
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.modalOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Form styles */
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.formInput,
+.formTextarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.formTextarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+/* Buttons container */
+.buttonsContainer {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  justify-content: flex-end;
+}
+
+/* File upload styles */
+.fileUploadContainer {
+  margin: 20px 0;
+}
+
+.fileInputLabel {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.fileInput {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.uploadingText {
+  color: #666;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modalContent {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  .buttonsContainer {
+    flex-direction: column;
+  }
+  
+  .addButton {
+    width: 100%;
+  }
+}

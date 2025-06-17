@@ -35,7 +35,7 @@ function Home() {
     <>
       <Navbar />
       <div className={styles.homeContainer}>
-        <img src={logo} alt="Logo" style={{ height: 80, margin: "32px auto" }} />
+        <img src={logo} alt="Logo" className={styles.logo} />
         <div className={styles.hero}>
           <h1>ברוכים הבאים למערכת רואת החשבון</h1>
           <p>
@@ -58,7 +58,7 @@ function Home() {
             </div>
           ))}
         </div>
-        <div style={{ marginTop: 40, width: "100%" }}>
+        <div className={styles.contactContainer}>
           <Contact />
         </div>
       </div>

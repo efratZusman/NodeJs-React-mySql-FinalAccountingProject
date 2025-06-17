@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../styles/CommentsSection.module.css';
 import { useUserContext } from './UserContext';
 import ApiService from '../ApiService';
-import { validateNotEmpty } from '../utils/validation';
+import { validateComment, VALIDATION_MESSAGES } from '../utils/validation';
 import PendingCommentsManager from './PendingCommentsManager';
 
 const apiService = new ApiService();
@@ -12,9 +12,12 @@ const CommentsSection = ({ articleId }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [commentError, setCommentError] = useState('');
 
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editedComment, setEditedComment] = useState('');
+    const [editError, setEditError] = useState('');
     const [showManage, setShowManage] = useState(false);
 
     useEffect(() => {
@@ -26,19 +29,28 @@ const CommentsSection = ({ articleId }) => {
             const data = await apiService.get(`/information/${articleId}/comments/users/confirmed`);
             setComments(data);
         } catch (err) {
-            console.log(err,'err');
-            
             console.error('שגיאה בטעינת תגובות', err);
+            setError('אירעה שגיאה בטעינת התגובות. נסה לרענן את הדף.');
         } finally {
             setLoading(false);
         }
     };
 
+    const validateCommentInput = (comment) => {
+        if (!validateComment(comment)) {
+            setCommentError(VALIDATION_MESSAGES.COMMENT);
+            return false;
+        }
+        setCommentError('');
+        return true;
+    };
+
     const handleAddComment = async () => {
-        if (!validateNotEmpty(newComment)) return alert('אנא כתוב תגובה לפני שליחה.');
+        if (!validateCommentInput(newComment)) return;
+        
         try {
             const response = await apiService.post(`/information/comments`, {
-                comment: newComment,
+                comment: newComment.trim(),
                 article_id: articleId,
             });
 
@@ -52,34 +64,38 @@ const CommentsSection = ({ articleId }) => {
 
             setComments([enrichedResponse, ...comments]);
             setNewComment('');
+            setCommentError('');
         } catch (err) {
-            console.log(err, 'err');
-            alert('שגיאה בשליחת תגובה');
+            console.error('שגיאה בשליחת תגובה:', err);
+            setError('אירעה שגיאה בשליחת התגובה. אנא נסה שוב.');
         }
     };
 
     const handleDeleteComment = async (commentId) => {
-        if (!window.confirm('למחוק תגובה זו?')) return;
+        if (!window.confirm('האם אתה בטוח שברצונך למחוק תגובה זו?')) return;
+        
         try {
             await apiService.delete(`/information/comments/${commentId}`);
             setComments(comments.filter(c => c.id !== commentId));
         } catch (err) {
-            alert('שגיאה במחיקת תגובה');
+            console.error('שגיאה במחיקת תגובה:', err);
+            setError('אירעה שגיאה במחיקת התגובה. אנא נסה שוב.');
         }
     };
 
     const handleUpdateComment = async (commentId) => {
-        if (!validateNotEmpty(editedComment)) return alert('התגובה לא יכולה להיות ריקה.');
+        if (!validateCommentInput(editedComment)) return;
+        
         try {
             const updated = await apiService.put(`/information/comments/${commentId}`, {
-                comment: editedComment,
+                comment: editedComment.trim(),
             });
 
             setComments(comments.map(c => {
                 if (c.id === commentId) {
                     return {
                         ...updated,
-                        created_at: updated.created_at ? updated.created_at : c.created_at,
+                        created_at: updated.created_at || c.created_at,
                         username: c.username,
                         user_id: c.user_id,
                     };
@@ -87,88 +103,168 @@ const CommentsSection = ({ articleId }) => {
                 return c;
             }));
 
+
             setEditingCommentId(null);
             setEditedComment('');
+            setEditError('');
         } catch (err) {
-            alert('שגיאה בעדכון תגובה');
+            console.error('שגיאה בעדכון תגובה:', err);
+            setEditError('אירעה שגיאה בעדכון התגובה. אנא נסה שוב.');
         }
     };
 
+    const startEditing = (comment) => {
+        setEditingCommentId(comment.id);
+        setEditedComment(comment.comment);
+        setEditError('');
+    };
+
+    const cancelEditing = () => {
+        setEditingCommentId(null);
+        setEditedComment('');
+        setEditError('');
+    };
+
+    if (loading) {
+        return <div className={styles.loading}>טוען תגובות...</div>;
+    }
+
+    if (error) {
+        return <div className={styles.error}>{error}</div>;
+    }
+
     return (
-        <div className={styles.commentsContainer}>
-            <h4>תגובות</h4>
+        <div className={styles.commentsSection}>
+            <div className={styles.commentsHeader}>
+                <h3>תגובות ({comments.length})</h3>
+                {user?.role === 'admin' && (
+                    <button 
+                        className={styles.manageButton}
+                        onClick={() => setShowManage(!showManage)}
+                    >
+                        {showManage ? 'סגור ניהול' : 'ניהול תגובות ממתינות'}
+                    </button>
+                )}
+            </div>
+
+            {showManage && user?.role === 'admin' && (
+                <div className={styles.pendingComments}>
+                    <PendingCommentsManager 
+                        articleId={articleId} 
+                        onApprove={loadComments} 
+                    />
+                </div>
+            )}
 
             {user ? (
-                <div className={styles.addCommentBox}>
+                <div className={styles.addComment}>
+                    <h4>הוסף תגובה:</h4>
                     <textarea
-                        className={styles.textarea}
-                        placeholder="כתוב תגובה..."
+                        className={`${styles.commentInput} ${commentError ? styles.inputError : ''}`}
                         value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
+                        onChange={(e) => {
+                            setNewComment(e.target.value);
+                            if (commentError) validateCommentInput(e.target.value);
+                        }}
+                        placeholder="כתוב את תגובתך כאן..."
+                        rows="4"
                     />
-                    <button className={styles.addButton} onClick={handleAddComment}>הוסף תגובה</button>
+                    {commentError && <div className={styles.errorText}>{commentError}</div>}
+                    <div className={styles.commentActions}>
+                        <div className={styles.charCount}>
+                            {newComment.length}/1000 תווים
+                        </div>
+                        <button 
+                            className={styles.submitButton}
+                            onClick={handleAddComment}
+                            disabled={!newComment.trim() || !!commentError}
+                        >
+                            שלח תגובה
+                        </button>
+                    </div>
                 </div>
             ) : (
-                <p className={styles.notice}>יש להתחבר כדי להגיב.</p>
+                <div className={styles.loginPrompt}>
+                    <p>עליך <a href="/login">להתחבר</a> כדי להגיב</p>
+                </div>
             )}
 
-            {loading ? (
-                <p>טוען תגובות...</p>
-            ) : comments.length === 0 ? (
-                <p>אין תגובות עדיין.</p>
-            ) : (
-                <ul className={styles.commentList}>
-                    {comments.map((comment) => {
-                        const canModify = user && (user.email === comment.email || user.role=='admin');
-                        const isEditing = editingCommentId === comment.id;
+            <div className={styles.commentsList}>
+                {comments.length === 0 ? (
+                    <p className={styles.noComments}>אין תגובות עדיין. היה הראשון להגיב!</p>
+                ) : (
+                    comments.map((comment) => (
+                        <div key={comment.id} className={styles.comment}>
+                            <div className={styles.commentHeader}>
+                                <span className={styles.commentAuthor}>
+                                    {comment.username || 'אורח'}
+                                </span>
+                                <span className={styles.commentDate}>
+                                    {new Date(comment.created_at).toLocaleDateString('he-IL')}
+                                </span>
+                            </div>
 
-                        return (
-                            <li key={comment.id} className={styles.commentItem}>
-                                <div className={styles.commentHeader}>
-                                    <span className={styles.username}>{comment.username}</span>
-                                    <span className={styles.date}>
-                                        {comment.created_at ? new Date(comment.created_at).toLocaleString() : ''}
-                                    </span>
+                            {editingCommentId === comment.id ? (
+                                <div className={styles.editComment}>
+                                    <textarea
+                                        className={`${styles.editCommentInput} ${editError ? styles.inputError : ''}`}
+                                        value={editedComment}
+                                        onChange={(e) => {
+                                            setEditedComment(e.target.value);
+                                            if (editError) setEditError('');
+                                        }}
+                                        rows="4"
+                                    />
+                                    {editError && <div className={styles.errorText}>{editError}</div>}
+                                    <div className={styles.editActions}>
+                                        <div className={styles.charCount}>
+                                            {editedComment.length}/1000 תווים
+                                        </div>
+                                        <div>
+                                            <button 
+                                                className={styles.cancelButton}
+                                                onClick={cancelEditing}
+                                            >
+                                                ביטול
+                                            </button>
+                                            <button 
+                                                className={styles.saveButton}
+                                                onClick={() => handleUpdateComment(comment.id)}
+                                                disabled={!editedComment.trim() || !!editError}
+                                            >
+                                                שמור שינויים
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
+                            ) : (
+                                <div className={styles.commentContent}>
+                                    {comment.comment}
+                                </div>
+                            )}
 
-                                {isEditing ? (
-                                    <>
-                                        <textarea
-                                            className={styles.textarea}
-                                            value={editedComment}
-                                            onChange={(e) => setEditedComment(e.target.value)}
-                                        />
-                                        <button onClick={() => handleUpdateComment(comment.id)}>שמור</button>
-                                        <button onClick={() => setEditingCommentId(null)}>בטל</button>
-                                    </>
-                                ) : (
-                                    <p className={styles.commentText}>{comment.comment}</p>
-                                )}
-
-                                {canModify && !isEditing && (
-                                    <>
-                                        <button
-                                            className={styles.deleteButton}
-                                            onClick={() => handleDeleteComment(comment.id)}
-                                        >
-                                            מחק
-                                        </button>
-                                        <button
+                            {(user?.role === 'admin' || user?.user_id === comment.user_id) && (
+                                <div className={styles.commentActions}>
+                                    {editingCommentId !== comment.id && (
+                                        <button 
                                             className={styles.editButton}
-                                            onClick={() => {
-                                                setEditingCommentId(comment.id);
-                                                setEditedComment(comment.comment);
-                                            }}
+                                            onClick={() => startEditing(comment)}
                                         >
-                                            עדכן
+                                            ערוך
                                         </button>
-                                    </>
-                                )}
-                            </li>
-                        );
-                    })}
-                </ul>
-            )}
+                                    )}
+                                    <button 
+                                        className={styles.deleteButton}
+                                        onClick={() => handleDeleteComment(comment.id)}
+                                    >
+                                        מחק
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 };

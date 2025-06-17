@@ -30,13 +30,13 @@ function Navbar() {
                 <img src={logo} alt="Logo" className={styles.logo} />
             </Link>
             <div className={styles.links}>
-                <Link to={`/home`} className={styles.link}>Home</Link>
-                <Link to={`/about`} className={styles.link}>About</Link>
-                <Link to={`/clients`} className={styles.link}>Clients</Link>
-                <Link to={`/articles`} className={styles.link}>Articles</Link>
-                <Link to={`/newsletters`} className={styles.link}>Newsletters</Link>
-                <Link to={`/updates`} className={styles.link}>Updates</Link>
-                <Link to={`/contact`} className={styles.link}>Contact</Link>
+                <Link to={`/home`} className={styles.link}>עמוד הבית</Link>
+                <Link to={`/about`} className={styles.link}>אודות</Link>
+                <Link to={`/clients`} className={styles.link}>לקוחות</Link>
+                <Link to={`/articles`} className={styles.link}>מידע מקצועי</Link>
+                <Link to={`/newsletters`} className={styles.link}>ניוזלטרים</Link>
+                <Link to={`/updates`} className={styles.link}>עדכונים</Link>
+                <Link to={`/contact`} className={styles.link}>יצירת קשר</Link>
             </div>
             {user ? (<>
                 <div className={styles.userName}>{user.full_name}</div>
@@ -63,8 +63,7 @@ function Navbar() {
                     </div> */}
                     <button
                         onClick={handleAuthClick}
-                        className={styles.logoutButton}
-                        style={{ marginLeft: "10px" }}
+                        className={`${styles.logoutButton} ${styles.loginButton}`}
                         onMouseDown={e => e.preventDefault()}
                     >
                         Log In

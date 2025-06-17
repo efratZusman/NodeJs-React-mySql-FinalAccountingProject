@@ -3,6 +3,7 @@ const newsletterController = require('../controllers/NewsletterController');
 const { uploadNewsletterHtml } = require('../middleware/MulterConfig');
 const  getUserFromSession  = require('../middleware/getUserFromSession');
 const isAdmin  = require('../middleware/isAdmin');
+const validateNewsletter = require('../middleware/validateNewsletter');
 
 const adminOnly = [getUserFromSession, isAdmin];
 
@@ -12,7 +13,7 @@ const router = express.Router();
 router.get('/', newsletterController.getAllNewsletters);
 
 // יצירת ניוזלטר (לא HTML)
-router.post('/', [...adminOnly,newsletterController.createNewsletter]);
+router.post('/', [...adminOnly, validateNewsletter, newsletterController.createNewsletter]);
 
 // עדכון לפי מזהה
 router.put('/:id', [...adminOnly,newsletterController.updateNewsletterById]);

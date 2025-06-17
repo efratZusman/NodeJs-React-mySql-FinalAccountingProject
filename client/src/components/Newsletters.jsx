@@ -138,7 +138,7 @@ const Newsletters = () => {
                             )}
                         </div>
                     ))
-               ) }
+                )}
             </div>
         </>
     );
