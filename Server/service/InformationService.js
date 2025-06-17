@@ -60,8 +60,14 @@ exports.getInformationById = async function getInformationById(id) {
 };
 
 exports.updateInformationById = async function updateInformationById(infoId, infoData) {
-    const { title, excerpt, content } = infoData;
+    const { title, content } = infoData;
 
+    let excerpt = '';
+    if (content) {
+        excerpt = content.split(/<\/p>/).slice(0, 3).join('</p>');
+        if (!excerpt.endsWith('</p>')) excerpt += '</p>';
+    }
+    
     const updateArticleQuery = `
         UPDATE articles 
         SET title = ?, excerpt = ?

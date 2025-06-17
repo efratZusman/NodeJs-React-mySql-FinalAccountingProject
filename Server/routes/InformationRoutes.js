@@ -9,7 +9,8 @@ const commentController = require('../controllers/CommentController');
 const adminOnly = [getUserFromSession, isAdmin];
 
 router.post('/comments', getUserFromSession,commentController.createComment);
-router.get('/:article_id/comments',commentController.getCommentByArticleId);
+router.get('/:article_id/comments/confirmed',commentController.getConfirmedCommentByArticleId);
+router.get('/:article_id/comments/pending',commentController.getPendingCommentByArticleId);
 router.put('/comments/:comment_id', getUserFromSession,commentController.updateCommentById);
 router.delete('/comments/:comment_id',getUserFromSession, commentController.deleteCommentById);
 

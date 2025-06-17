@@ -21,7 +21,7 @@ const CommentsSection = ({ articleId }) => {
 
     const loadComments = async () => {
         try {
-            const data = await apiService.get(`/information/${articleId}/comments`);
+            const data = await apiService.get(`/information/${articleId}/comments/confirmed`);
             setComments(data);
         } catch (err) {
             console.error('שגיאה בטעינת תגובות', err);
