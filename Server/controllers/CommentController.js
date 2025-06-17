@@ -15,7 +15,8 @@ exports.getConfirmedCommentByArticleId = async (req, res) => {
 
 exports.getPendingCommentByArticleId = async (req, res) => {
     try {
-        const comment = await CommentService.getPendingCommentByArticleId(req.params.article_id);
+        
+        const comment = await CommentService.getPendingComments();
         if (!comment) {
             return res.status(404).json({ message: 'Comment not found' });
         }

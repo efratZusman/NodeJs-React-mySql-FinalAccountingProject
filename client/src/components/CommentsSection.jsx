@@ -3,6 +3,7 @@ import styles from '../styles/CommentsSection.module.css';
 import { useUserContext } from './UserContext';
 import ApiService from '../ApiService';
 import { validateNotEmpty } from '../utils/validation';
+import PendingCommentsManager from './PendingCommentsManager';
 
 const apiService = new ApiService();
 
@@ -14,6 +15,7 @@ const CommentsSection = ({ articleId }) => {
 
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editedComment, setEditedComment] = useState('');
+    const [showManage, setShowManage] = useState(false);
 
     useEffect(() => {
         loadComments();
@@ -21,7 +23,7 @@ const CommentsSection = ({ articleId }) => {
 
     const loadComments = async () => {
         try {
-            const data = await apiService.get(`/information/${articleId}/comments/confirmed`);
+            const data = await apiService.get(`/information/${articleId}/comments/users/confirmed`);
             setComments(data);
         } catch (err) {
             console.error('שגיאה בטעינת תגובות', err);
@@ -106,6 +108,20 @@ const CommentsSection = ({ articleId }) => {
                 </div>
             ) : (
                 <p className={styles.notice}>יש להתחבר כדי להגיב.</p>
+            )}
+
+            {user?.role === 'admin' && (
+                <button
+                    className={styles.manageButton}
+                    onClick={() => setShowManage(true)}
+                    style={{ marginBottom: 12 }}
+                >
+                    ניהול תגובות
+                </button>
+            )}
+
+            {showManage && user?.role === 'admin' && (
+                <PendingCommentsManager articleId={articleId} onClose={() => setShowManage(false)} />
             )}
 
             {loading ? (

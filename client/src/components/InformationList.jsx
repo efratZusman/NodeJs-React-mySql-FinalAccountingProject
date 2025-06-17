@@ -6,6 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import CommentsSection from './CommentsSection';
 import styles from '../styles/Information.module.css';
 import Navbar from './Navbar';
+import PendingCommentsManager from './PendingCommentsManager';
 
 const apiService = new ApiService();
 
@@ -44,6 +45,7 @@ function InformationList() {
     const [showFileUpload, setShowFileUpload] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [uploadTitle, setUploadTitle] = useState("");
+    const [showManage, setShowManage] = useState(false);
     const fileInputRef = useRef();
 
     useEffect(() => {
@@ -179,6 +181,22 @@ function InformationList() {
             <Navbar />
             <div className={styles.container}>
                 <h2 className={styles.title}>מידע מקצועי</h2>
+
+                {/* כפתור ניהול תגובות גלובלי למנהל */}
+                {user?.role === 'admin' && (
+                    <button
+                        className={styles.manageButton}
+                        onClick={() => setShowManage(true)}
+                        style={{ marginBottom: 16 }}
+                    >
+                        ניהול תגובות
+                    </button>
+                )}
+
+                {/* מודאל ניהול תגובות */}
+                {showManage && user?.role === 'admin' && (
+                    <PendingCommentsManager onClose={() => setShowManage(false)} />
+                )}
 
                 {user?.role === 'admin' && (
                     <div style={{ display: 'flex', gap: '10px' }}>

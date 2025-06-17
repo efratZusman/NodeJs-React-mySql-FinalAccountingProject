@@ -29,6 +29,23 @@ exports.createComment = async function createComment(commentData,userId) {
     }
 };
 
+
+// exports.getConfirmedCommentByArticleId = async function getConfirmedCommentByArticleId(articleId, status) {
+//     const query = `
+//         SELECT articles_comments.id, articles_comments.comment, articles_comments.created_at, users.full_name, users.email
+//         FROM articles_comments
+//         JOIN Users ON articles_comments.user_id = users.user_id
+//         WHERE articles_comments.article_id = ? AND articles_comments.status = ?
+//         ORDER BY articles_comments.created_at DESC
+//     `;
+//     try {
+//         const [rows] = await db.execute(query, [articleId, status]);
+//         return rows;
+//     } catch (error) {
+//         throw new Error('Error fetching comments by article ID: ' + error.message);
+//     }
+// };
+
 // Get comment by ID
 exports.getConfirmedCommentByArticleId = async function getConfirmedCommentByArticleId(articleId) {
     const query = `
@@ -46,21 +63,37 @@ exports.getConfirmedCommentByArticleId = async function getConfirmedCommentByArt
     }
 };
 
-exports.getPendingCommentByArticleId = async function getPendingCommentByArticleId(articleId) {
+exports.getPendingComments= async function getPendingComments() {
     const query = `
         SELECT articles_comments.id, articles_comments.comment, articles_comments.created_at, users.full_name, users.email
         FROM articles_comments
         JOIN Users ON articles_comments.user_id = users.user_id
-        WHERE articles_comments.article_id = ? AND articles_comments.status = 'pending'
+        WHERE articles_comments.status = 'pending'
         ORDER BY articles_comments.created_at DESC
     `;
     try {
-        const [rows] = await db.execute(query, [articleId]);
+        const [rows] = await db.execute(query, []);
         return rows;
     } catch (error) {
         throw new Error('Error fetching comments by article ID: ' + error.message);
     }
 };
+
+// exports.getPendingCommentByArticleId = async function getPendingCommentByArticleId(articleId) {
+//     const query = `
+//         SELECT articles_comments.id, articles_comments.comment, articles_comments.created_at, users.full_name, users.email
+//         FROM articles_comments
+//         JOIN Users ON articles_comments.user_id = users.user_id
+//         WHERE articles_comments.article_id = ? AND articles_comments.status = 'pending'
+//         ORDER BY articles_comments.created_at DESC
+//     `;
+//     try {
+//         const [rows] = await db.execute(query, [articleId]);
+//         return rows;
+//     } catch (error) {
+//         throw new Error('Error fetching comments by article ID: ' + error.message);
+//     }
+// };
 // Update comment by ID
 exports.updateCommentById = async function updateCommentById(commentId, content) {
 
