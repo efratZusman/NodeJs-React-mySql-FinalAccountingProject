@@ -7,6 +7,7 @@ function About() {
   return (
     <>
       <Navbar />
+      <div className={styles.divContainer}>
       <div className={styles.container}>
         <h1 className={styles.title}>אודות רו"ח נעמה זוסמן</h1>
         <p className={styles.description}>
@@ -23,6 +24,7 @@ function About() {
       <div className={styles.appointmentContainer}>
         <h2 className={styles.appointmentTitle}>לקביעת פגישה:</h2>
         <ContactForm initialMessage="קביעת פגישה - " />
+      </div>
       </div>
     </>
   );

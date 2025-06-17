@@ -10,6 +10,14 @@
   direction: rtl;
 }
 
+.divContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
 .title {
   color: #223a5e;
   font-weight: bold;
@@ -32,4 +40,5 @@
   font-weight: bold;
   font-size: 1.2rem;
   margin-bottom: 16px;
+  margin-top: 50px;
 }

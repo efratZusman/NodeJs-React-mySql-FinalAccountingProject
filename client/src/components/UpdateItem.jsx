@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import styles from '../styles/UpdateItem.module.css';
-import ApiService from '../ApiService';
-import { 
-    validateTitle, 
-    validateDate, 
+import ApiService from "../utils/ApiService";
+import {
+    validateTitle,
+    validateDate,
     validateTextLength,
-    VALIDATION_MESSAGES 
+    VALIDATION_MESSAGES
 } from '../utils/validation';
 
 const apiService = new ApiService();
-
+const TIME_FOR_REMINDER={hour: 10, minute: 30}; 
 const toDateInputValue = (dateStr) => {
     const local = new Date(dateStr);
     local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
@@ -37,19 +37,19 @@ const UpdateItem = ({
 
     const validateForm = () => {
         const newErrors = {};
-        
+
         if (!validateDate(editData.date)) {
             newErrors.date = VALIDATION_MESSAGES.DATE;
         }
-        
+
         if (!validateTitle(editData.title)) {
             newErrors.title = VALIDATION_MESSAGES.TITLE;
         }
-        
+
         if (!validateTextLength(editData.content, 10, 5000)) {
             newErrors.content = 'התוכן חייב להכיל בין 10 ל-5000 תווים';
         }
-        
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -58,7 +58,7 @@ const UpdateItem = ({
         if (!validateForm()) {
             return;
         }
-        
+
         onSaveEdit(update.id, editData, isNew);
         if (!isNew) setIsEditing(false);
     };
@@ -69,7 +69,7 @@ const UpdateItem = ({
             ...prev,
             [name]: value
         }));
-        
+
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
@@ -80,11 +80,10 @@ const UpdateItem = ({
 
     const getEarliestSubscribableDate = () => {
         const now = new Date();
-        const tenAM = new Date(now);
-        tenAM.setHours(10, 0, 0, 0);
-
+        const timeOfReminder = new Date(now);
+        timeOfReminder.setHours(TIME_FOR_REMINDER.hour, TIME_FOR_REMINDER.minute, 0, 0);
         const baseDate = new Date(now);
-        if (now < tenAM) {
+        if (now < timeOfReminder) {
             baseDate.setDate(baseDate.getDate() + 1);
         } else {
             baseDate.setDate(baseDate.getDate() + 2);
@@ -121,7 +120,7 @@ const UpdateItem = ({
                     />
                     {errors.date && <span className={styles.errorText}>{errors.date}</span>}
                 </div>
-                
+
                 <div className={styles.formGroup}>
                     <label>כותרת:</label>
                     <input
@@ -134,7 +133,7 @@ const UpdateItem = ({
                     />
                     {errors.title && <span className={styles.errorText}>{errors.title}</span>}
                 </div>
-                
+
                 <div className={styles.formGroup}>
                     <label>תוכן:</label>
                     <textarea
@@ -150,16 +149,16 @@ const UpdateItem = ({
                         {editData.content.length}/5000 תווים
                     </div>
                 </div>
-                
+
                 <div className={styles.buttonGroup}>
-                    <button 
-                        className={styles.saveButton} 
+                    <button
+                        className={styles.saveButton}
                         onClick={handleSave}
                         disabled={Object.values(errors).some(Boolean)}
                     >
                         שמור
                     </button>
-                    <button 
+                    <button
                         className={styles.cancelButton}
                         onClick={() => isNew ? onCancelNew() : setIsEditing(false)}
                     >
@@ -183,7 +182,7 @@ const UpdateItem = ({
                     className={styles.subscribeButton}
                     onClick={handleSubscribeSpecific}
                 >
-                    {isSubscribed ? 'ביטול הרשמה' : 'הרשמה לעדכון'}
+                    {isSubscribed ? 'בטל תזכורת' : 'תזכר אותי'}
                 </button>
             )}
 

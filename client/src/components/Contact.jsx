@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useUserContext } from "./UserContext";
-import ApiService from "../ApiService";
-import formStyles from "../styles/Form.module.css";
+import ApiService from "../utils/ApiService";
 import styles from "../styles/Contact.module.css";
 import Navbar from "./Navbar";
 import logo from '../assets/images/logo.png';
@@ -11,7 +10,7 @@ const apiService = new ApiService();
 
 const WHATSAPP_NUMBER = "972501234567";
 const PHONE_NUMBER = "0501234567";
-const ADMIN_EMAIL = "admin@gmail.com";
+const ADMIN_EMAIL = "mh0583278625@gmail.com";
 
 function Contact() {
     const { user } = useUserContext();
@@ -50,9 +49,9 @@ function Contact() {
     return (
         <>
             <Navbar />
-            <div className={formStyles.formContainer}>
+            <div className={styles.form}>
                 <img src={logo} alt="Logo" className={styles.contactLogo} />
-                <div className={formStyles.formTitle}>Contact Us</div>
+                <div className={styles.formTitle}>Contact Us</div>
                 {!showForm ? (
                     <div className={styles.contactOptions}>
                         <a
@@ -70,17 +69,23 @@ function Contact() {
                             className={styles.contactButton}
                         >
                             <span className={styles.contactIcon}>📞</span>
-                            <span className={styles.contactTitle}>Phone</span>
+                            <span className={styles.contactTitle}>פלאפון</span>
                             <span className={styles.contactValue}>{PHONE_NUMBER}</span>
                         </a>
-                        <button
-                            className={`${styles.contactButton} ${styles.emailButton}`}
-                            onClick={() => setShowForm(true)}
+                        <a
+                            href="#"
+                            className={styles.contactButton}
+                            onClick={e => {
+                                e.preventDefault();
+                                setShowForm(true);
+                            }}
+                            tabIndex={0}
+                            role="button"
                         >
                             <span className={styles.contactIcon}>✉️</span>
-                            <span className={styles.contactTitle}>Email</span>
+                            <span className={styles.contactTitle}>מייל</span>
                             <span className={styles.contactValue}>{ADMIN_EMAIL}</span>
-                        </button>
+                        </a>
                     </div>
                 ) : (
                     <div>
@@ -95,8 +100,6 @@ function Contact() {
                             initialEmail={email}
                             initialPhone={phone}
                             initialMessage={message}
-                            onSubmit={handleSubmit}
-                            loading={loading}
                         />
                         {error && <div className="error">{error}</div>}
                         {success && <div className="success">{success}</div>}

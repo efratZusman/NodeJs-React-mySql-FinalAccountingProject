@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from './UserContext';
-import ApiService from '../ApiService';
+import ApiService from "../utils/ApiService";
 import { validateNotEmpty } from '../utils/validation';
 import styles from '../styles/CommentsSection.module.css';
 

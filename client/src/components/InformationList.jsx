@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useUserContext } from './UserContext';
-import ApiService from '../ApiService';
+import ApiService from "../utils/ApiService";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import CommentsSection from './CommentsSection';
@@ -227,7 +227,7 @@ function InformationList() {
                                 </>
                             )}
 
-                            {/* עורך טקסט */}
+             
                             {!showAddOptions && !showFileUpload && (
                                 <>
                                     <input
@@ -248,7 +248,6 @@ function InformationList() {
                                 </>
                             )}
 
-                            {/* העלאת קובץ */}
                             {!showAddOptions && showFileUpload && (
                                 <>
                                     <input
@@ -269,7 +268,6 @@ function InformationList() {
                                 </>
                             )}
 
-                            {/* כפתורי שמירה וביטול */}
                             {!showAddOptions && (
                                 <div className={styles.modalButtons}>
                                     <button className={styles.saveButton} onClick={handleSave}>שמור</button>
@@ -286,10 +284,35 @@ function InformationList() {
                             <div className={styles.header} onClick={() => handleExpand(article.id)}>
                                 <h3>{article.title}</h3>
                                 {expandedId !== article.id && (
-                                    <div
-                                        className={styles.excerpt}
-                                        dangerouslySetInnerHTML={{ __html: article.excerpt }}
-                                    />
+                                    <div className={styles.excerptBlock}>
+                                        <div
+                                            className={styles.excerpt}
+                                            dangerouslySetInnerHTML={{ __html: article.excerpt }}
+                                        />
+                                        <button
+                                            className={styles.moreButton}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleExpand(article.id);
+                                            }}
+                                            title="הצג מאמר מלא"
+                                            aria-label="הצג מאמר מלא"
+                                        >
+                                            {/* Cute horizontal three-dots icon */}
+                                            <svg
+                                                width="28"
+                                                height="28"
+                                                viewBox="0 0 28 28"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                style={{ display: 'block' }}
+                                            >
+                                                <circle cx="6" cy="14" r="2.5" fill="#033669"/>
+                                                <circle cx="14" cy="14" r="2.5" fill="#033669"/>
+                                                <circle cx="22" cy="14" r="2.5" fill="#033669"/>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 )}
                                 {expandedId === article.id && (
                                     <>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useUserContext } from "./UserContext";
-import ApiService from "../ApiService";
+import ApiService from "../utils/ApiService";
 import Navbar from "./Navbar";
 import styles from "../styles/Clients.module.css";
 import { validateNotEmpty } from '../utils/validation';
@@ -82,9 +82,9 @@ function Clients() {
         <>
             <Navbar />
             <div className={styles.container}>
-                <h2 className={styles.title}>Clients</h2>
+                <h2 className={styles.title}>מלקוחותינו</h2>
                 {loading ? (
-                    <p>Loading clients...</p>
+                    <p>Loading...</p>
                 ) : error ? (
                     <p className={styles.error}>{error}</p>
                 ) : (
@@ -107,7 +107,7 @@ function Clients() {
                                         className={styles.deleteButton}
                                         onClick={() => handleDelete(client.id)}
                                     >
-                                        Delete
+                                        מחק
                                     </button>
                                 )}
                             </div>
@@ -117,21 +117,23 @@ function Clients() {
 
                 {user?.role === "admin" && (
                     <form className={styles.addForm} onSubmit={handleAddClient}>
-                        <h3>Add New Client</h3>
+                        <h3 className={styles.addFormTitle}>הוסף לקוח חדש</h3>
                         <input
                             type="text"
-                            placeholder="Client Name"
+                            placeholder="שם הלקוח"
                             value={newClient.client_name}
                             onChange={e => setNewClient({ client_name: e.target.value })}
                             required
+                            className={styles.inputField}
                         />
                         <input
                             type="file"
                             accept="image/*"
                             onChange={handleFileChange}
                             ref={fileInputRef}
+                            className={styles.inputField}
                         />
-                        <button type="submit">Add Client</button>
+                        <button type="submit">הוסף</button>
                     </form>
                 )}
             </div>

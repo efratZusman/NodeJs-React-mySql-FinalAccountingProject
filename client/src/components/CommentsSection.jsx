@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/CommentsSection.module.css';
 import { useUserContext } from './UserContext';
-import ApiService from '../ApiService';
+import ApiService from "../utils/ApiService";
 import { validateNotEmpty } from '../utils/validation';
 import PendingCommentsManager from './PendingCommentsManager';
 

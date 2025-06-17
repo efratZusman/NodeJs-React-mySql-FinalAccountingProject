@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import ApiService from '../ApiService';
+import  { useState, useEffect } from 'react';
+import ApiService from "../utils/ApiService";
 import { useUserContext } from './UserContext';
 import Navbar from './Navbar';
 import styles from '../styles/Newsletters.module.css';
@@ -14,13 +14,15 @@ const Newsletters = () => {
     const [date, setDate] = useState('');
     const [expandedId, setExpandedId] = useState(null);
     const [htmlFile, setHtmlFile] = useState(null);
+    const [error, setError] = useState(''); 
 
     const fetchNewsletters = async () => {
         try {
             const data = await apiService.get('/newsletters');
             setNewsletters(data);
+            setError(''); 
         } catch {
-            alert('שגיאה בטעינת ניוזלטרים');
+            setError('שגיאה בטעינת ניוזלטרים');
         }
     };
 
@@ -32,11 +34,11 @@ const Newsletters = () => {
 
     const handleUploadHtml = async () => {
         if (!htmlFile || !validateTitle(title) || !validateDate(date)) {
-            alert('נא לבחור קובץ HTML ולמלא כותרת ותאריך תקינים');
+            setError('נא לבחור קובץ HTML ולמלא כותרת ותאריך תקינים');
             return;
         }
         if (!validateFileType(htmlFile, allowedNewsletterTypes)) {
-            alert('רק קובץ HTML מותר');
+            setError('רק קובץ HTML מותר');
             return;
         }
 
@@ -50,9 +52,10 @@ const Newsletters = () => {
             setTitle('');
             setDate('');
             setHtmlFile(null);
+            setError(''); 
             fetchNewsletters();
         } catch {
-            alert('שגיאה בהעלאת קובץ HTML');
+            setError('שגיאה בהעלאת קובץ HTML');
         }
     };
 
@@ -61,8 +64,9 @@ const Newsletters = () => {
         try {
             await apiService.delete(`/newsletters/${id}`);
             setNewsletters(newsletters.filter((n) => n.id !== id));
+            setError('');
         } catch {
-            alert('שגיאה במחיקה');
+            setError('שגיאה במחיקה');
         }
     };
 
@@ -75,10 +79,11 @@ const Newsletters = () => {
     return (
         <>
             <Navbar />
-            <div className={styles.container}>
+            <div className={`${styles.newslettersContainer} ${styles.container}`}>
                 <h2 className={styles.title}>ניוזלטרים</h2>
 
-                {/* רק למנהל: טופס להעלאת HTML */}
+                {error && <div className={styles.error}>{error}</div>}
+
                 {user?.role === 'admin' && (
                     <div className={styles.form}>
                         <input
@@ -114,19 +119,20 @@ const Newsletters = () => {
                                     setExpandedId(nl.id === expandedId ? null : nl.id)
                                 }
                             >
-                                <strong>{nl.title}</strong> -{' '}
+                                <strong>{nl.title}</strong> {' '}
                                 <em>{new Date(nl.date).toLocaleDateString('he-IL')}</em>
                             </div>
                             {expandedId === nl.id && nl.filePath && (
-                                <iframe
-                                    src={`${nl.filePath}`}
-                                    title={nl.title}
-                                    className={styles.iframe}
-                                    style={{ width: '100%', height: '400px', border: 'none' }}
-                                />
+                                <div className={styles.iframeContainer}>
+                                    <iframe
+                                        src={`${nl.filePath}`}
+                                        title={nl.title}
+                                        className={styles.iframe}
+                                    />
+                                </div>
                             )}
 
-                            {/* רק מנהל יכול למחוק */}
+                         
                             {user?.role === 'admin' && (
                                 <button
                                     className={styles.deleteButton}

@@ -15,7 +15,9 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
-
+ a{
+  margin-top: 0px !important;
+ }
 .logo {
   height: 50px;
   padding: 5px;
@@ -64,7 +66,7 @@
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
-  padding: 8px 12px;
+  padding: 6px 12px;
   border-radius: 6px;
   transition: all 0.3s ease;
   position: relative;
@@ -102,6 +104,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(5px);
+  width: 6lvw;
 }
 
 .logoutButton:hover {

@@ -22,6 +22,11 @@
   letter-spacing: 1px;
 }
 
+input[type="tel"] {
+  direction: rtl;
+  text-align: right;
+}
+
 .formDescription {
   color: #274472;
   margin-bottom: 12px;
@@ -30,15 +35,16 @@
 }
 
 .form {
-  width: 100%;
+  width:27lvw;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: 0 auto;
 }
 
 .input,
 textarea {
-  width: 100%;
+  width: 25lvw;
   padding: 9px 12px;
   border: 1px solid #b0b4b9;
   border-radius: 6px;

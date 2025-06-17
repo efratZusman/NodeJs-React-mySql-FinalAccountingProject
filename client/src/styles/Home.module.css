@@ -271,6 +271,11 @@
   text-fill-color: transparent;
 }
 
+.featureDesc, .featureTitle{
+  text-align: right;
+  direction: rtl;
+}
+
 .hero p {
   font-size: 1.2rem;
   color: #555;
@@ -291,6 +296,7 @@
   text-decoration: none;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(26, 58, 143, 0.3);
+  width: fit-content;
 }
 
 .ctaButton:hover {

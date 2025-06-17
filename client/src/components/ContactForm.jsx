@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import ApiService from "../ApiService";
+import  { useState, useEffect } from "react";
+import ApiService from "../utils/ApiService";
 import formStyles from "../styles/Form.module.css";
 import { 
     validateEmail, 
@@ -11,7 +11,7 @@ import {
 
 const apiService = new ApiService();
 
-function ContactForm({ initialFullName = "", initialEmail = "", initialPhone = "", initialMessage = "", onSuccess }) {
+function ContactForm({ initialFullName = "", initialEmail = "", initialPhone = "", initialMessage = "" }) {
     const [formData, setFormData] = useState({
         fullName: initialFullName,
         email: initialEmail,
@@ -88,7 +88,6 @@ function ContactForm({ initialFullName = "", initialEmail = "", initialPhone = "
                 message: ''
             });
             
-            if (onSuccess) onSuccess();
         } catch (err) {
             setError("אירעה שגיאה בשליחת ההודעה. אנא נסה שוב מאוחר יותר.");
             console.error('Error sending contact form:', err);
@@ -151,7 +150,7 @@ function ContactForm({ initialFullName = "", initialEmail = "", initialPhone = "
                 <textarea
                     className={`${formStyles.textarea} ${errors.message ? formStyles.inputError : ''}`}
                     name="message"
-                    placeholder="הודעתך"
+                    placeholder="הודעה לשליחה"
                     value={formData.message}
                     onChange={handleChange}
                     rows="5"

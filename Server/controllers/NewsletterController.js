@@ -1,5 +1,4 @@
 const NewsletterService = require('../service/NewsletterService');
-const fs = require('fs').promises;
 const path = require('path');
 
 exports.getAllNewsletters = async (req, res) => {

@@ -1,5 +1,5 @@
 :root {
-  direction: rtl;
+  direction: rtl !important;
   --primary-color: #1a3a8f;
   --secondary-color: #4a6da7;
   --text-color: #333;

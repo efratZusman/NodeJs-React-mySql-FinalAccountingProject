@@ -22,16 +22,9 @@ function MyApp() {
       <Route path="/updates" element={<Updates />} />
       <Route path="/clients" element={<Clients />} />
       <Route path="/contact" element={<Contact />} />
-  <Route path="/newsletters" element={<Newsletters />} />
-    <Route path="/articles" element={<InformationList />} />
-          <Route path="/about" element={<About />} /> {/* הוספת ראוט לאודות */}
-
-      {/* <Route path={`/user/:id/home`} element={<Home/>} />
-          <Route path={`/user/${id}/todos`} element={<Todos />} />
-          <Route path={`/user/${id}/posts`} element={<Posts />} />
-          <Route path={`/user/${id}/albums`} element={<Albums />} />
-          <Route path={`/user/${id}/post/:postId/comments`} element={<ViewComments />} />
-          <Route path={`/user/${id}/album/:albumId/photos`} element={<ViewPhotos/>} /> */}
+      <Route path="/newsletters" element={<Newsletters />} />
+      <Route path="/articles" element={<InformationList />} />
+      <Route path="/about" element={<About />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

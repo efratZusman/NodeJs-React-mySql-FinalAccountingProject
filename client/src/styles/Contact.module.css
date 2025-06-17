@@ -1,5 +1,6 @@
 .container {
-  max-width: 400px;
+
+  max-width: 900px;
     margin: 60px auto;
   padding: 24px;
   background: #f9f9f9;
@@ -11,6 +12,29 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 75%;
+    margin: 60px auto;
+  /* margin:  auto ; */
+  /* margin-right: 450px; */
+
+  padding:50px 25px;
+  background: #f6fafd;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px #223a5e22;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+}
+
+
+.formTitle {
+  font-size: 3rem;
+  color: #223a5e;
+  margin-bottom: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 input, textarea {
@@ -140,15 +164,17 @@ button:hover {
 }
 
 .contactButton {
-  background: linear-gradient(135deg, #223a5e 70%, #b0b4b9 100%);
+background: #033669;
+box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.433);
   color: #fff;
   border-radius: 18px;
   /* box-shadow: 0 4px 16px #223a522; */
   padding: 32px 24px;
-  min-width: 160px;
+  min-width: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
   font-size: 1.1rem;
   border: none;
@@ -157,9 +183,7 @@ button:hover {
   position: relative;
 }
 
-.emailButton {
-  background: linear-gradient(135deg, #274472 70%, #b0b4b9 100%);
-}
+
 
 .contactIcon {
   font-size: 2.5rem;
@@ -185,4 +209,9 @@ button:hover {
   margin-bottom: 10px;
   color: #223a5e;
   font-weight: bold;
+}
+
+.contactButton:active,
+.contactButton:focus {
+  outline: 2px solid #1976d2;
 }

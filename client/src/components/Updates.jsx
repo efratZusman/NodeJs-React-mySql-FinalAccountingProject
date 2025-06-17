@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from './UserContext';
-import ApiService from '../ApiService';
+import ApiService from "../utils/ApiService";
 import UpdateItem from './UpdateItem';
 import Navbar from './Navbar';
 import styles from '../styles/Updates.module.css';
@@ -29,9 +29,7 @@ const Updates = () => {
     const loadUpdateSubscriptions = async () => {
         setLoading(true);
         try {
-            const data = await apiService.get('/updates/subsriptions');
-            console.log('Loaded update subscriptions:', data);
-            
+            const data = await apiService.get('/updates/subsriptions');            
             setUpdateSubscriptions(data);
 
         } catch (error) {
@@ -49,7 +47,7 @@ const Updates = () => {
     const handleSubscribe = async () => {
         try {
             await apiService.patch('/users/subscribe-updates',{wants_updates: !user.wants_updates});
-            alert('הרשמת לעדכונים בוצעה בהצלחה');
+            alert(' עדכון בוצע בהצלחה');
             await fetchUser();
         } catch (error) {
             alert('ההרשמה נכשלה');
@@ -95,16 +93,13 @@ const Updates = () => {
     return (
         <>
             <Navbar />
-
             <div className={styles.container}>
-                <h2 className={styles.title}>עדכונים אחרונים</h2>
-
+                <h2 className={styles.title}>תאריכים חשובים</h2>
                 {user?.role === 'admin' && !addingNew && (
                     <button className={styles.addButton} onClick={handleAddNew}>
-                        + הוסף עדכון חדש
+                        + הוסף תאריך חדש
                     </button>
                 )}
-
                 {addingNew && (
                     <UpdateItem
                         isAdmin={true}
@@ -138,7 +133,7 @@ const Updates = () => {
                         className={styles.subscribeButton}
                         onClick={handleSubscribe}
                     >
-                         {user.wants_updates ? 'ביטול הרשמה' : 'הרשמה לעדכונים'}
+                         {user.wants_updates ? 'ביטול הרשמה לכלל העדכונים'  : 'הרשמה לכלל העדכונים'}
                     </button>
                 )}
             </div>

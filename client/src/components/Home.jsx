@@ -1,32 +1,32 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import logo from '../assets/images/logo.png';
 import styles from '../styles/Home.module.css';
-import Contact from "./Contact"; 
+import Contact from "./Contact";
 
 const routes = [
   {
     path: "/clients",
     title: "לקוחות",
-    desc: "ניהול לקוחות, צפייה בפרטי לקוח, הוספה ועדכון לקוחות.",
+    desc: "מידע חשוב ללקוחות קיימים ודרכי יצירת קשר.",
   },
   {
     path: "/articles",
     title: "מאמרים",
-    desc: "מאגר מאמרים מקצועיים, העלאת מאמרים חדשים ועריכתם.",
+    desc: "מאמרים שכתבה נעמה זוסמן בנושאי חשבונאות, מס ועוד.",
   },
   {
     path: "/newsletters",
     title: "ניוזלטרים",
-    desc: "שליחת ניוזלטרים ועדכונים ללקוחות, צפייה בארכיון.",
+    desc: "ארכיון ניוזלטרים קודמים שנשלחו ללקוחות ולעוקבים.",
   },
   {
     path: "/updates",
     title: "עדכונים",
-    desc: "פרסום עדכונים חשובים ללקוחות ולעובדים.",
+    desc: "התפתחויות חדשות, חדשות רגולטוריות ומידע חשוב.",
   }
 ];
+
 
 function Home() {
   const navigate = useNavigate();
@@ -37,18 +37,18 @@ function Home() {
       <div className={styles.homeContainer}>
         <img src={logo} alt="Logo" className={styles.logo} />
         <div className={styles.hero}>
-          <h1>ברוכים הבאים למערכת רואת החשבון</h1>
           <p>
-            מערכת ניהול מתקדמת ללקוחות, מאמרים, ניוזלטרים ועדכונים.<br />
-            כאן תוכלו לנהל את כל המידע הפיננסי, התקשורת והעדכונים במקום אחד, בצורה מאובטחת, נוחה ומקצועית.
+            כאן תוכלו למצוא מאמרים מקצועיים בנושאי מיסוי, פיננסים ועסקים,<br />
+            לעיין בניוזלטרים קודמים, להתעדכן בהתפתחויות חשובות ולקבל מידע אמין וישיר מרואת חשבון מוסמכת.
           </p>
         </div>
+
         <div className={styles.features}>
           {routes.map(route => (
             <div key={route.path} className={styles.featureCard}>
               <div className={styles.featureIcon}>📄</div>
-              <h3>{route.title}</h3>
-              <p>{route.desc}</p>
+              <h3 className={styles.featureTitle}>{route.title}</h3>
+              <p className={styles.featureDesc}>{route.desc}</p>
               <button
                 className={styles.ctaButton}
                 onClick={() => navigate(route.path)}
