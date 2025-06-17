@@ -34,7 +34,6 @@ function Register() {
             [name]: type === "checkbox" ? checked : value
         }));
         
-        // נקה שגיאה ספציפית כשהמשתמש מתחיל להקליד
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,

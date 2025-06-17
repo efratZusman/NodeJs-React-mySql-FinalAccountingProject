@@ -46,8 +46,8 @@ exports.deleteClientById = async function deleteClientById(clientId) {
         }
 
 if (client.logo_url) {
-    const filename = path.basename(client.logo_url); // לדוגמה: 1718123456789-logo.png
-    const filePath = path.join(__dirname, '../images', filename); // ניגש לשרת/images
+    const filename = path.basename(client.logo_url); 
+    const filePath = path.join(__dirname, '../images', filename); 
     if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
         console.log("File deleted:", filePath);

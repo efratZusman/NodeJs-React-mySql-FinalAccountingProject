@@ -30,7 +30,6 @@ const Newsletters = () => {
 
     const allowedNewsletterTypes = ['text/html'];
 
-    // העלאת קובץ HTML בלבד להוספת ניוזלטר
     const handleUploadHtml = async () => {
         if (!htmlFile || !validateTitle(title) || !validateDate(date)) {
             alert('נא לבחור קובץ HTML ולמלא כותרת ותאריך תקינים');

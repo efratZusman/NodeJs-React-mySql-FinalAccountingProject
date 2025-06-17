@@ -14,15 +14,12 @@ async function sendUpdateReminders() {
   const isTomorrowBlocked = await reminderService.isHolidayOrShabbat(tomorrow);
   const isTodayBlocked = await reminderService.isHolidayOrShabbat(today);
 
-  // החלטה: באיזה יום לבדוק עדכונים
   let targetDate = tomorrow;
 
   if (isTomorrowBlocked && !isTodayBlocked) {
-    // אם מחר חסום (חג/שבת) והיום לא — שלח כבר עכשיו את העדכונים של מחר
     targetDate = overmorrow ;
     console.log('[CRON] מחר חג/שבת → מקדים שליחת תזכורות להיום');
   } else if (!isTomorrowBlocked && !isTodayBlocked) {
-    // רגיל
     targetDate = tomorrow;
   } else {
     console.log('[CRON] היום חג/שבת → לא שולח תזכורות');

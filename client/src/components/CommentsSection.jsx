@@ -42,7 +42,6 @@ const CommentsSection = ({ articleId }) => {
                 article_id: articleId,
             });
 
-            // השלמת נתונים כדי לאפשר תצוגה מיידית כולל כפתורים
             const enrichedResponse = {
                 ...response,
                 user_id: user.user_id,

@@ -3,12 +3,10 @@ export function validateEmail(email) {
 }
 
 export function validatePassword(password) {
-    // 8-20 תווים, אותיות גדולות/קטנות, מספר, סימן
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,20}$/.test(password);
 }
 
 export function validatePhone(phone) {
-    // ישראלי פשוט: 10 ספרות, מתחיל ב-05
     return /^05\d{8}$/.test(phone);
 }
 

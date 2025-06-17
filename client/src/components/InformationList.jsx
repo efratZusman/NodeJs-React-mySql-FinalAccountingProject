@@ -144,8 +144,8 @@ function InformationList() {
     };
 
     const handleAddNewClick = () => {
-        setShowEditor(true); // פותח את המודל
-        setShowAddOptions(true); // מראה את האפשרויות בתוך המודל
+        setShowEditor(true);
+        setShowAddOptions(true); 
     };
 
     const handleFileChange = async (e) => {

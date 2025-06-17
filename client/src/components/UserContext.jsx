@@ -24,7 +24,6 @@ export const UserProvider = ({ children }) => {
         fetchUser();
     }, []);
 
-    // יציאה מהמערכת
     const logout = async () => {
         try {
             const response = await apiService.post('/users/logout');

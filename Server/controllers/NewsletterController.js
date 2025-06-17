@@ -2,8 +2,6 @@ const NewsletterService = require('../service/NewsletterService');
 const fs = require('fs').promises;
 const path = require('path');
 
-
-// Get all newsletters
 exports.getAllNewsletters = async (req, res) => {
   try {
     const newsletters = await NewsletterService.getAllNewsletters();
@@ -17,8 +15,6 @@ exports.getAllNewsletters = async (req, res) => {
   }
 };
 
-
-// Create newsletter (normal JSON body with content string or path)
 exports.createNewsletter = async (req, res) => {
   try {
     const newNewsletter = await NewsletterService.createNewsletter(req.body);
@@ -28,9 +24,6 @@ exports.createNewsletter = async (req, res) => {
   }
 };
 
-
-
-// Update newsletter by ID
 exports.updateNewsletterById = async (req, res) => {
   try {
     const updated = await NewsletterService.updateNewsletterById(req.params.id, req.body);
@@ -43,7 +36,6 @@ exports.updateNewsletterById = async (req, res) => {
   }
 };
 
-// Delete newsletter by ID
 exports.deleteNewsletterById = async (req, res) => {
   try {
     const deleted = await NewsletterService.deleteNewsletterById(req.params.id);
@@ -56,28 +48,25 @@ exports.deleteNewsletterById = async (req, res) => {
   }
 };
 
-// Upload newsletter from HTML file
 exports.uploadNewsletterFromHtml = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    const filePath = req.file.path; // הנתיב המלא של הקובץ ששמור
+    const filePath = req.file.path;
     const { title, date } = req.body;
 
     if (!title || !date) {
-      // במידה ואין כותרת או תאריך, מחזירים שגיאה
       return res.status(400).json({ message: 'Title and date are required' });
     }
-let relativePath = null; // נתיב יחסי לקובץ
+let relativePath = null; 
     if (req.file) {
 
        relativePath = path.relative(path.join(__dirname, '../uploads'), req.file.path).replace(/\\/g, '/');
-      relativePath = '/uploads/' + relativePath; // שומרים יחסית בלבד בDB
+      relativePath = '/uploads/' + relativePath; 
     }
 
-    // שומרים את הנתיב של הקובץ בשדה content במסד הנתונים
     const newNewsletter = await NewsletterService.createNewsletter({
       title,
       date,

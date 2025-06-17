@@ -19,7 +19,6 @@ exports.createUpdate = async (req, res) => {
     }
 };
 
-// Update todo by ID
 exports.updateUpdateById = async (req, res) => {
     try {
         console.log(req.params.id, "id_update");
@@ -34,7 +33,6 @@ exports.updateUpdateById = async (req, res) => {
     }
 };
 
-// Delete todo by ID
 exports.deleteUpdateById = async (req, res) => {
     try {
         const deleted = await UpdateService.deleteUpdateById(req.params.id);
@@ -57,7 +55,6 @@ exports.createUpdateSubscription = async (req, res) => {
     }
 };
 
-// Get all todos
 exports.getUpdatesSubscriptionByUser = async (req, res) => {
     try {
         

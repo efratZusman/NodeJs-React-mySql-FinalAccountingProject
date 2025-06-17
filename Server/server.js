@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 const userRoute = require('./routes/UserRoute');
 const clientRoute = require('./routes/ClientRoute');
 const informationRoute = require('./routes/InformationRoutes');
-// const commentRoute = require('./routes/CommentRoute');
 const updateRoute = require('./routes/UpdatesRoute');
 const contactRoute = require('./routes/ContactRoute');
 const newslettersRoute = require('./routes/NewsletterRoute');
@@ -12,28 +11,23 @@ const path = require('path');
 require('./jobs');
 require('dotenv').config({ path: '../.env' }); 
 
-// const mysql = require('mysql');
-// const bodyParser = require('body-parser');
-
 const app = express();
-// const port = 3000;
+
 app.use(cors({
     origin: 'http://localhost:5173',
      credentials: true 
   }));
   
-// Middleware
 app.use(cookieParser());
 app.use(express.json());
+
 app.use("/api/users", userRoute);
 app.use("/api/updates", updateRoute);
-// app.use("/api/comments", commentRoute);
 app.use("/api/clients", clientRoute);
 app.use("/api/information", informationRoute);
 app.use('/api/contact', contactRoute);
 app.use('/api/newsletters', newslettersRoute);
 
-// Serve images statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
@@ -46,7 +40,6 @@ app.use("/", (req, res) =>{
     }
 });
 
-// Start the server
 const PORT = process.env.SERVER_PORT || 3000;
 
 app.listen(PORT, () => {

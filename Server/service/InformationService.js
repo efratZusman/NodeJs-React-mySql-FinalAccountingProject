@@ -3,7 +3,6 @@ const db = require('../../DB/connection');
 exports.createInformation = async function createInformation(infoData) {
     const { title, content } = infoData;
 
-    // יצירת תקציר (excerpt) - שלושת הפסקאות הראשונות
     let excerpt = '';
     if (content) {
         excerpt = content.split(/<\/p>/).slice(0, 3).join('</p>');
@@ -11,7 +10,6 @@ exports.createInformation = async function createInformation(infoData) {
     }
 
     try {
-        // שמירת התקציר והכותרת בטבלת articles
         const insertArticleQuery = `
             INSERT INTO articles (title, excerpt) 
             VALUES (?, ?)
@@ -19,14 +17,12 @@ exports.createInformation = async function createInformation(infoData) {
         const [result] = await db.execute(insertArticleQuery, [title, excerpt]);
         const articleId = result.insertId;
 
-        // שמירת כל התוכן בטבלת article_contents
         const insertContentQuery = `
             INSERT INTO article_contents (article_id, content)
             VALUES (?, ?)
         `;
         await db.execute(insertContentQuery, [articleId, content]);
 
-        // שליפת הרשומה שנשמרה
         const [insertedInfo] = await db.execute('SELECT * FROM articles WHERE id = ?', [articleId]);
         return insertedInfo[0];
     } catch (error) {

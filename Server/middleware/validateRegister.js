@@ -3,17 +3,14 @@ const validator = require('validator');
 module.exports = function validateRegister(req, res, next) {
     const { full_name, email, password } = req.body;
 
-    // בדיקת שם מלא (לפחות 2 תווים)
     if (!validator.isLength(full_name || '', { min: 2 })) {
         return res.status(400).json({ error: "Full name must be at least 2 characters." });
     }
 
-    // בדיקת מייל תקין
     if (!validator.isEmail(email || '')) {
         return res.status(400).json({ error: "Invalid email address." });
     }
 
-    // בדיקת סיסמה חזקה
     if (!validator.isStrongPassword(password || '', {
         minLength: 8,
         maxLength: 20,

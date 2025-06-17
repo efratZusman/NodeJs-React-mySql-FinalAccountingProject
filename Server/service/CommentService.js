@@ -1,6 +1,5 @@
 const db = require('../../DB/connection');
 
-// Create new comment
 exports.createComment = async function createComment(commentData,userId) {
     const { article_id, comment } = commentData;
     const query = `
@@ -13,7 +12,6 @@ exports.createComment = async function createComment(commentData,userId) {
         const [result] = await db.execute(query, values);
         const newCommentId = result.insertId;
 
-        // Fetch the newly created comment along with user details
         const fetchQuery = `
             SELECT articles_comments.id, articles_comments.comment, articles_comments.created_at, users.user_id, users.full_name, users.email
             FROM articles_comments
@@ -29,24 +27,6 @@ exports.createComment = async function createComment(commentData,userId) {
     }
 };
 
-
-// exports.getConfirmedCommentByArticleId = async function getConfirmedCommentByArticleId(articleId, status) {
-//     const query = `
-//         SELECT articles_comments.id, articles_comments.comment, articles_comments.created_at, users.full_name, users.email
-//         FROM articles_comments
-//         JOIN Users ON articles_comments.user_id = users.user_id
-//         WHERE articles_comments.article_id = ? AND articles_comments.status = ?
-//         ORDER BY articles_comments.created_at DESC
-//     `;
-//     try {
-//         const [rows] = await db.execute(query, [articleId, status]);
-//         return rows;
-//     } catch (error) {
-//         throw new Error('Error fetching comments by article ID: ' + error.message);
-//     }
-// };
-
-// Get comment by ID
 exports.getConfirmedCommentByArticleId = async function getConfirmedCommentByArticleId(articleId) {
     const query = `
         SELECT articles_comments.id, articles_comments.comment, articles_comments.created_at, users.full_name, users.email
@@ -55,8 +35,7 @@ exports.getConfirmedCommentByArticleId = async function getConfirmedCommentByArt
         WHERE articles_comments.article_id = ? AND articles_comments.status = 'confirmed'
         ORDER BY articles_comments.created_at DESC
     `;
-  
-    
+      
     try {
         const [rows] = await db.execute(query, [articleId]);
           console.log(rows,'rows');
@@ -95,7 +74,6 @@ exports.updateCommentById = async function updateCommentById(commentId, content)
         const [result] = await db.execute(query, values);
 
         if (result.affectedRows > 0) {
-            // Fetch the updated comment
             const fetchQuery = `
                 SELECT articles_comments.id, articles_comments.comment, articles_comments.created_at, users.full_name, users.email
                 FROM articles_comments
@@ -106,7 +84,7 @@ exports.updateCommentById = async function updateCommentById(commentId, content)
            
             return rows[0];
         } else {
-            return null; // No rows were updated
+            return null;
         }
     } catch (error) {
         console.log(error.message);
@@ -115,7 +93,6 @@ exports.updateCommentById = async function updateCommentById(commentId, content)
     }
 };
 
-// Delete comment by ID
 exports.deleteCommentById = async function deleteCommentById(commentId) {
     const query = 'DELETE FROM articles_comments WHERE id = ?';
     try {
@@ -133,7 +110,6 @@ exports.updatePartialCommentById = async function updatePartialCommentById(comme
     const values = [];
 
     for (const key in updateData) {
-        // סינון של שדות לא רצויים (למשל, לא לאפשר שינוי של user_id או id)
         if (['id', 'user_id', 'article_id', 'created_at'].includes(key)) continue;
         
         fields.push(`${key} = ?`);
@@ -141,7 +117,7 @@ exports.updatePartialCommentById = async function updatePartialCommentById(comme
     }
 
     if (fields.length === 0) {
-        return null; // אין מה לעדכן
+        return null; 
     }
 
     const query = `
@@ -155,10 +131,9 @@ exports.updatePartialCommentById = async function updatePartialCommentById(comme
         const [result] = await db.execute(query, values);
 
         if (result.affectedRows === 0) {
-            return null; // לא עודכן כלום (כנראה לא קיים)
+            return null; 
         }
 
-        // נחזיר את התגובה המעודכנת
         const fetchQuery = `
             SELECT articles_comments.id, articles_comments.comment, articles_comments.status, articles_comments.created_at, users.full_name, users.email
             FROM articles_comments

@@ -1,7 +1,6 @@
 const ClientService = require('../service/ClientService');
 const path = require('path');
 
-// Get all clients
 exports.getAllClients = async (req, res) => {
     try {
         const clients = await ClientService.getAllClients();
@@ -15,14 +14,13 @@ exports.getAllClients = async (req, res) => {
     }
 };
 
-// Create new client
 exports.createClient = async (req, res) => {
     try {
         const { client_name } = req.body;
         let logo_url = null;
         if (req.file) {
             const relativePath = '/images/' + req.file.filename;
-            logo_url = relativePath; // שומרים יחסית בלבד בDB
+            logo_url = relativePath; 
         }
         const client = await ClientService.createClient({
             client_name,
@@ -37,7 +35,6 @@ exports.createClient = async (req, res) => {
     }
 };
 
-// Delete client by ID
 exports.deleteClient = async (req, res) => {
     try {
         const deleted = await ClientService.deleteClientById(req.params.id);

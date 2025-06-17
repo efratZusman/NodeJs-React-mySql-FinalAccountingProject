@@ -74,7 +74,6 @@ exports.uploadInformationFile = async (req, res) => {
             return res.status(400).json({ error: "Unsupported file type" });
         }
 
-        // קבלת הכותרת מהקליינט (אם לא נשלחה, השתמש בשם הקובץ)
         const title = req.body.title && req.body.title.trim() !== "" ? req.body.title : req.file.originalname;
 
         const newArticle = await informationService.createInformation({ title, content });

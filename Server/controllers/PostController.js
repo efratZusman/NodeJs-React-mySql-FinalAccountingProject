@@ -1,6 +1,5 @@
 const PostService = require('../service/PostService');
 
-// Get all posts
 exports.getAllPosts = async (req, res) => {
     try {
         const posts = await PostService.getAllPosts();
@@ -13,7 +12,7 @@ exports.getAllPosts = async (req, res) => {
 exports.partialUpdatePostById = async (req, res) => {
     try {
         const { id } = req.params;
-        const updates = req.body; // הנתונים לעדכון מגיעים מגוף הבקשה
+        const updates = req.body; 
         const updatedPost = await postService.partialUpdatePostById(id, updates);
         if (!updatedPost) {
             return res.status(404).json({ message: 'Post not found' });
@@ -37,7 +36,6 @@ exports.getPostById = async (req, res) => {
     }
 };
 
-// Create new post
 exports.createPost = async (req, res) => {
     try {
         const newPost = await PostService.createPost(req.body);
@@ -47,7 +45,6 @@ exports.createPost = async (req, res) => {
     }
 };
 
-// Update post by ID
 exports.updatePostById = async (req, res) => {
     try {
         const updatedPost = await PostService.updatePostById(req.params.id, req.body);

@@ -70,7 +70,6 @@ const UpdateItem = ({
             [name]: value
         }));
         
-        // נקה שגיאה ספציפית כשהמשתמש מתחיל להקליד
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
@@ -86,10 +85,8 @@ const UpdateItem = ({
 
         const baseDate = new Date(now);
         if (now < tenAM) {
-            // לפני 10:00 – אפשר להרשם לעדכון של מחר
             baseDate.setDate(baseDate.getDate() + 1);
         } else {
-            // אחרי 10:00 – אפשר להרשם רק לעדכון של עוד יומיים
             baseDate.setDate(baseDate.getDate() + 2);
         }
         baseDate.setHours(0, 0, 0, 0);
@@ -173,8 +170,6 @@ const UpdateItem = ({
         );
     }
 
-    
-    // תצוגה רגילה (לא עריכה)
     return (
         <div className={styles.container}>
             <h3 className={styles.title}>{update.title}</h3>

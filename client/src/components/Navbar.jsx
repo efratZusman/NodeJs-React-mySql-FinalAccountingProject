@@ -1,13 +1,12 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from './UserContext';
-import styles from '../styles/Navbar.module.css'; // ייבוא קובץ ה-CSS מודול
-import logo from '../assets/images/logo.png'; // adjust path as needed
+import styles from '../styles/Navbar.module.css'; 
+import logo from '../assets/images/logo.png';
 
 function Navbar() {
     const { user, isInitialized, logout } = useUserContext();
-    // const [showLogin, setShowLogin] = useState(true);
-    const navigate = useNavigate(); // <-- initialize navigate
+    const navigate = useNavigate(); 
 
     if (!isInitialized) {
         console.log("User data is not initialized yet.");
@@ -18,11 +17,7 @@ function Navbar() {
     console.log(`UserObj: ${user ? user : 'No user logged in'}`);
 
     const handleAuthClick = () => {
-        // if (showLogin) {
             navigate('/login');
-        // } else {
-        //     navigate('/register');
-        // }
     };
     return (
         <nav className={styles.navbar}>
@@ -32,10 +27,10 @@ function Navbar() {
             <div className={styles.links}>
                 <Link to={`/home`} className={styles.link}>עמוד הבית</Link>
                 <Link to={`/about`} className={styles.link}>אודות</Link>
-                <Link to={`/clients`} className={styles.link}>לקוחות</Link>
+                <Link to={`/clients`} className={styles.link}>מלקוחותינו</Link>
                 <Link to={`/articles`} className={styles.link}>מידע מקצועי</Link>
                 <Link to={`/newsletters`} className={styles.link}>ניוזלטרים</Link>
-                <Link to={`/updates`} className={styles.link}>עדכונים</Link>
+                <Link to={`/updates`} className={styles.link}>תאריכים חשובים</Link>
                 <Link to={`/contact`} className={styles.link}>יצירת קשר</Link>
             </div>
             {user ? (<>
@@ -45,22 +40,6 @@ function Navbar() {
             </>
             ) : (
                 <>
-                    {/* <div className={styles.authToggleGroup}>
-                        <button
-                            className={`${styles.authToggleBtn} ${showLogin ? styles.active : ''}`}
-                            onClick={() => setShowLogin(true)}
-                            type="button"
-                        >
-                            Log In
-                        </button>
-                        <button
-                            className={`${styles.authToggleBtn} ${!showLogin ? styles.active : ''}`}
-                            onClick={() => setShowLogin(false)}
-                            type="button"
-                        >
-                            Register
-                        </button>
-                    </div> */}
                     <button
                         onClick={handleAuthClick}
                         className={`${styles.logoutButton} ${styles.loginButton}`}

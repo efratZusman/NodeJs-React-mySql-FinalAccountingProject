@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import logo from '../assets/images/logo.png';
 import styles from '../styles/Home.module.css';
-import Contact from "./Contact"; // ייבוא צור קשר
+import Contact from "./Contact"; 
 
 const routes = [
   {

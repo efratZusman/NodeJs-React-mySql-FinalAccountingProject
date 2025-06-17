@@ -30,7 +30,6 @@ function ContactForm({ initialFullName = "", initialEmail = "", initialPhone = "
             [name]: value
         }));
         
-        // נקה שגיאה ספציפית כשהמשתמש מתחיל להקליד
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,

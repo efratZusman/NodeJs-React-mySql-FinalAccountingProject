@@ -59,13 +59,11 @@ END:VCALENDAR
     await transporter.sendMail(mailOptions);
 };
 
-// 🧰 פונקציה עזר: תאריך לפורמט iCal
 function formatDate(date) {
     const d = new Date(date);
     return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 }
 
-// 🧰 פונקציה עזר: מנקה תווים מיוחדים
 function escapeText(text) {
     return (text || '').replace(/(\r\n|\n|\r)/gm, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
 }

@@ -1,6 +1,5 @@
 const db = require('../../DB/connection');
 
-// Create a new update
 exports.createUpdate = async function createUpdate(updateData) {
     const { date, title, content } = updateData;
     const query = `
@@ -19,8 +18,6 @@ exports.createUpdate = async function createUpdate(updateData) {
     }
 };
 
-
-// Create a new update
 exports.createUpdateSubscription = async function createUpdateSubscription(update_id, user_id) {
     const query = `
         INSERT INTO update_subscriptions (user_id, update_id) 

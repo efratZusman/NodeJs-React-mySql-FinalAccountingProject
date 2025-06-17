@@ -20,7 +20,7 @@ function PendingCommentsManager({ onClose }) {
     const loadPending = async () => {
         setLoading(true);
         try {
-            const data = await apiService.get('/information/comments/admin/pending'); // נקרא לראוט הכללי
+            const data = await apiService.get('/information/comments/admin/pending'); 
             setPendingComments(data);
         } catch (err) {
             alert('שגיאה בטעינת תגובות ממתינות');

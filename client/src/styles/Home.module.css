@@ -196,7 +196,7 @@
 }
 
 .authForm a:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 /* Loading Styles */
@@ -375,7 +375,7 @@
 .link {
   color: #007bff;
   cursor: pointer;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 .link:hover {

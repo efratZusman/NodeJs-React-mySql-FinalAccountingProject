@@ -1,7 +1,6 @@
 const db = require('../../DB/connection');
 const { v4: uuidv4 } = require('uuid');
 
-// Create a new user with password (using transaction)
 exports.createUser = async function createUser(userData) {
     const { full_name, email, password_hash, wants_updates } = userData;
 
@@ -19,7 +18,7 @@ exports.createUser = async function createUser(userData) {
         throw new Error('Error creating user: ' + error.message);
     }
 };
-// Get user by Username
+
 exports.getUserByUsername = async function getUserByUsername(username) {
     const query = `
         SELECT Users.UserID, Users.Username, Users.Email, Users.CreatedAt, Passwords.PasswordHash 
@@ -34,7 +33,7 @@ exports.getUserByUsername = async function getUserByUsername(username) {
         throw new Error('Error fetching user: ' + error.message);
     }
 };
-// Get user by Username
+
 exports.getUserByEmail = async function getUserByEmail(email) {
     const query = `
         SELECT *
@@ -49,7 +48,6 @@ exports.getUserByEmail = async function getUserByEmail(email) {
     }
 };
 
-// Get user by Username
 exports.getUserDetails = async function getUserDetails(email) {
     const query = `
         SELECT users.user_id, users.full_name, users.email, passwords.password_hash 
@@ -79,10 +77,9 @@ exports.getUserById = async function getUserById(user_id) {
     }
 };
 
-// Create session
 exports.createSession = async function createSession(userId) {
     const sessionId = uuidv4();
-    const expiresAt = new Date(Date.now() + 1000 * 60 * 60); // שעה קדימה
+    const expiresAt = new Date(Date.now() + 1000 * 60 * 60); 
     await db.execute(
         'INSERT INTO sessions (session_id, user_id, expires_at) VALUES (?, ?, ?)',
         [sessionId, userId, expiresAt]

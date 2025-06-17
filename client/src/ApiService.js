@@ -9,7 +9,6 @@ class ApiService {
             data = {};
         }
         if (!response.ok) {
-            // נזרוק את הודעת השגיאה מהשרת אם קיימת
             const error = new Error(data.error || `HTTP Error! Status: ${response.status}`);
             error.data = data;
             throw error;
@@ -62,7 +61,6 @@ class ApiService {
         const response = await fetch(this.baseUrl + url, {
             method: 'POST',
             credentials: 'include',
-            // Don't set Content-Type header, let the browser set it with the correct boundary
             body: formData,
         });
         return await this.checkResponseStatus(response);

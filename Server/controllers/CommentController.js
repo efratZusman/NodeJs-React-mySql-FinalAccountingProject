@@ -1,6 +1,5 @@
 const CommentService = require('../service/CommentService');
 
-// Get comment by Newsletter ID
 exports.getConfirmedCommentByArticleId = async (req, res) => {
     try {
         const comment = await CommentService.getConfirmedCommentByArticleId(req.params.article_id);
@@ -27,7 +26,6 @@ exports.getPendingCommentByArticleId = async (req, res) => {
     }
 };
 
-// Create new comment
 exports.createComment = async (req, res) => {
     try {
         const newComment = await CommentService.createComment(req.body,req.userId);
@@ -37,7 +35,6 @@ exports.createComment = async (req, res) => {
     }
 };
 
-// Update comment by ID
 exports.updateCommentById = async (req, res) => {
     try {
         const updated = await CommentService.updateCommentById(req.params.comment_id, req.body.comment);
@@ -67,9 +64,6 @@ exports.updatePartialCommentById = async (req, res) => {
     }
 };
 
-
-
-// Delete comment by ID
 exports.deleteCommentById = async (req, res) => {
     try {
         const deleted = await CommentService.deleteCommentById(req.params.comment_id);

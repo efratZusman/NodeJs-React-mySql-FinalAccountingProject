@@ -23,7 +23,7 @@ exports.registerUser = async function registerUser(req, res) {
         const sessionId = await UserService.createSession(newUserId);
         res.cookie('session_id', sessionId, {
             httpOnly: true,
-            secure: false, // after production i should change it to true
+            secure: false,
             sameSite: 'Strict',
             maxAge: 3600000
         });
@@ -48,7 +48,7 @@ exports.loginUser = async function loginUser(req, res) {
         const sessionId = await UserService.createSession(existingUser.user_id);
         res.cookie('session_id', sessionId, {
             httpOnly: true,
-            secure: false, //  
+            secure: false,   
             sameSite: 'Strict',
             maxAge: 3600000
         });
@@ -90,7 +90,7 @@ exports.logoutUser = async function logoutUser(req, res) {
 
 exports.updateWantsUpdates = async function updateWantsUpdates(req, res) {
     try {
-        const userId = req.userId; // מגיע מהמידלוור getUserFromSession
+        const userId = req.userId; 
 
         const { wants_updates } = req.body;
 

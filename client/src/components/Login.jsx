@@ -26,7 +26,6 @@ function Login() {
             [name]: value
         }));
         
-        // נקה שגיאה ספציפית כשהמשתמש מתחיל להקליד
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,

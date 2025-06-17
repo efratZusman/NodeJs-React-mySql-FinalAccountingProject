@@ -1,6 +1,7 @@
 .formContainer {
   width: 500px;
-  margin:  auto ;
+    margin: 60px auto;
+  /* margin:  auto ; */
   /* margin-right: 450px; */
 
   padding:50px 25px;
