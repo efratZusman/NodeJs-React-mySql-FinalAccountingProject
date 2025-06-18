@@ -1,7 +1,7 @@
 .container {
 
   max-width: 900px;
-    margin: 60px auto;
+    margin: 120px auto;
   padding: 24px;
   background: #f9f9f9;
   border-radius: 8px;
@@ -13,12 +13,13 @@
   flex-direction: column;
   gap: 12px;
   width: 75%;
-    margin: 60px auto;
+    margin: 120px auto;
   /* margin:  auto ; */
   /* margin-right: 450px; */
 
   padding:50px 25px;
-  background: #f6fafd;
+    background: linear-gradient(135deg, #f8f9faa4 0%, #e9ecef80 100%);
+
   border-radius: 14px;
   box-shadow: 0 4px 24px #223a5e22;
   display: flex;
@@ -173,8 +174,8 @@ button:hover {
   box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.433);
   color: #fff;
   border-radius: 18px;
-  padding: 24px 20px;
-  min-width: 160px;
+  padding: 24px 10px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;

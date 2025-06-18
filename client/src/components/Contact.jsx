@@ -51,7 +51,7 @@ function Contact() {
             <Navbar />
             <div className={styles.form}>
                 <img src={logo} alt="Logo" className={styles.contactLogo} />
-                <div className={styles.formTitle}>Contact Us</div>
+                <div className={styles.formTitle}>צור קשר</div>
                 {!showForm ? (
                     <div className={styles.contactOptions}>
                         <a

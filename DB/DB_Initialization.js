@@ -76,8 +76,8 @@ CREATE TABLE newsletters (
         comment TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         status ENUM('pending', 'confirmed') DEFAULT 'pending' NOT NULL
-        FOREIGN KEY (article_id) REFERENCES articles(id),
-        FOREIGN KEY (user_id) REFERENCES users(user_id)
+        FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE;, 
+        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE;
       );
     `);
    
