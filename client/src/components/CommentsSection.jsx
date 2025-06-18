@@ -26,7 +26,6 @@ const CommentsSection = ({ articleId }) => {
             const data = await apiService.get(`/information/${articleId}/comments/users/confirmed`);
             setComments(data);
         } catch (err) {
-            console.log(err, 'err');
 
             console.error('שגיאה בטעינת תגובות', err);
         } finally {
@@ -52,7 +51,6 @@ const CommentsSection = ({ articleId }) => {
             setNewComment('');
             setSuccessMsg('התגובה נשלחה למנהל לאישור');
         } catch (err) {
-            console.log(err, 'err');
             alert('שגיאה בשליחת תגובה');
         }
     };

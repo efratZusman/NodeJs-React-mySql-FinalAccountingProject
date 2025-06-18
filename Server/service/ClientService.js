@@ -4,7 +4,6 @@ const path = require('path');
 
 exports.createClient = async function createClient({ client_name, logo_url }) {
     try {
-        console.log('Creating client with name:', client_name, 'and logo_url:', logo_url);
         
         const query = 'INSERT INTO clients (client_name, logo_url) VALUES (?, ?)';
         const [result] = await db.execute(query, [client_name, logo_url]);
@@ -50,7 +49,6 @@ if (client.logo_url) {
     const filePath = path.join(__dirname, '../images', filename); 
     if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
-        console.log("File deleted:", filePath);
     } else {
         console.warn("File not found:", filePath);
     }

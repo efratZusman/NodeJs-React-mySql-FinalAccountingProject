@@ -3,7 +3,6 @@ const CommentService = require('../service/CommentService');
 exports.getConfirmedCommentByArticleId = async (req, res) => {
     try {
         const comment = await CommentService.getConfirmedCommentByArticleId(req.params.article_id);
-          console.log(comment,'comment');
         if (!comment) {
             return res.status(404).json({ message: 'Comment not found' });
         }
@@ -37,7 +36,6 @@ exports.createComment = async (req, res) => {
 
 exports.updateCommentById = async (req, res) => {
     try {
-        console.log(req.body, 'req.body');
         
         const updated = await CommentService.updateCommentById(req.params.comment_id, req.body);
         if (!updated) {

@@ -43,3 +43,52 @@
   margin-bottom: 16px;
   margin-top: 50px;
 }
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .container {
+    margin: 60px auto;
+    padding: 20px 15px;
+    border-radius: 10px;
+  }
+
+  .divContainer {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+
+  .appointmentTitle {
+    font-size: 1.1rem;
+    text-align: center;
+    margin: 30px 0 15px;
+  }
+}
+
+/* iPhone specific adjustments */
+@media (max-width: 480px) {
+  .container {
+    margin: 50px 10px;
+    padding: 15px 10px;
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .description {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .appointmentTitle {
+    font-size: 1rem;
+    margin: 25px 0 12px;
+  }
+}

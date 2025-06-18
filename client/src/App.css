@@ -5,7 +5,7 @@
   text-align: center;
   direction: rtl;
   min-height: 100vh;
-  background: #b4b4b410 ;
+  background: #b4b4b410;
   overflow: hidden;
   max-width: 1200px;
 }
@@ -20,7 +20,8 @@
   left: 0;
   background: url('./img/background_pic.jpg') no-repeat center center fixed;
   background-size: cover;
-  opacity: 0.5; /* half opacity */
+  opacity: 0.5;
+  /* half opacity */
   z-index: -1;
   pointer-events: none;
 }
@@ -39,7 +40,7 @@ body::before {
   left: 0;
   right: 0;
   bottom: 0;
-    background: url('./img/background_pic.jpg') no-repeat center center fixed;
+  background: url('./img/background_pic.jpg') no-repeat center center fixed;
 
   background-size: cover;
   opacity: 0.5;
@@ -53,9 +54,11 @@ body::before {
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -64,6 +67,7 @@ body::before {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -81,4 +85,37 @@ body::before {
 
 .read-the-docs {
   color: #888;
+}
+
+
+@media (max-width: 480px) {
+  #root {
+    margin-right: 35px;
+    /* כדי לפנות מקום לתוכן בצד שמאל */
+
+  }
+
+  .addButton,
+  .saveButton,
+  .cancelButton,
+  .manageButton,
+  .deleteButton,
+  .editButton,
+  .subscribeButton,
+  .button,
+  .backButton,
+  .commentToggle {
+    width: 100% !important;
+    font-size: 1rem;
+    padding: 0.8em;
+    box-sizing: border-box;
+    margin: 0.4em 0;
+    text-align: center;
+  }
+
+  .modalButtons,
+  .buttonGroup {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
 }

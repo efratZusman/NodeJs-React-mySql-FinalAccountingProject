@@ -78,3 +78,34 @@ background: #03478a;
   resize: vertical;
   min-height: 80px;
 }
+
+@media (max-width: 480px) {
+
+
+  .addButton,
+  .saveButton,
+  .cancelButton,
+  .manageButton,
+  .deleteButton,
+  .editButton,
+  .subscribeButton,
+  .button,
+  .backButton,
+  .commentToggle {
+    width: 100% !important;
+    font-size: 1rem;
+    padding: 0.8em;
+    box-sizing: border-box;
+    margin: 1.4em 0.5em;
+    text-align: center;
+  }
+  button{
+    width: 100% !important;
+  }
+
+  .modalButtons,
+  .buttonGroup {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}

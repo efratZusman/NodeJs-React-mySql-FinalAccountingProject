@@ -11,7 +11,6 @@ exports.getAllUpdates = async (req, res) => {
 
 exports.createUpdate = async (req, res) => {
     try {
-        console.log(req.body);
         const newUpdate = await UpdateService.createUpdate(req.body);
         res.status(201).json(newUpdate);
     } catch (error) {
@@ -21,8 +20,6 @@ exports.createUpdate = async (req, res) => {
 
 exports.updateUpdateById = async (req, res) => {
     try {
-        console.log(req.params.id, "id_update");
-        console.log(req.body, "body_update");
         const updated = await UpdateService.updateUpdateById(req.params.id, req.body);
         if (!updated) {
             return res.status(404).json({ message: 'Update not found' });
@@ -47,7 +44,6 @@ exports.deleteUpdateById = async (req, res) => {
 
 exports.createUpdateSubscription = async (req, res) => {
   try {
-        console.log(req.body);
         const newUpdateSub = await UpdateService.createUpdateSubscription(req.body.update_id, req.userId);
         res.status(201).json(newUpdateSub);
     } catch (error) {

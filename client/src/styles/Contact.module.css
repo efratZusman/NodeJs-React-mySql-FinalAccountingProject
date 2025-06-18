@@ -147,7 +147,11 @@ button:hover {
 .contactValue {
   font-size: 1rem;
   opacity: 0.9;
-  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
 }
 
 /* New styles for Contact component */
@@ -158,47 +162,55 @@ button:hover {
 
 .contactOptions {
   display: flex;
+  flex-direction: row;
   gap: 24px;
   justify-content: center;
   margin-bottom: 32px;
+  flex-wrap: wrap;
 }
 
 .contactButton {
-background: #033669;
-box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.433);
+  background: #033669;
+  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.433);
   color: #fff;
   border-radius: 18px;
-  /* box-shadow: 0 4px 16px #223a522; */
-  padding: 32px 24px;
-  min-width: 190px;
+  padding: 24px 20px;
+  min-width: 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1rem;
   border: none;
   outline: none;
   text-decoration: none;
   position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+  max-width: 200px;
 }
 
-
+.contactButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
 
 .contactIcon {
-  font-size: 2.5rem;
-  margin-bottom: 12px;
+  font-size: 2rem;
+  margin-bottom: 8px;
 }
 
 .contactTitle {
   font-weight: bold;
   margin-bottom: 4px;
-  font-size: 1.15rem;
+  font-size: 1rem;
 }
 
 .contactValue {
-  font-size: 1rem;
+  font-size: 0.9rem;
   opacity: 0.9;
+  word-break: break-all;
 }
 
 .backButton {
@@ -214,4 +226,77 @@ box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.433);
 .contactButton:active,
 .contactButton:focus {
   outline: 2px solid #1976d2;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .container {
+    margin: 30px 15px;
+    padding: 15px;
+  }
+
+  .form {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px 15px;
+  }
+
+  .formTitle {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .contactOptions {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .contactButton {
+    max-width: 100%;
+    padding: 20px 15px;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: right;
+    gap: 15px;
+  }
+
+  .contactIcon {
+    margin-bottom: 0;
+    font-size: 1.8rem;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .contactTitle {
+    font-size: 1rem;
+    margin-bottom: 2px;
+  }
+
+  .contactValue {
+    font-size: 0.85rem;
+  }
+}
+
+/* iPhone specific adjustments */
+@media (max-width: 480px) {
+  .form {
+    width: 95%;
+    margin: 15px auto;
+    padding: 15px 10px;
+  }
+
+  .formTitle {
+    font-size: 1.6rem;
+  }
+
+  .contactButton {
+    padding: 16px 12px;
+  }
+
+  .contactIcon {
+    font-size: 1.6rem;
+    min-width: 35px;
+  }
 }

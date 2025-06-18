@@ -17,7 +17,6 @@ class ApiService {
     }
 
     async get(url) {
-        console.log(`Fetching from: ${this.baseUrl + url}`);
         
         const response = await fetch(this.baseUrl + url, {
             method: 'GET',

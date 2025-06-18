@@ -21,7 +21,6 @@ exports.createComment = async function createComment(commentData, userId) {
         const [rows] = await db.execute(fetchQuery, [newCommentId]);
         return rows[0];
     } catch (error) {
-        console.log(error.message, 'error');
 
         throw new Error('Error creating comment: ' + error.message);
     }
@@ -38,7 +37,6 @@ exports.getConfirmedCommentByArticleId = async function getConfirmedCommentByArt
 
     try {
         const [rows] = await db.execute(query, [articleId]);
-        console.log(rows, 'rows');
         return rows;
     } catch (error) {
         throw new Error('Error fetching comments by article ID: ' + error.message);
@@ -88,7 +86,6 @@ exports.updateCommentById = async function updateCommentById(commentId, Data) {
             return null;
         }
     } catch (error) {
-        console.log(error.message);
 
         throw new Error('Error updating comment: ' + error.message);
     }

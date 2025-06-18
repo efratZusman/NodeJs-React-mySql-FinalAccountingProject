@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 exports.registerUser = async function registerUser(req, res) {
     try {
         const userData = req.body;
-        console.log(userData, "userData");
 
         const existingUser = await UserService.getUserByEmail(userData.email);
         if (existingUser) {
@@ -18,7 +17,6 @@ exports.registerUser = async function registerUser(req, res) {
             password_hash: passwordHash,
             wants_updates: userData.wants_updates
         });
-        console.log(newUserId, "new");
 
         const sessionId = await UserService.createSession(newUserId);
         res.cookie('session_id', sessionId, {

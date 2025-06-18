@@ -148,3 +148,54 @@ textarea:focus {
     max-width: 98vw;
   }
 }
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .formContainer {
+    width: 90%;
+    margin: 40px auto;
+    padding: 30px 15px;
+  }
+
+  .formTitle {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .form {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .input,
+  textarea {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .button {
+    max-width: 100%;
+    padding: 12px;
+  }
+}
+
+/* iPhone specific adjustments */
+@media (max-width: 480px) {
+  .formContainer {
+    width: 95%;
+    margin: 30px auto;
+    padding: 20px 10px;
+  }
+
+  .formTitle {
+    font-size: 1.3rem;
+  }
+
+  .formDescription {
+    font-size: 0.9rem;
+  }
+
+  .checkboxLabel {
+    font-size: 0.85rem;
+  }
+}

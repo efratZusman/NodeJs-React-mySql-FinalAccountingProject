@@ -36,7 +36,6 @@ exports.createUpdateSubscription = async function createUpdateSubscription(updat
 };
 
 
-// Get all updates (optionally by user ID)
 exports.getAllUpdates = async function getAllUpdates() {
     const query = 'SELECT * FROM updates';
     try {
@@ -47,21 +46,17 @@ exports.getAllUpdates = async function getAllUpdates() {
     }
 };
 
-// Get all updates (optionally by user ID)
 exports.getUpdatesSubscriptionByUser = async function getUpdatesSubscriptionByUser(userId) {
-            console.log("userId in service", userId);
 
     const query =  'SELECT id, update_id FROM update_subscriptions WHERE user_id = ?';
     try {
         const [rows] = await db.execute(query, [userId]);
-        console.log("rows", rows);
         
         return rows;
     } catch (error) {
         throw new Error('Error fetching updates subscriptions: ' + error.message);
     }
 };
-// Update todo by ID
 exports.updateUpdateById = async function updateUpdateById(updateId, updateData) {
     const { title, content, date } = updateData;
     const query = `

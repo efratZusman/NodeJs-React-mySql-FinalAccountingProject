@@ -4,7 +4,6 @@ const path = require('path');
 
 exports.createNewsletter = async function createNewsletter(newsletterData) {
   const { date, title, filePath } = newsletterData; 
-console.log('Creating newsletter with data:', newsletterData);
 
   const query = `
     INSERT INTO newsletters (date, title, filePath)
@@ -62,7 +61,6 @@ exports.deleteNewsletterById = async function deleteNewsletterById(newsletterId)
             const filePath = path.join(__dirname, '..', newsletter.filePath);
             if (fs.existsSync(filePath)) {
                 fs.unlinkSync(filePath);
-                console.log("Newsletter file deleted:", filePath);
             } else {
                 console.warn("Newsletter file not found:", filePath);
             }

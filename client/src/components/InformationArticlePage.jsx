@@ -4,8 +4,7 @@ import Navbar from "./Navbar";
 import ApiService from "../utils/ApiService";
 import CommentsSection from "./CommentsSection";
 import styles from "../styles/Information.module.css";
-import { useUserContext } from "./UserContext";
-import PageNotFound from "./PageNotFound"; // ייבוא
+import PageNotFound from "./PageNotFound"; 
 
 const apiService = new ApiService();
 

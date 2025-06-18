@@ -13,7 +13,6 @@ async function getUserFromSession(req, res, next) {
     if (!userId||!role) {
       return res.status(401).json({ error: 'Invalid session' });
     }
-    console.log("userId", userId);
 
     req.userId = userId;
     req.userRole = role;

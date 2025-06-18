@@ -75,7 +75,6 @@ let relativePath = null;
       ...newNewsletter,
       filePath: filePath ? `${process.env.BASE_URL || 'http://localhost:3000'}${filePath}` : null
     });
-    // res.status(201).json(newNewsletter);
   } catch (error) {
     console.error('Error uploading newsletter HTML:', error);
     res.status(500).json({ error: error.message });
