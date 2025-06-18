@@ -4,6 +4,8 @@
     padding: 1.5rem;
     direction: rtl;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8f9fa7d 0%, #e9ecef66 100%);
+
 }
 
 .title {

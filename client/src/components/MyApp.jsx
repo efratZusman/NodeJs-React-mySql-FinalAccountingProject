@@ -10,6 +10,7 @@ import Newsletters from './Newsletters';
 import Contact from './Contact';
 import InformationList from './InformationList';
 import About from './About';
+import InformationArticlePage from './InformationArticlePage';
 
 function MyApp() {
 
@@ -24,6 +25,7 @@ function MyApp() {
       <Route path="/contact" element={<Contact />} />
       <Route path="/newsletters" element={<Newsletters />} />
       <Route path="/articles" element={<InformationList />} />
+      <Route path="/articles/:id" element={<InformationArticlePage />} />
       <Route path="/about" element={<About />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>

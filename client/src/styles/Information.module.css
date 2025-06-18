@@ -1,18 +1,50 @@
 .container {
     padding: 2rem;
       margin: 60px auto;
+        background: linear-gradient(135deg, #f8f9fa70 0%, #e9ecef6c 100%);
+
 }
 .title {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+
+  font-size: 2.5rem;
+  color: #033669;
+  font-weight: bold;
+  margin-bottom: 1.1em;
+  text-align: center;
+  letter-spacing: 1px;
 }
-.addButton, .saveButton, .cancelButton {
-    margin: 0.5rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    background: #007bff;
-    color: white;
-    cursor: pointer;
+.addButton, .saveButton, .cancelButton, .manageButton, .deleteButton, .editButton {
+  background: #044280;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 0.6em 1.5em;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0.3em 0.3em 0.3em 0;
+  min-width: 110px ;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px #1976d222;
+  display: inline-block;
+
+}
+.backButton, .commentToggle{
+    width: 100% !important;
+      background: #044280;
+
+
+}
+.addButton:hover, .saveButton:hover, .cancelButton:hover, .manageButton:hover, .deleteButton:hover, .editButton:hover {
+  background: #1976d2;
+  color: #fff;
+}
+
+.cancelButton {
+  background: #b71c1c;
+}
+.cancelButton:hover {
+  background: #d32f2f;
 }
 
 .excerptBlock {
@@ -23,10 +55,11 @@
   margin-bottom: 0.5em;
   gap: 0.5em;
 }
-
+.buttonsContainer{
+  margin-bottom: 2lvw;
+}
 .excerpt {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 1.6em;
@@ -37,6 +70,10 @@
   padding: 0.7em 1em;
   margin-bottom: 0.2em;
   color: #222;
+}
+.editButton, .deleteButton {
+  background: #044280;
+
 }
 
 .modalOverlay {
@@ -54,16 +91,17 @@
 
 .modalContent {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  max-width: 800px;
-  width: 90%;
-  max-height: 90%;
+  padding: 3.5rem 2.5rem 2.5rem 2.5rem;
+  border-radius: 18px;
+  box-shadow: 0 0 24px #1976d233;
+  max-width: 900px;
+  width: 98%;
+  max-height: 96vh;
   overflow-y: auto;
-  direction: rtl; /* אם אתה כותב בעברית */
+  direction: rtl;
   text-align: right;
 }
+
 /* חדש: אזור כפתורים במודל */
 .modalOptions {
   display: flex;
@@ -105,12 +143,32 @@
     background: #dc3545;
 }
 .list {
-    list-style: none;
-    padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  justify-content: flex-start;
 }
 .item {
-    border-bottom: 1px solid #ccc;
-    padding: 1rem 0;
+  flex: 1 1 320px;
+  max-width: 370px;
+  min-width: 270px;
+  background: #f8fafc;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px #1976d211;
+  border: 1px solid #e3e8f0;
+  padding: 1.2em 1.2em 0.7em 1.2em;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.18s, border 0.18s;
+}
+.item:hover {
+  box-shadow: 0 4px 18px #1976d233;
+  border: 1.5px solid #1976d2;
 }
 .header {
     cursor: pointer;
@@ -159,4 +217,14 @@
   background: #bbdefb;
   color: #0d47a1;
   outline: none;
+}
+
+@media (max-width: 900px) {
+  .item {
+    flex: 1 1 90vw;
+    max-width: 98vw;
+  }
+  .list {
+    gap: 12px;
+  }
 }

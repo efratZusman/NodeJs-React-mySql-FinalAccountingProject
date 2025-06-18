@@ -1,13 +1,51 @@
 #root {
-  max-width: 1280px;
+  position: relative;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
   direction: rtl;
-
+  min-height: 100vh;
+  background: #b4b4b410 ;
+  overflow: hidden;
+  max-width: 1200px;
 }
 
+/* Add the background image with opacity using ::before */
+#root::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url('./img/background_pic.jpg') no-repeat center center fixed;
+  background-size: cover;
+  opacity: 0.5; /* half opacity */
+  z-index: -1;
+  pointer-events: none;
+}
 
+body {
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+    background: url('./img/background_pic.jpg') no-repeat center center fixed;
+
+  background-size: cover;
+  opacity: 0.5;
+  z-index: -1;
+  pointer-events: none;
+}
 
 .logo {
   height: 6em;

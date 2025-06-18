@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import styles from '../styles/CommentsSection.module.css';
 import { useUserContext } from './UserContext';
 import ApiService from "../utils/ApiService";
 import { validateNotEmpty } from '../utils/validation';
-import PendingCommentsManager from './PendingCommentsManager';
 
 const apiService = new ApiService();
 
@@ -15,9 +14,10 @@ const CommentsSection = ({ articleId }) => {
 
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editedComment, setEditedComment] = useState('');
-    const [showManage, setShowManage] = useState(false);
+    const [successMsg, setSuccessMsg] = useState('');
 
     useEffect(() => {
+        setSuccessMsg('');
         loadComments();
     }, [articleId]);
 
@@ -26,8 +26,8 @@ const CommentsSection = ({ articleId }) => {
             const data = await apiService.get(`/information/${articleId}/comments/users/confirmed`);
             setComments(data);
         } catch (err) {
-            console.log(err,'err');
-            
+            console.log(err, 'err');
+
             console.error('שגיאה בטעינת תגובות', err);
         } finally {
             setLoading(false);
@@ -49,8 +49,8 @@ const CommentsSection = ({ articleId }) => {
                 created_at: new Date().toISOString(),
             };
 
-            setComments([enrichedResponse, ...comments]);
             setNewComment('');
+            setSuccessMsg('התגובה נשלחה למנהל לאישור');
         } catch (err) {
             console.log(err, 'err');
             alert('שגיאה בשליחת תגובה');
@@ -72,19 +72,13 @@ const CommentsSection = ({ articleId }) => {
         try {
             const updated = await apiService.put(`/information/comments/${commentId}`, {
                 comment: editedComment,
+                status: 'pending'
             });
+            if (updated) {
+                setComments(comments.filter(c => c.id !== commentId));
+            }
 
-            setComments(comments.map(c => {
-                if (c.id === commentId) {
-                    return {
-                        ...updated,
-                        created_at: updated.created_at ? updated.created_at : c.created_at,
-                        username: c.username,
-                        user_id: c.user_id,
-                    };
-                }
-                return c;
-            }));
+
 
             setEditingCommentId(null);
             setEditedComment('');
@@ -97,13 +91,20 @@ const CommentsSection = ({ articleId }) => {
         <div className={styles.commentsContainer}>
             <h4>תגובות</h4>
 
+            <div className={styles.successMsg}>
+                {successMsg}
+            </div>
+
             {user ? (
                 <div className={styles.addCommentBox}>
                     <textarea
                         className={styles.textarea}
                         placeholder="כתוב תגובה..."
                         value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
+                        onChange={(e) => {
+                            setNewComment(e.target.value);
+                            setSuccessMsg('');
+                        }}
                     />
                     <button className={styles.addButton} onClick={handleAddComment}>הוסף תגובה</button>
                 </div>
@@ -118,7 +119,7 @@ const CommentsSection = ({ articleId }) => {
             ) : (
                 <ul className={styles.commentList}>
                     {comments.map((comment) => {
-                        const canModify = user && (user.email === comment.email || user.role=='admin');
+                        const canModify = user && (user.email === comment.email || user.role == 'admin');
                         const isEditing = editingCommentId === comment.id;
 
                         return (

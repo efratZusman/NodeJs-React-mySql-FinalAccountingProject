@@ -84,11 +84,6 @@ function PendingCommentsManager({ onClose }) {
                                 <span className={styles.date}>
                                     {comment.created_at ? new Date(comment.created_at).toLocaleString() : ''}
                                 </span>
-                                {comment.article_title && (
-                                    <span className={styles.articleTitle}>
-                                        מאמר: {comment.article_title}
-                                    </span>
-                                )}
                             </div>
                             {editingId === comment.id ? (
                                 <>

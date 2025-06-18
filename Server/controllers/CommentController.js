@@ -37,12 +37,15 @@ exports.createComment = async (req, res) => {
 
 exports.updateCommentById = async (req, res) => {
     try {
-        const updated = await CommentService.updateCommentById(req.params.comment_id, req.body.comment);
+        console.log(req.body, 'req.body');
+        
+        const updated = await CommentService.updateCommentById(req.params.comment_id, req.body);
         if (!updated) {
             return res.status(404).json({ message: 'Comment not found' });
         }
         res.status(200).json(updated);
     } catch (error) {
+        
         res.status(500).json({ error: error.message });
     }
 };

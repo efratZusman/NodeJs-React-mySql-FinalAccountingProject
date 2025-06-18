@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useUserContext } from './UserContext';
 import ApiService from "../utils/ApiService";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import CommentsSection from './CommentsSection';
 import styles from '../styles/Information.module.css';
 import Navbar from './Navbar';
 import PendingCommentsManager from './PendingCommentsManager';
+import { useNavigate } from "react-router-dom";
 
 const apiService = new ApiService();
-
 const modules = {
     toolbar: [
         [{ font: [] }, { size: [] }],
@@ -33,7 +32,6 @@ const formats = [
 ];
 
 function InformationList() {
-    const [showCommentsFor, setShowCommentsFor] = useState(null);
     const { user } = useUserContext();
     const [articles, setArticles] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
@@ -45,7 +43,9 @@ function InformationList() {
     const [uploading, setUploading] = useState(false);
     const [uploadTitle, setUploadTitle] = useState("");
     const [showManage, setShowManage] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef();
+    const navigate = useNavigate();
 
     useEffect(() => {
         loadArticles();
@@ -64,28 +64,7 @@ function InformationList() {
         }
     };
 
-    const handleExpand = async (id) => {
-        if (expandedId === id) {
-            setExpandedId(null);
-            return;
-        }
 
-        const article = articles.find((a) => a.id === id);
-        if (article?.content) {
-            setExpandedId(id);
-            return;
-        }
-
-        try {
-            const data = await apiService.get(`/information/${id}`);
-            setArticles((prev) =>
-                prev.map((a) => (a.id === id ? { ...a, content: data.content } : a))
-            );
-            setExpandedId(id);
-        } catch (error) {
-            console.error('Failed to fetch content', error);
-        }
-    };
 
     const handleDelete = async (id) => {
         if (!window.confirm('למחוק את המידע?')) return;
@@ -98,6 +77,28 @@ function InformationList() {
     };
 
     const handleSave = async () => {
+        if (showFileUpload) {
+            if (!selectedFile || !uploadTitle) {
+                alert("יש להזין כותרת ולבחור קובץ");
+                return;
+            }
+            setUploading(true);
+            try {
+                const formData = new FormData();
+                formData.append("file", selectedFile);
+                formData.append("title", uploadTitle);
+
+                const response = await apiService.uploadFile("/information/upload-file", formData);
+                setArticles([response, ...articles]);
+                resetForm();
+            } catch (err) {
+                alert("שגיאה בהעלאת קובץ");
+            } finally {
+                setUploading(false);
+            }
+            return;
+        }
+
         const { title, content } = formData;
 
         if (!title.trim() || !content.trim()) {
@@ -133,6 +134,7 @@ function InformationList() {
         setShowAddOptions(false);
         setShowFileUpload(false);
         setUploadTitle('');
+        setSelectedFile(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
@@ -145,30 +147,12 @@ function InformationList() {
 
     const handleAddNewClick = () => {
         setShowEditor(true);
-        setShowAddOptions(true); 
+        setShowAddOptions(true);
     };
 
-    const handleFileChange = async (e) => {
+    const handleFileChange = (e) => {
         const file = e.target.files[0];
-        if (!file) return;
-        if (!uploadTitle) {
-            alert("יש להזין כותרת למאמר");
-            return;
-        }
-        setUploading(true);
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("title", uploadTitle);
-
-            const response = await apiService.uploadFile("/information/upload-file", formData);
-            setArticles([response, ...articles]);
-            resetForm();
-        } catch (err) {
-            alert("שגיאה בהעלאת קובץ");
-        } finally {
-            setUploading(false);
-        }
+        setSelectedFile(file);
     };
 
     return (
@@ -227,7 +211,6 @@ function InformationList() {
                                 </>
                             )}
 
-             
                             {!showAddOptions && !showFileUpload && (
                                 <>
                                     <input
@@ -281,70 +264,43 @@ function InformationList() {
                 <ul className={styles.list}>
                     {articles.map((article) => (
                         <li key={article.id} className={styles.item}>
-                            <div className={styles.header} onClick={() => handleExpand(article.id)}>
+                            <div className={styles.header}>
                                 <h3>{article.title}</h3>
-                                {expandedId !== article.id && (
-                                    <div className={styles.excerptBlock}>
-                                        <div
-                                            className={styles.excerpt}
-                                            dangerouslySetInnerHTML={{ __html: article.excerpt }}
-                                        />
-                                        <button
-                                            className={styles.moreButton}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleExpand(article.id);
-                                            }}
-                                            title="הצג מאמר מלא"
-                                            aria-label="הצג מאמר מלא"
+                                <div className={styles.excerptBlock}>
+                                    <div
+                                        className={styles.excerpt}
+                                        dangerouslySetInnerHTML={{ __html: article.excerpt }}
+                                    />
+                                    <button
+                                        className={styles.moreButton}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            navigate(`/articles/${article.id}`);
+                                        }}
+                                        title="הצג מאמר מלא"
+                                        aria-label="הצג מאמר מלא"
+                                    >
+                                        <svg
+                                            width="28"
+                                            height="28"
+                                            viewBox="0 0 28 28"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            style={{ display: 'block' }}
                                         >
-                                            {/* Cute horizontal three-dots icon */}
-                                            <svg
-                                                width="28"
-                                                height="28"
-                                                viewBox="0 0 28 28"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                style={{ display: 'block' }}
-                                            >
-                                                <circle cx="6" cy="14" r="2.5" fill="#033669"/>
-                                                <circle cx="14" cy="14" r="2.5" fill="#033669"/>
-                                                <circle cx="22" cy="14" r="2.5" fill="#033669"/>
-                                            </svg>
-                                        </button>
+                                            <circle cx="6" cy="14" r="2.5" fill="#033669" />
+                                            <circle cx="14" cy="14" r="2.5" fill="#033669" />
+                                            <circle cx="22" cy="14" r="2.5" fill="#033669" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                {user?.role === 'admin' && (
+                                    <div className={styles.adminControls}>
+                                        <button className={styles.editButton} onClick={() => handleEdit(article)}>ערוך</button>
+                                        <button className={styles.deleteButton} onClick={() => handleDelete(article.id)}>מחק</button>
                                     </div>
                                 )}
-                                {expandedId === article.id && (
-                                    <>
-                                        <div
-                                            className={styles.content}
-                                            onClick={() => handleExpand(article.id)}
-                                            dangerouslySetInnerHTML={{ __html: article.content }}
-                                        />
-                                        <button
-                                            className={styles.commentToggle}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setShowCommentsFor(article.id === showCommentsFor ? null : article.id);
-                                            }}
-                                        >
-                                            {showCommentsFor === article.id ? 'הסתר תגובות' : 'הצג תגובות'}
-                                        </button>
-                                        {showCommentsFor === article.id && (
-                                            <div onClick={(e) => e.stopPropagation()}>
-                                                <CommentsSection articleId={article.id} />
-                                            </div>
-                                        )}
-                                    </>
-                                )}
                             </div>
-
-                            {user?.role === 'admin' && (
-                                <div className={styles.adminControls}>
-                                    <button onClick={() => handleEdit(article)}>ערוך</button>
-                                    <button onClick={() => handleDelete(article.id)}>מחק</button>
-                                </div>
-                            )}
                         </li>
                     ))}
                 </ul>

@@ -1,5 +1,5 @@
 import styles from '../styles/PageNotFound.module.css';
-import NotFoundImage from '../img/404.gif'
+import NotFoundImage from '../img/404.png'
 import Navbar from './Navbar';
 function PageNotFound() {
     return (

@@ -2,6 +2,9 @@
     max-width: 1200px;
       margin: 60px auto;
     padding: 24px;
+      /* background: #b4b4b410 !important ; */
+  background: linear-gradient(135deg, #f8f9fa86 0%, #e9ecef80 100%);
+
 }
 .title {
     text-align: center;

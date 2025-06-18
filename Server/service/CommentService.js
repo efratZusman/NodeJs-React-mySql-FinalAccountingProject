@@ -1,6 +1,6 @@
 const db = require('../../DB/connection');
 
-exports.createComment = async function createComment(commentData,userId) {
+exports.createComment = async function createComment(commentData, userId) {
     const { article_id, comment } = commentData;
     const query = `
         INSERT INTO articles_comments (article_id, user_id, comment)
@@ -21,8 +21,8 @@ exports.createComment = async function createComment(commentData,userId) {
         const [rows] = await db.execute(fetchQuery, [newCommentId]);
         return rows[0];
     } catch (error) {
-        console.log(error.message,'error');
-        
+        console.log(error.message, 'error');
+
         throw new Error('Error creating comment: ' + error.message);
     }
 };
@@ -35,17 +35,17 @@ exports.getConfirmedCommentByArticleId = async function getConfirmedCommentByArt
         WHERE articles_comments.article_id = ? AND articles_comments.status = 'confirmed'
         ORDER BY articles_comments.created_at DESC
     `;
-      
+
     try {
         const [rows] = await db.execute(query, [articleId]);
-          console.log(rows,'rows');
+        console.log(rows, 'rows');
         return rows;
     } catch (error) {
         throw new Error('Error fetching comments by article ID: ' + error.message);
     }
 };
 
-exports.getPendingComments= async function getPendingComments() {
+exports.getPendingComments = async function getPendingComments() {
     const query = `
         SELECT articles_comments.id, articles_comments.comment, articles_comments.created_at, users.full_name, users.email
         FROM articles_comments
@@ -61,14 +61,15 @@ exports.getPendingComments= async function getPendingComments() {
     }
 };
 
-exports.updateCommentById = async function updateCommentById(commentId, content) {
-
+exports.updateCommentById = async function updateCommentById(commentId, Data) {
+    const { comment, status } = Data;
+    
     const query = `
         UPDATE articles_comments
-        SET comment = ?
+        SET comment = ? , status = ?
         WHERE id = ?
     `;
-    const values = [content, commentId];
+    const values = [comment, status, commentId];
 
     try {
         const [result] = await db.execute(query, values);
@@ -81,14 +82,14 @@ exports.updateCommentById = async function updateCommentById(commentId, content)
                 WHERE articles_comments.id = ?
             `;
             const [rows] = await db.execute(fetchQuery, [commentId]);
-           
+
             return rows[0];
         } else {
             return null;
         }
     } catch (error) {
         console.log(error.message);
-        
+
         throw new Error('Error updating comment: ' + error.message);
     }
 };
@@ -102,7 +103,7 @@ exports.deleteCommentById = async function deleteCommentById(commentId) {
         throw new Error('Error deleting comment: ' + error.message);
     }
 
-    
+
 };
 
 exports.updatePartialCommentById = async function updatePartialCommentById(commentId, updateData) {
@@ -111,13 +112,13 @@ exports.updatePartialCommentById = async function updatePartialCommentById(comme
 
     for (const key in updateData) {
         if (['id', 'user_id', 'article_id', 'created_at'].includes(key)) continue;
-        
+
         fields.push(`${key} = ?`);
         values.push(updateData[key]);
     }
 
     if (fields.length === 0) {
-        return null; 
+        return null;
     }
 
     const query = `
@@ -131,7 +132,7 @@ exports.updatePartialCommentById = async function updatePartialCommentById(comme
         const [result] = await db.execute(query, values);
 
         if (result.affectedRows === 0) {
-            return null; 
+            return null;
         }
 
         const fetchQuery = `

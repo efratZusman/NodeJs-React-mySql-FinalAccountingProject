@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import logo from '../assets/images/logo.png';
+import logo from '../img/logo_full.png';
 import styles from '../styles/Home.module.css';
 import Contact from "./Contact";
 

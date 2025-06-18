@@ -2,19 +2,20 @@
 
 .container {
   max-width: 650px;
-  margin: 60px auto;
+  margin: 80px auto;
   padding: 32px 28px;
-  background: #f6fafd;
+  /* background: #f6fafd; */
   border-radius: 14px;
   box-shadow: 0 4px 24px #223a5e22;
   direction: rtl;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
 .divContainer {
+    background: linear-gradient(135deg, #f8f9fa86 0%, #e9ecef80 100%);
   display: flex;
   flex-direction: row;
-  gap: 40px;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin-bottom: 20px;
 }
 
