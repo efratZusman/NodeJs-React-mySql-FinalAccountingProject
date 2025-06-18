@@ -34,7 +34,6 @@ const formats = [
 function InformationList() {
     const { user } = useUserContext();
     const [articles, setArticles] = useState([]);
-    const [expandedId, setExpandedId] = useState(null);
     const [editingId, setEditingId] = useState(null);
     const [formData, setFormData] = useState({ title: '', content: '' });
     const [showEditor, setShowEditor] = useState(false);
@@ -138,10 +137,9 @@ function InformationList() {
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
-    const handleEdit = (article) => {
+    const handleEdit = (article) => {//
         setFormData({ title: article.title, content: article.content || '' });
         setEditingId(article.id);
-        setExpandedId(article.id);
         setShowEditor(true);
     };
 

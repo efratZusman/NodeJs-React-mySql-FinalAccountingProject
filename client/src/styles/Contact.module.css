@@ -166,7 +166,6 @@ button:hover {
   gap: 24px;
   justify-content: center;
   margin-bottom: 32px;
-  flex-wrap: wrap;
 }
 
 .contactButton {
