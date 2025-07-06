@@ -1,0 +1,3 @@
+Full-Stack Accounting Website
+This project is a well-structured full-stack web application designed for an accounting firm. The client-side is built with React, offering a dynamic and responsive user interface that ensures a smooth user experience. On the server side, Node.js handles the backend logic, including secure API endpoints and efficient data processing.
+The application connects seamlessly to a MySQL database for reliable and organized data management. The codebase emphasizes clean architecture and modular design, making maintenance and scalability straightforward. Additional libraries and tools are utilized throughout the stack to enhance functionality and performance, following best practices for modern web development.
