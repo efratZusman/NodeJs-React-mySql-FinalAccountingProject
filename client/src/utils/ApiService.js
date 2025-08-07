@@ -1,9 +1,10 @@
 class ApiService {
-
+constructor(){
 // לוקאלית
-    // url = '${http://{localhost:3000}/api';
+    // baseUrl = '${http://{localhost:3000}/api';
 // בשרת
-    url = 'https://accounting-backend-emgc.onrender.com/api'
+    baseUrl = 'https://accounting-backend-emgc.onrender.com/api'
+}
 
     async checkResponseStatus(response) {
         let data;
@@ -21,8 +22,8 @@ class ApiService {
     }
 
     async get(url) {
-        console.log("Using url:", this.url);
-        const response = await fetch(this.url + url, {
+        console.log("Using url:", this.baseUrl);
+        const response = await fetch(this.baseUrl + url, {
             method: 'GET',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -31,7 +32,7 @@ class ApiService {
     }
 
     async put(url, newData) {
-        const response = await fetch(this.url + url, {
+        const response = await fetch(this.baseUrl + url, {
             method: 'PUT',
               credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -41,7 +42,7 @@ class ApiService {
     }
 
     async patch(url, partialData) {
-        const response = await fetch(this.url + url, {
+        const response = await fetch(this.baseUrl + url, {
   credentials: 'include',
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
@@ -51,7 +52,7 @@ class ApiService {
     }
 
     async post(url, newData) {
-        const response = await fetch(this.url + url, {
+        const response = await fetch(this.baseUrl + url, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -61,7 +62,7 @@ class ApiService {
     }
 
     async uploadFile(url, formData) {
-        const response = await fetch(this.url + url, {
+        const response = await fetch(this.baseUrl + url, {
             method: 'POST',
             credentials: 'include',
             body: formData,
@@ -70,7 +71,7 @@ class ApiService {
     }
 
     async delete(url) {
-        const response = await fetch(this.url + url, {
+        const response = await fetch(this.baseUrl + url, {
             credentials: 'include',
             method: 'DELETE',
         });
