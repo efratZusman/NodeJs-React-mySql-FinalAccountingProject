@@ -8,9 +8,9 @@ import ContactForm from "./ContactForm";
 
 const apiService = new ApiService();
 
-const WHATSAPP_NUMBER = "972501234567";
-const PHONE_NUMBER = "0501234567";
-const ADMIN_EMAIL = "mh0583278625@gmail.com";
+const WHATSAPP_NUMBER = "0556879996";
+const PHONE_NUMBER = "0527619996";
+const ADMIN_EMAIL = "naamazusman@gmail.com";
 
 function Contact() {
     const { user } = useUserContext();
@@ -62,7 +62,7 @@ function Contact() {
                         >
                             <span className={styles.contactIcon}>💬</span>
                             <span className={styles.contactTitle}>WhatsApp</span>
-                            <span className={styles.contactValue}>{PHONE_NUMBER}</span>
+                            <span className={styles.contactValue}>{WHATSAPP_NUMBER}</span>
                         </a>
                         <a
                             href={`tel:${PHONE_NUMBER}`}

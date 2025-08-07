@@ -2,8 +2,8 @@ const connection = require('./connection');
 
 const initDb = async () => {
   try {
-    await connection.query(`CREATE DATABASE IF NOT EXISTS accounting_db`);
-    await connection.query(`USE accounting_db`);
+    // await connection.query(`CREATE DATABASE IF NOT EXISTS accounting_db`);
+    // await connection.query(`USE accounting_db`);
     await connection.query(`DROP TABLE IF EXISTS sessions, articles_comments, articles, article_contents, newsletters,session, update_subscriptions, updates, clients, passwords, users`);
 
     await connection.query(`
@@ -69,16 +69,17 @@ CREATE TABLE newsletters (
     `);
 
         await connection.query(`
-      CREATE TABLE articles_comments (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        article_id INT NOT NULL,
-        user_id INT NOT NULL,
-        comment TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        status ENUM('pending', 'confirmed') DEFAULT 'pending' NOT NULL
-        FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE;, 
-        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE;
-      );
+CREATE TABLE articles_comments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  article_id INT NOT NULL,
+  user_id INT NOT NULL,
+  comment TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  status ENUM('pending', 'confirmed') DEFAULT 'pending' NOT NULL,
+  FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
     `);
    
     await connection.query(`
