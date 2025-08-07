@@ -5,7 +5,7 @@
 // const baseUrl = 'https://accounting-backend-emgc.onrender.com/api'.trim();
 
 const ApiService = {
-  baseUrl: 'accounting-backend-emgc.onrender.com/api'.trim(),
+  baseUrl: 'https://accounting-backend-emgc.onrender.com/api',
 
   async checkResponseStatus(response) {
     let data;
@@ -23,8 +23,9 @@ const ApiService = {
   },
 
   async get(url) {
-    console.log("➡️ GET:", this.baseUrl + url);
-    const response = await fetch(this.baseUrl + url, {
+    const fullUrl = `${this.baseUrl}${url}`;
+    console.log("➡️ GET:", fullUrl);
+    const response = await fetch(fullUrl, {
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -33,7 +34,7 @@ const ApiService = {
   },
 
   async post(url, newData) {
-    const response = await fetch(this.baseUrl + url, {
+    const response = await fetch(`${this.baseUrl}${url}`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -43,7 +44,7 @@ const ApiService = {
   },
 
   async put(url, newData) {
-    const response = await fetch(this.baseUrl + url, {
+    const response = await fetch(`${this.baseUrl}${url}`, {
       method: 'PUT',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -53,7 +54,7 @@ const ApiService = {
   },
 
   async patch(url, partialData) {
-    const response = await fetch(this.baseUrl + url, {
+    const response = await fetch(`${this.baseUrl}${url}`, {
       method: 'PATCH',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -63,7 +64,7 @@ const ApiService = {
   },
 
   async delete(url) {
-    const response = await fetch(this.baseUrl + url, {
+    const response = await fetch(`${this.baseUrl}${url}`, {
       method: 'DELETE',
       credentials: 'include',
     });
@@ -71,7 +72,7 @@ const ApiService = {
   },
 
   async uploadFile(url, formData) {
-    const response = await fetch(this.baseUrl + url, {
+    const response = await fetch(`${this.baseUrl}${url}`, {
       method: 'POST',
       credentials: 'include',
       body: formData,
