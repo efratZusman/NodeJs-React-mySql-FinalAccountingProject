@@ -2,7 +2,7 @@
 // לוקאלית
     // baseUrl = '${http://{localhost:3000}/api';
 // בשרת
-const baseUrl = 'https://accounting-backend-emgc.onrender.com/api';
+const baseUrl = 'https://accounting-backend-emgc.onrender.com/api'.trim();
 
 const ApiService = {
     async checkResponseStatus(response) {
