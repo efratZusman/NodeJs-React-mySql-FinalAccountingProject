@@ -23,6 +23,9 @@ constructor(){
 
     async get(url) {
         console.log("Using url:", this.baseUrl);
+        console.log("this is:", this);
+console.log(`Using url: ${this.baseUrl}`);
+
         const response = await fetch(this.baseUrl + url, {
             method: 'GET',
             credentials: 'include',
