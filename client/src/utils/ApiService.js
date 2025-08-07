@@ -84,4 +84,4 @@ console.log(`Using url: ${this.baseUrl}`);
     }
 }
 
-export default ApiService;
+export default new ApiService();

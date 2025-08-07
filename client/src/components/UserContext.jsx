@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from 'react';
-import ApiService from '../utils/ApiService';
+import apiService from '../utils/ApiService';
 
 const UserContext = createContext();
 
@@ -8,7 +8,7 @@ export const useUserContext = () => useContext(UserContext);
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isInitialized, setIsInitialized] = useState(false);
-    const apiService = new ApiService();
+    // const apiService = new ApiService();
 
     const fetchUser = async () => {
         try {

@@ -1,10 +1,10 @@
 import  { useEffect, useState } from 'react';
 import styles from '../styles/CommentsSection.module.css';
 import { useUserContext } from './UserContext';
-import ApiService from "../utils/ApiService";
+import apiService from "../utils/ApiService";
 import { validateNotEmpty } from '../utils/validation';
 
-const apiService = new ApiService();
+// const apiService = new ApiService();
 
 const CommentsSection = ({ articleId }) => {
     const { user } = useUserContext();

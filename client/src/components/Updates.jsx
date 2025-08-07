@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from './UserContext';
-import ApiService from "../utils/ApiService";
+import apiService from "../utils/ApiService";
 import UpdateItem from './UpdateItem';
 import Navbar from './Navbar';
 import styles from '../styles/Updates.module.css';
 
-const apiService = new ApiService();
+// const apiService = new ApiService();
 
 const Updates = () => {
     const { user, isInitialized, fetchUser } = useUserContext();

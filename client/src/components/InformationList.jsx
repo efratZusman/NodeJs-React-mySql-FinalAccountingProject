@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useUserContext } from './UserContext';
-import ApiService from "../utils/ApiService";
+import apiService from "../utils/ApiService";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styles from '../styles/Information.module.css';
@@ -8,7 +8,7 @@ import Navbar from './Navbar';
 import PendingCommentsManager from './PendingCommentsManager';
 import { useNavigate } from "react-router-dom";
 
-const apiService = new ApiService();
+// const apiService = new ApiService();
 const modules = {
     toolbar: [
         [{ font: [] }, { size: [] }],

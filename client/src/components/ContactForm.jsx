@@ -1,5 +1,5 @@
 import  { useState, useEffect } from "react";
-import ApiService from "../utils/ApiService";
+import apiService from "../utils/ApiService";
 import formStyles from "../styles/Form.module.css";
 import { 
     validateEmail, 
@@ -9,7 +9,7 @@ import {
     VALIDATION_MESSAGES 
 } from '../utils/validation';
 
-const apiService = new ApiService();
+// const apiService = new ApiService();
 
 function ContactForm({ initialFullName = "", initialEmail = "", initialPhone = "", initialMessage = "" }) {
     const [formData, setFormData] = useState({

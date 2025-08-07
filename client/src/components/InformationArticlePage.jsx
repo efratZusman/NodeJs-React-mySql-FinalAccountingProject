@@ -1,12 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import ApiService from "../utils/ApiService";
+import apiService from "../utils/ApiService";
 import CommentsSection from "./CommentsSection";
 import styles from "../styles/Information.module.css";
 import PageNotFound from "./PageNotFound"; 
 
-const apiService = new ApiService();
+// const apiService = new ApiService();
 
 function InformationArticlePage() {
   const { id } = useParams();

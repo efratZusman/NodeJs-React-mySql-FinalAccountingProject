@@ -1,12 +1,12 @@
 import  { useState, useEffect } from "react";
 import { useUserContext } from "./UserContext";
-import ApiService from "../utils/ApiService";
+import apiService from "../utils/ApiService";
 import styles from "../styles/Contact.module.css";
 import Navbar from "./Navbar";
 import logo from '../assets/images/logo.png';
 import ContactForm from "./ContactForm";
 
-const apiService = new ApiService();
+// const apiService = new ApiService();
 
 const WHATSAPP_NUMBER = "0556879996";
 const PHONE_NUMBER = "0527619996";

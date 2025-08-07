@@ -1,11 +1,11 @@
 import  { useState, useEffect } from 'react';
-import ApiService from "../utils/ApiService";
+import apiService from "../utils/ApiService";
 import { useUserContext } from './UserContext';
 import Navbar from './Navbar';
 import styles from '../styles/Newsletters.module.css';
 import { validateTitle, validateDate, validateFileType } from '../utils/validation';
 
-const apiService = new ApiService();
+// const apiService = new ApiService();
 
 const Newsletters = () => {
     const { user, isInitialized } = useUserContext();

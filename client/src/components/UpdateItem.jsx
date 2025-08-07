@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../styles/UpdateItem.module.css';
-import ApiService from "../utils/ApiService";
+import apiService from "../utils/ApiService";
 import {
     validateTitle,
     validateDate,
@@ -8,7 +8,7 @@ import {
     VALIDATION_MESSAGES
 } from '../utils/validation';
 
-const apiService = new ApiService();
+// const apiService = new ApiService();
 const TIME_FOR_REMINDER={hour: 10, minute: 30}; 
 const toDateInputValue = (dateStr) => {
     const local = new Date(dateStr);

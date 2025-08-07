@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from './UserContext';
-import ApiService from "../utils/ApiService";
+import apiService from "../utils/ApiService";
 import { validateNotEmpty } from '../utils/validation';
 import styles from '../styles/CommentsSection.module.css';
 
-const apiService = new ApiService();
+// const apiService = new ApiService();
 
 function PendingCommentsManager({ onClose }) {
     const { user } = useUserContext();

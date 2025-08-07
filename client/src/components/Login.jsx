@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useUserContext } from './UserContext';
-import ApiService from "../utils/ApiService";
+import apiService from "../utils/ApiService";
 import formStyles from '../styles/Form.module.css';
 import styles from '../styles/LogIn.module.css';
 import Navbar from "./Navbar";
@@ -17,7 +17,7 @@ function Login() {
     });
     const [errors, setErrors] = useState({});
     const { fetchUser } = useUserContext();
-    const apiService = new ApiService();
+    // const apiService = new ApiService();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
