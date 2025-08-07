@@ -21,7 +21,7 @@ class ApiService {
     }
 
     async get(url) {
-        
+        console.log("Using baseUrl:", this.baseUrl);
         const response = await fetch(this.baseUrl + url, {
             method: 'GET',
             credentials: 'include',
