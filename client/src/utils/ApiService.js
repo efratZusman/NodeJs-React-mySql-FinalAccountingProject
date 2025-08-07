@@ -1,6 +1,10 @@
 class ApiService {
-    baseUrl = 'http://localhost:3000/api';
-    
+
+// לוקאלית
+    // baseUrl = '${http://{localhost:3000}/api';
+// בשרת
+    baseUrl = 'https://accounting-backend-emgc.onrender.com/api'
+
     async checkResponseStatus(response) {
         let data;
         try {

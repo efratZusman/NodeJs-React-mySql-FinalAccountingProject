@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useUserContext } from './UserContext';
 import ApiService from "../utils/ApiService";
 import formStyles from '../styles/Form.module.css';
-import styles from '../styles/Login.module.css';
+import styles from '../styles/LogIn.module.css';
 import Navbar from "./Navbar";
 import { useNavigate, Link } from "react-router-dom";
 import logo from '../assets/images/logo.png';
