@@ -1,13 +1,10 @@
-class ApiService {
-constructor(){
+
 // לוקאלית
     // baseUrl = '${http://{localhost:3000}/api';
 // בשרת
-    this.baseUrl = 'https://accounting-backend-emgc.onrender.com/api';
+const baseUrl = 'https://accounting-backend-emgc.onrender.com/api';
 
-     console.log("✅ baseUrl is:", `"${this.baseUrl}"`);
-}
-
+const ApiService = {
     async checkResponseStatus(response) {
         let data;
         try {
@@ -21,67 +18,64 @@ constructor(){
             throw error;
         }
         return data;
-    }
+    },
 
     async get(url) {
-        console.log("Using url:", this.baseUrl);
-        console.log("this is:", this);
-console.log(`Using url: ${this.baseUrl}`);
-
-        const response = await fetch(this.baseUrl + url, {
+        console.log("➡️ GET:", baseUrl + url);
+        const response = await fetch(baseUrl + url, {
             method: 'GET',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
         });
         return await this.checkResponseStatus(response);
-    }
-
-    async put(url, newData) {
-        const response = await fetch(this.baseUrl + url, {
-            method: 'PUT',
-              credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newData),
-        });
-        return await this.checkResponseStatus(response);
-    }
-
-    async patch(url, partialData) {
-        const response = await fetch(this.baseUrl + url, {
-  credentials: 'include',
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(partialData),
-        });
-        return await this.checkResponseStatus(response);
-    }
+    },
 
     async post(url, newData) {
-        const response = await fetch(this.baseUrl + url, {
+        const response = await fetch(baseUrl + url, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newData),
         });
         return await this.checkResponseStatus(response);
-    }
+    },
+
+    async put(url, newData) {
+        const response = await fetch(baseUrl + url, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newData),
+        });
+        return await this.checkResponseStatus(response);
+    },
+
+    async patch(url, partialData) {
+        const response = await fetch(baseUrl + url, {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(partialData),
+        });
+        return await this.checkResponseStatus(response);
+    },
+
+    async delete(url) {
+        const response = await fetch(baseUrl + url, {
+            method: 'DELETE',
+            credentials: 'include',
+        });
+        return await this.checkResponseStatus(response);
+    },
 
     async uploadFile(url, formData) {
-        const response = await fetch(this.baseUrl + url, {
+        const response = await fetch(baseUrl + url, {
             method: 'POST',
             credentials: 'include',
             body: formData,
         });
         return await this.checkResponseStatus(response);
     }
+};
 
-    async delete(url) {
-        const response = await fetch(this.baseUrl + url, {
-            credentials: 'include',
-            method: 'DELETE',
-        });
-        return await this.checkResponseStatus(response);
-    }
-}
-
-export default new ApiService();
+export default ApiService;
