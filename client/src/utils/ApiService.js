@@ -23,8 +23,8 @@ const ApiService = {
   },
 
   async get(url) {
-    console.log("➡️ GET:", "https://accounting-backend-emgc.onrender.com/api" + url);
-    const response = await fetch(this.baseUrl + url, {
+    console.log("➡️ GET:", "accounting-backend-emgc.onrender.com/api" + url);
+    const response = await fetch("http://"+'accounting-backend-emgc.onrender.com/api' + url, {
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
