@@ -4,6 +4,7 @@ constructor(){
     // baseUrl = '${http://{localhost:3000}/api';
 // בשרת
     this.baseUrl = "https://accounting-backend-emgc.onrender.com/api";
+     console.log("✅ baseUrl is:", `"${this.baseUrl}"`);
 }
 
     async checkResponseStatus(response) {
