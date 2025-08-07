@@ -31,7 +31,7 @@ app.use('/api/newsletters', newslettersRoute);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use("/", (req, res) =>{
+app.get("/", (req, res) =>{
     try {
      
         res.status(200).json("sari");
