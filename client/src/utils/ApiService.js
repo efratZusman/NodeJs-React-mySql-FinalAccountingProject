@@ -5,7 +5,7 @@
 // const baseUrl = 'https://accounting-backend-emgc.onrender.com/api'.trim();
 
 const ApiService = {
-  baseUrl: 'https://accounting-backend-emgc.onrender.com/api'.trim(),
+  baseUrl: 'accounting-backend-emgc.onrender.com/api'.trim(),
 
   async checkResponseStatus(response) {
     let data;
@@ -23,8 +23,8 @@ const ApiService = {
   },
 
   async get(url) {
-    console.log("➡️ GET:", "accounting-backend-emgc.onrender.com/api" + url);
-    const response = await fetch("http://"+'accounting-backend-emgc.onrender.com/api' + url, {
+    console.log("➡️ GET:", this.baseUrl + url);
+    const response = await fetch(this.baseUrl + url, {
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
