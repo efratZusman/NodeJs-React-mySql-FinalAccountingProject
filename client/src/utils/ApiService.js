@@ -5,6 +5,7 @@
 const baseUrl = 'https://accounting-backend-emgc.onrender.com/api'.trim();
 
 const ApiService = {
+    
     async checkResponseStatus(response) {
         let data;
         try {

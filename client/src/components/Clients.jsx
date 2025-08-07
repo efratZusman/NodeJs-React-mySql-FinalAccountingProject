@@ -24,6 +24,8 @@ function Clients() {
         setLoading(true);
         setError("");
         try {
+            console.log("Loading clients from API...",apiService.baseUrl);
+            
             const data = await apiService.get("/clients");
             setClients(data);
         } catch {
