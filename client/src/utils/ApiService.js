@@ -4,9 +4,7 @@
 // בשרת
 // const baseUrl = 'https://accounting-backend-emgc.onrender.com/api'.trim();
 
-function getBaseUrl() {
-  return 'https://' + 'accounting-backend-emgc.onrender.com';
-}
+import config from './config.json';
 
 const ApiService = {
     baseUrl: `https://accounting-backend-emgc.onrender.com/api`,
@@ -31,7 +29,7 @@ const ApiService = {
         // const base = 'https://accounting-backend-emgc.onrender.com';
         // const fullUrl = new URL(`/api${url}`, 'https://accounting-backend-emgc.onrender.com').toString();
         // const fullUrl = 'https://accounting-backend-emgc.onrender.com/api'+url;
-        const fullUrl = new URL(`/api${url}`, getBaseUrl()).toString();
+const fullUrl = new URL(`/api${url}`, config.API_BASE).toString();
 
         console.log("➡️ GET:", fullUrl);
         const response = await fetch(fullUrl, {
