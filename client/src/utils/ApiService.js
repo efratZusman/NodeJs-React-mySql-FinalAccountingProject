@@ -23,40 +23,19 @@ const ApiService = {
         return data;
     },
 
-async get(url) {
-    const base = 'https://accounting-backend-emgc.onrender.com';
-    const cleanPath = url.startsWith('/') ? url : '/' + url;
-    const finalPath = `/api${cleanPath.replace(/^\/api/, '')}`;
-    const fullUrl = new URL(finalPath, base).toString();
+    async get(url) {
+        // const base = 'https://accounting-backend-emgc.onrender.com';
+        const fullUrl = new URL(`/api${url}`, 'https://accounting-backend-emgc.onrender.com').toString();
 
-    console.log("➡️ GET:", fullUrl);
-
-    // בדיקה מקדימה אם הנתיב קיים (HEAD מהיר)
-    try {
-        const headCheck = await fetch(fullUrl, { method: 'HEAD', credentials: 'include' });
-        if (!headCheck.ok) {
-            console.warn(`⚠️ הנתיב ${finalPath} לא נמצא בשרת (סטטוס ${headCheck.status})`);
-            return { error: `Path not found: ${finalPath}`, status: headCheck.status };
-        }
-    } catch (err) {
-        console.error(`🚨 שגיאה בבדיקת הנתיב ${finalPath}:`, err);
-        return { error: err.message };
-    }
-
-    // הבקשה האמיתית
-    try {
+        // const fullUrl = 'https://accounting-backend-emgc.onrender.com/api'+url;
+        console.log("➡️ GET:", fullUrl);
         const response = await fetch(fullUrl, {
             method: 'GET',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
         });
         return await this.checkResponseStatus(response);
-    } catch (err) {
-        console.error(`🚨 שגיאה בבקשה GET ל-${finalPath}:`, err);
-        return { error: err.message };
-    }},
-
-
+    },
 
     async post(url, newData) {
         const response = await fetch(`${this.baseUrl}${url}`, {
