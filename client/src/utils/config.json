@@ -1,3 +1,5 @@
+
 {
-  "API_BASE": "https://accounting-backend-emgc.onrender.com"
+  "API_BASE_PART1": "https://accounting-",
+  "API_BASE_PART2": "backend-emgc.onrender.com"
 }

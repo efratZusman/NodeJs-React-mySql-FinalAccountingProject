@@ -29,9 +29,13 @@ const ApiService = {
         // const base = 'https://accounting-backend-emgc.onrender.com';
         // const fullUrl = new URL(`/api${url}`, 'https://accounting-backend-emgc.onrender.com').toString();
         // const fullUrl = 'https://accounting-backend-emgc.onrender.com/api'+url;
-const fullUrl = new URL(`/api${url}`, config.API_BASE).toString();
+        // const fullUrl = new URL(`/api${url}`, config.API_BASE).toString();
+        const base = config.API_BASE_PART1 + config.API_BASE_PART2;
+        console.log("➡️ GET:", config.API_BASE_PART1, config.API_BASE_PART2);
+                console.log("➡️ GET:", fullUrl);
 
-        console.log("➡️ GET:", fullUrl);
+        const fullUrl = new URL(`/api${url}`, base).toString();
+
         const response = await fetch(fullUrl, {
             method: 'GET',
             credentials: 'include',
