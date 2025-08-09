@@ -24,7 +24,7 @@ const ApiService = {
   },
 
   async get(url) {
-    const fullUrl = `https://accounting-backend-emgc.onrender.com/api${url}`;
+    const fullUrl = 'https://accounting-backend-emgc.onrender.com/api'+url;
     console.log("➡️ GET:", fullUrl);
     const response = await fetch(fullUrl, {
       method: 'GET',
