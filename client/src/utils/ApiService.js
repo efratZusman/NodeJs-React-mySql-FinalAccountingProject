@@ -32,7 +32,7 @@ const ApiService = {
         // const fullUrl = new URL(`/api${url}`, config.API_BASE).toString();
         const base = config.API_BASE_PART1 + config.API_BASE_PART2 + `/api${url}`;
         console.log("➡️ GET:", config.API_BASE_PART1, config.API_BASE_PART2);
-        console.log("➡️ GET:", fullUrl);
+        console.log("GET:", base);
 
         // const fullUrl = new URL(`/api${url}`, base).toString();
 
