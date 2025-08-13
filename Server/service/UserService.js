@@ -21,10 +21,10 @@ exports.createUser = async function createUser(userData) {
 
 exports.getUserByUsername = async function getUserByUsername(username) {
     const query = `
-        SELECT Users.UserID, Users.Username, Users.Email, Users.CreatedAt, Passwords.PasswordHash 
-        FROM Users 
-        LEFT JOIN Passwords ON Users.UserID = Passwords.UserID 
-        WHERE Users.Username = ?
+        SELECT users.user_id, users.username, users.email, users.created_at, passwords.password_hash 
+        FROM users 
+        LEFT JOIN passwords ON users.user_id = passwords.user_id 
+        WHERE users.username = ?
     `;
     try {
         const [rows] = await db.execute(query, [username]);
@@ -37,7 +37,7 @@ exports.getUserByUsername = async function getUserByUsername(username) {
 exports.getUserByEmail = async function getUserByEmail(email) {
     const query = `
         SELECT *
-        FROM Users 
+        FROM users 
         WHERE users.email = ?
     `;
     try {
@@ -52,13 +52,12 @@ exports.getUserDetails = async function getUserDetails(email) {
     const query = `
         SELECT users.user_id, users.full_name, users.email, passwords.password_hash 
         FROM users 
-        LEFT JOIN passwords ON users.user_id = Passwords.user_id 
+        LEFT JOIN passwords ON users.user_id = passwords.user_id 
         WHERE users.email = ?
     `;
     try {
         const [rows] = await db.execute(query, [email]);
         console.log("User details fetched:", rows);
-        
         return rows[0];
     } catch (error) {
         throw new Error('Error fetching user: ' + error.message);
@@ -104,7 +103,7 @@ exports.getUserDetailsBySession = async function getUserDetailsBySession(session
             'SELECT role FROM users WHERE user_id = ?',
             [rows[0].user_id]
         );
-        return { userId: rows[0].user_id, role: role[0].role ||null}
+        return { userId: rows[0].user_id, role: role[0].role || null };
     }
     return null;
 };
