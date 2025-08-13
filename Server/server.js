@@ -9,15 +9,17 @@ const contactRoute = require('./routes/ContactRoute');
 const newslettersRoute = require('./routes/NewsletterRoute');
 const path = require('path');
 require('./jobs');
-require('dotenv').config({ path: '../.env' }); 
+require('dotenv').config({ path: '../.env' });
 
 const app = express();
 
 app.use(cors({
     origin: [process.env.CLIENT_URL || "http://localhost:5173"],
-     credentials: true 
-  }));
-  
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));י
+
 app.use(cookieParser());
 app.use(express.json());
 
@@ -31,9 +33,9 @@ app.use('/api/newsletters', newslettersRoute);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.get("/", (req, res) =>{
+app.get("/", (req, res) => {
     try {
-     
+
         res.status(200).json("sari");
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -42,5 +44,5 @@ app.get("/", (req, res) =>{
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });

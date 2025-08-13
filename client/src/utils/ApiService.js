@@ -26,15 +26,9 @@ const ApiService = {
     },
 
     async get(url) {
-        // const base = 'https://accounting-backend-emgc.onrender.com';
-        // const fullUrl = new URL(`/api${url}`, 'https://accounting-backend-emgc.onrender.com').toString();
-        // const fullUrl = 'https://accounting-backend-emgc.onrender.com/api'+url;
-        // const fullUrl = new URL(`/api${url}`, config.API_BASE).toString();
         const base = config.API_BASE_PART1 + config.API_BASE_PART2 + `/api${url}`;
         console.log("➡️ GET:", config.API_BASE_PART1, config.API_BASE_PART2);
         console.log("GET:", base);
-
-        // const fullUrl = new URL(`/api${url}`, base).toString();
 
         const response = await fetch(base, {
             method: 'GET',
@@ -45,7 +39,9 @@ const ApiService = {
     },
 
     async post(url, newData) {
-        const response = await fetch(`${this.baseUrl}${url}`, {
+        const base = config.API_BASE_PART1 + config.API_BASE_PART2 + `/api${url}`;
+
+        const response = await fetch(base, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -55,7 +51,9 @@ const ApiService = {
     },
 
     async put(url, newData) {
-        const response = await fetch(`${this.baseUrl}${url}`, {
+        const base = config.API_BASE_PART1 + config.API_BASE_PART2 + `/api${url}`;
+
+        const response = await fetch(base, {
             method: 'PUT',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -65,7 +63,9 @@ const ApiService = {
     },
 
     async patch(url, partialData) {
-        const response = await fetch(`${this.baseUrl}${url}`, {
+        const base = config.API_BASE_PART1 + config.API_BASE_PART2 + `/api${url}`;
+
+        const response = await fetch(base, {
             method: 'PATCH',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -75,7 +75,9 @@ const ApiService = {
     },
 
     async delete(url) {
-        const response = await fetch(`${this.baseUrl}${url}`, {
+        const base = config.API_BASE_PART1 + config.API_BASE_PART2 + `/api${url}`;
+
+        const response = await fetch(base, {
             method: 'DELETE',
             credentials: 'include',
         });
@@ -83,7 +85,9 @@ const ApiService = {
     },
 
     async uploadFile(url, formData) {
-        const response = await fetch(`${this.baseUrl}${url}`, {
+        const base = config.API_BASE_PART1 + config.API_BASE_PART2 + `/api${url}`;
+        
+        const response = await fetch(base, {
             method: 'POST',
             credentials: 'include',
             body: formData,
