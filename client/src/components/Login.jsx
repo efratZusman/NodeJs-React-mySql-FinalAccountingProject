@@ -62,7 +62,7 @@ function Login() {
         try {
             const response = await apiService.post('/users/login', { 
                 email: formData.email.trim(), 
-                password: formData.password 
+                password: formData.password.trim()
             });
             
             if (response.message === 'Login successful') {
