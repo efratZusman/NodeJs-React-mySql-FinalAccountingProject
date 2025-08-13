@@ -38,7 +38,6 @@ exports.loginUser = async function loginUser(req, res) {
         console.log("Login attempt with data:", req.body);
         
         const existingUser = await UserService.getUserDetails(userData.email);
-        console.log("Existing user found:", existingUser);
         
         if (!existingUser) {
             return res.status(401).json({ message: 'Invalid credentials' });
@@ -48,7 +47,6 @@ exports.loginUser = async function loginUser(req, res) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
         const sessionId = await UserService.createSession(existingUser.user_id);
-        console.log("Session created with ID:", sessionId);
         res.cookie('session_id', sessionId, {
             httpOnly: true,
             secure: false,   

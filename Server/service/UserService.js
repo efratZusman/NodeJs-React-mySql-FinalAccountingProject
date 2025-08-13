@@ -57,6 +57,8 @@ exports.getUserDetails = async function getUserDetails(email) {
     `;
     try {
         const [rows] = await db.execute(query, [email]);
+        console.log("User details fetched:", rows);
+        
         return rows[0];
     } catch (error) {
         throw new Error('Error fetching user: ' + error.message);
